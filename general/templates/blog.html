@@ -1,0 +1,257 @@
+{% extends "base_blog.html" %}
+{% load staticfiles %}
+{% block content %}
+      <!-- Promo Block -->
+    	<section class="dzsparallaxer auto-init height-is-based-on-content" data-options='{direction: "reverse", settings_mode_oneelement_max_offset: "150"}'>
+        <!-- Parallax Image -->
+    		<div class="divimage dzsparallaxer--target w-100 g-bg-cover " style="opacity: 0.6; width: 100%; height: 120%; ">
+			    <div class="mySlides" style="background-image: url({% static 'img/fondoRegistro/blog_1.jpg' %}); width: 100%;height: 100%; background-size: cover;"></div>
+			    <div class="mySlides" style="background-image: url({% static 'img/fondoRegistro/blog_2.jpg' %}); width: 100% ;height: 100%; background-size: cover;"></div>
+			    <div class="mySlides" style="background-image: url({% static 'img/fondoRegistro/blog_3.jpg' %}); width: 100% ;height: 100%; background-size: cover;"></div>
+			</div>
+
+	        <div class="container text-center g-py-100 g-py-130--md">
+	          	<h2 class="h1  text-uppercase g-font-weight-600 g-width-60x--md mx-auto g-mb-30" style="color: white;">Forma parte de nuestra familia Banrural</h2>
+
+		          <!-- Search Form -->
+		        <form class="g-width-60x--md mx-auto" method="POST" action="{% url 'blog' %}">
+		        	{% csrf_token %}
+		            <div class="form-group g-mb-20" style="opacity: 0.7;">
+		              <div class="input-group u-shadow-v21 rounded g-mb-15">
+		                <div class="input-group-addon d-flex align-items-center g-font-size-16 g-bg-white g-brd-white g-color-gray-light-v1">
+		                  <i class="icon-magnifier"></i>
+		                </div>
+
+		                <input id="filtrar" name="filtrar" class="form-control form-control-md g-brd-white g-font-size-16 border-left-0 border-right-0 rounded-0 px-0 g-py-15" type="text" placeholder="Busca Empleo">
+
+		                
+		                <div class="input-group-btn">
+		                  <button class="btn btn-md u-btn-primary text-uppercase" type="submit">Buscar</button>
+		                </div>
+		              </div>
+		              <small class="form-text g-font-size-default" style="color: white;">El amigo que te ayuda a crecer</small>
+		            </div>
+		        </form>
+		          <!-- End Search Form -->
+	        </div>
+    	</section>
+    	<hr class="g-brd-gray-light-v4 my-0">
+    	<div class="row" >
+    		
+	    	<div class="col-lg-10 center" >
+	    		<section class="g-py-50">
+			        <div class="container " id="id_div_ofertas">
+			          	<header class="text-center g-width-60x--md mx-auto g-mb-50">
+			            	<h2 class="h1 g-color-gray-dark-v1 g-font-weight-300">Ofertas de Trabajo Recientes</h2>
+			            	<p class="lead">Forma parte de nuestra familia Banrural, donde tienes la oportunidad de crecer como profesional y a su vez te ofrecemos un excelente ambiente laboral.</p>
+			          	</header>
+						<div class="modal fade" id="susbribete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						  <div class="modal-dialog" role="document">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <h5 class="modal-title" id="exampleModalLabel">Suscríbete y recibe nuestras ofertas de trabajo</h5>
+						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						          <span aria-hidden="true">&times;</span>
+						        </button>
+						      </div>
+							    <form method="POST" accept-charset="utf-8" action="{% url 'suscribirse' %}" id="form_suscribirse">
+							    	{% csrf_token %}
+							      	<div class="modal-body">
+									
+										<div class="row">
+											<div class="col-xs-12 col-sm-6 mb-4">
+												<label>Correo electrónico:</label>
+												<input type="email" name="correo" required="" placeholder="ejemplo@mail.com" pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" id="correo">
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-xs-12 col-sm-12 mb-12">
+												<span  id="id__error" style="color: red;">SELECCIONE LAS AREAS DE SUS INTERES</span>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-xs-12 col-sm-12 mb-12">
+												<span  id="id_email" style="color: red;">INGRESE UN CORREO ELECTRÓNICO VÁLIDO</span>
+											</div>
+										</div>
+										<h4 class="h6 g-font-weight-500 g-mb-20">Selecciona las areas de tu interes:</h4>
+										<div class="row">
+											{% for ar in areas %}
+											 <!-- Left Column -->
+											<div class="col-md-4">
+											  <div class="form-group g-mb-10">
+											    <label class="u-check g-pl-25">
+											      <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" name="area[]" value="{{ar.Cod_area}}">
+											      <div class="u-check-icon-checkbox-v4 g-absolute-centered--y g-left-0">
+											        <i class="fa" data-check-icon=""></i>
+											      </div>
+											      {{ar.Descripcion_area}}
+											    </label>
+											  </div>
+											</div>
+											<!-- End Left Column -->
+											{% endfor %}
+										</div>
+										
+							      	</div>
+
+								</form>
+								<div class="modal-footer">
+									<small class="form-text g-font-size-default g-color-primary " >Recibiras un correo de confirmación cuando tu suscripción sea activada</small>
+				                	<button type="button" name="guardar" id="id_suscribirse"  class="btn btn-primary "><span>Suscribirse</span>
+				                	</button>
+
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+								</div>
+							</div>
+
+						  </div>
+						</div>
+
+			          	<div class="row g-mb-30 " style="padding-left: 20px;">
+			          		{% for ofer in oferta %}
+			            	<div class="col-lg-5 g-mb-40 g-mb-0--lg" style="padding-bottom: 20px;" >
+					            <ul class="list-unstyled mb-0">
+					                <li class="media u-shadow-v11 rounded g-pa-20 g-mb-10">
+					                  <div class="media-body">
+					                  	<a class="h5 d-block u-link-v5  g-color-primary g-font-weight-500 g-mb-5" href="{% url 'aplicar_oferta' ofer.Cod_oferta %}">{{ofer.Puesto_oferta}}</a>
+					                    <span class="g-font-size-13 g-color-gray-dark-v4 g-mr-15">
+					                      <i class="icon-calendar g-pos-rel g-top-1 mr-1"></i>Fecha Inicio: {{ofer.Fecha_publicacion}}
+					                    </span> <br>
+					                    <span class="g-font-size-13 g-color-gray-dark-v4 g-mr-15">
+					                      <i class="icon-location-pin g-pos-rel g-top-1 mr-1"></i>{{ofer.Municipio}}, {{ofer.Departamento}}
+					                    </span>
+					                    <span class="g-font-size-13 g-color-gray-dark-v4 g-mr-15">
+					                      <i class="icon-bag g-pos-rel g-top-1 mr-1"></i> {{ofer.Descripcion_area}}
+					                    </span> <br> <br>	
+					                    <span class="g-font-size-13 g-color-gray-dark-v4 g-mr-15" style="overflow: hidden;  text-overflow: ellipsis; display: -webkit-box;  line-height:16px; max-height: 32px; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+					                      	<b style="font-weight: bold;">Perfil Cantidato: </b>{{ofer.Perfil_candidato}}
+					                    </span>
+					                    <span class="g-font-size-13 g-color-gray-dark-v4 g-mr-15">
+					                      	<a class="g-color-blue" href="{% url 'aplicar_oferta' ofer.Cod_oferta %}">Ver mas detalles</a>
+					                    </span> <br>
+					                  </div>
+					                </li>
+					            </ul>
+	            			</div>
+			            	{% endfor %}
+
+			          	</div>
+						<div class="text-center">
+							<nav class="text-center" aria-label="Page Navigation">
+								{% if oferta.has_other_pages %}
+									<ul class="list-inline">
+										{% if oferta.has_previous %}
+											<li class="list-inline-item ">
+												<a class="u-pagination-v1__item g-brd-around g-color-primary g-brd-gray-light-v3 g-bg-gray-dark-v2--hover g-brd-gray-dark-v2--hover g-color-white--hover g-rounded-50 g-pa-7-16" href="?page={{ oferta.previous_page_number }}" aria-label="Previous">
+													<span aria-hidden="true">
+													<i class="fa fa-angle-left g-mr-5"></i> Anterior
+													</span>
+													<span class="sr-only">Anterior</span>
+												</a>
+											</li>
+										{% else %}
+											<li class="list-inline-item ">
+												<a class="u-pagination-v1__item u-pagination-v1__item--disabled g-brd-around g-color-primary g-brd-gray-light-v3 g-bg-gray-dark-v2--hover g-brd-gray-dark-v2--hover g-color-white--hover g-rounded-50 g-pa-7-16" aria-label="Previous">
+													<span aria-hidden="true">
+													<i class="fa fa-angle-left g-mr-5"></i> Anterior
+													</span>
+													<span class="sr-only">Anterior</span>
+												</a>
+											</li>
+										{% endif %}
+										<li class="list-inline-item font-italic">
+											<a class="g-color-gray-dark-v3 g-pa-7-14">Pagina {{oferta.number }} de {{oferta.paginator.num_pages}}</a>
+										</li>
+										{% if oferta.has_next %}
+											<li class="list-inline-item ">
+												<a class="u-pagination-v1__item g-brd-around g-color-primary g-brd-gray-light-v3 g-bg-gray-dark-v2--hover g-brd-gray-dark-v2--hover g-color-white--hover g-rounded-50 g-pa-7-16" href="?page={{ oferta.next_page_number }}" aria-label="Next">
+													<span aria-hidden="true">
+													Siguiente <i class="fa fa-angle-right g-ml-5"></i>
+													</span>
+													<span class="sr-only">Siguiente</span>
+												</a>
+											</li>
+										{% else %}
+											<li class="list-inline-item ">
+												<a class="u-pagination-v1__item u-pagination-v1__item--disabled g-brd-around g-color-primary g-brd-gray-light-v3 g-bg-gray-dark-v2--hover g-brd-gray-dark-v2--hover g-color-white--hover g-rounded-50 g-pa-7-16" aria-label="Next">
+													<span aria-hidden="true">
+													Siguiente <i class="fa fa-angle-right g-ml-5"></i>
+													</span>
+													<span class="sr-only">Siguiente</span>
+												</a>
+											</li>
+										{% endif %}
+									</ul>
+								{% endif %}
+							</nav>
+						</div>
+
+			        </div>
+	    		</section>
+	    	</div>
+	    	<div class="col-lg-2 g-brd-left--lg g-brd-gray-light-v4 g-mb-80" >
+	            <div class="g-pr-20--lg">
+	              <!-- Links -->
+	              	<div class="g-mb-50" style="padding-top: 50px; padding-left: 5px;">
+		                <h3 class="h5 g-color-black g-font-weight-600 mb-4">Nuestras Areas</h3>
+		                <ul class="list-unstyled g-font-size-13 mb-0">
+		                	{% for ar in areas %}
+		                	<li><a class="d-block u-link-v5 g-color-gray-dark-v4 rounded g-px-20 g-py-8 g-color-primary--hover" href="{% url 'filtro_depto' ar.Cod_area %}">{{ar.Descripcion_area}} ({{ar.Cantidad}})  </a></li>
+		                	{% endfor %}
+		                </ul>
+	              	</div>
+	              <!-- End Links Cod_area-->
+	            </div>
+          	</div>
+    	</div>
+
+{% endblock content %}
+{% block javascript %}
+	<script>
+		var myIndex = 0;
+			carousel();
+			function carousel() {
+			    var i;
+			    var x = document.getElementsByClassName("mySlides");
+			    for (i = 0; i < x.length; i++) {
+			       x[i].style.display = "none";  
+			    }
+			    myIndex++;
+			    if (myIndex > x.length) {myIndex = 1}    
+			    //x[myIndex-1].style.display = "block";
+			    x[myIndex-1].style.display = "block";   
+			    setTimeout(carousel, 5000); // Change image every 2 seconds
+		}
+		$( document ).ready(function() {
+			function isEmail(email) {
+		      var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+		      return regex.test(email);
+		    }
+			$('#id__error').hide();
+		    $('#id_email').hide();
+		    $('#id_suscribirse').click(function(){
+		        var x = false;
+		        $('input[name="area[]"]').each(function(index , elem){
+		          if ($(elem).prop('checked') != ''){
+		            x = true;
+		          }
+		        });
+		        if (x == false) {
+		          $('#id__error').show();
+		        }
+		        else{
+		          if ( isEmail($('#correo').val() )) {
+		            $('#form_suscribirse').submit();
+		            
+		          }
+		          else{
+		            $('#id_email').show();
+
+		          }
+		        }
+		    });
+		});
+
+	</script>
+{% endblock javascript %}

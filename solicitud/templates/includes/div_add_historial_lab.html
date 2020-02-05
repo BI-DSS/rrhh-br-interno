@@ -1,0 +1,83 @@
+<div id="laboral_copia" style="display: none;">
+  <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+  <div class="esta_trabajando">
+    <div class="row">
+      <div  style="margin-top: 3px !important; margin-left:12px; ">
+        <label for="chck1" style="font-weight: 600;">Selecciona si es tu empleo actual:</label>
+      </div>
+      <div clas.s="col-xs-12 col-sm-6 mb-6">
+        <label class="form-check-inline u-check g-mr-20 mx-0 mb-0" style="">
+          <input class="hidden-xs-up g-pos-abs g-top-0 g-right-0 chck1" name="trabajoactual[]" type="checkbox" id="chck1" value="False">
+          <div class="u-check-icon-radio-v7">
+            <i class="fa" data-check-icon="" data-uncheck-icon=""></i>
+          </div>
+        </label>
+      </div>
+    </div> 
+    <div class="row">
+      <div class="col-xs-12 col-sm-4 mb-4">
+        <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Nombre de empresa: <b style="color:red;">*</b></label>
+        <input type="text" name="nombreempresa[]" id="id_nombreempresa" required="" maxlength="50">
+      </div>
+      <div class="form-group col-xs-12 col-sm-4 mb-4 casi">
+        <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13" for="id_fechanacimiento" id="fechaca">Fecha ingreso: <b style="color:red;">*</b></label>
+        <div class="input-group g-brd-primary--focus">
+        <input type="text" name="fechaingreso[]" id="id_fechaingreso" required="" class="dates">
+          <div class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-dark-v5 rounded-0">
+            <i class="icon-calendar"></i>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-xs-12 col-sm-4 mb-4 esta">
+        <label  class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13" for="id_fechanacimiento">Fecha egreso: <b style="color:red;">*</b></label>
+        <div class="input-group g-brd-primary--focus">
+          <input type="text" name="fechaegreso[]" id="id_fechaegreso" required="" class="dates is_trab_actual">
+          <div class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-dark-v5 rounded-0">
+            <i class="icon-calendar"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 col-sm-4 mb-4">
+        <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Puesto: <b style="color:red;">*</b></label>
+        <input type="text" name="puesto[]" id="id_puesto" required maxlength="100">
+      </div>
+      <div class="form-group col-xs-12 col-sm-4 mb-4">
+        <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13" >Funciones del puesto: <b style="color:red;">*</b></label>
+        <div class="input-group g-brd-primary--focus">
+          <textarea name="fucionespuesto[]" id="id_fucionespuesto" maxlength="100" required></textarea>
+        </div>
+      </div>
+      <div class="form-group col-xs-12 col-sm-4 mb-4">
+          <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13" >Salario: <b style="color:red;">*</b></label>
+          <div class="input-group g-brd-primary--focus casi">
+            <input type="number" step="0.01" name="salariofinal[]" id="id_salariofinal">
+          </div>
+      </div>
+    </div> 
+    <div class="row">
+      <div class="col-xs-12 col-sm-4 mb-4">
+        <label  class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Dirección: <b style="color:red;">*</b></label>
+        <textarea name="direccionempresa[]" id="id_direccionempresa" required maxlength="200"></textarea>
+      </div>
+      <div class="col-xs-12 col-sm-4 mb-4">
+        <label  class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Nombre jefe inmediato: <b style="color:red;">*</b></label>
+        <input type="text" name="nombrejefeinmediato[]" maxlength="200" required="" id="id_nombrejefeinmediato">
+      </div>
+      <div class="col-xs-12 col-sm-4 mb-4 motivopor esta">
+        <label  class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Motivo retiro: <b style="color:red;">*</b></label>
+        <select name="motivoretiro[]" id="id_motivoretiro" required class="is_trab_actual">
+          <option value="">------------</option>
+          <option value="Despido">Despido</option>
+          <option value="Renuncia">Renuncia</option>
+        </select>
+      </div>
+    </div>
+    <div class="row" style="text-align: left;">
+      <div class="col-12 align-self-center text-right">
+        <button type="button" class="btn btn-outline-danger u-btn-info  eliminar_laboral" id="eliminar_laboral">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>

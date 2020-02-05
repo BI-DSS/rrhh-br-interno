@@ -1,0 +1,313 @@
+{% extends "baseform.html" %}
+{% load staticfiles %}
+{% block content %}
+<section class="g-bg-gray-light-v5">
+  <br>
+  <div class="container g-py-2">
+    <div class="row justify-content-center">
+      <div class="col-sm-10 col-md-9 col-lg-12">
+        <div class="u-shadow-v21 g-bg-white rounded g-py-16 g-px-30">
+          <header class="text-center mb-4">
+            <h4 class="h4 g-color-black g-font-weight-600">INGRESO DE INFORMACIÓN</h4>
+          </header>
+          <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+          <!-- Referencias laborales --> 
+          
+          <div class="row">
+            <div style="margin-top: 3px !important; margin-left:12px; ">
+              <label style="font-weight: 600;" >No tengo referencias laborales</label> &nbsp;
+            </div>
+            <div class="col-xs-12 col-sm-6 mb-6">
+              <label class="form-check-inline u-check g-mr-20 mx-0 mb-0" >
+                <input class="hidden-xs-up g-pos-abs g-top-0 g-right-0 chckNo_aplica" name="chckNo_aplica" type="checkbox" id="chck1" value="False">
+                <div class="u-check-icon-radio-v7">
+                  <i class="fa" data-check-icon="" data-uncheck-icon=""></i>
+                </div>
+              </label>
+            </div>
+          </div>
+          <br>
+
+          <div id="referencialab_copia" class="referencialab_copia" style="display: none;">
+           <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+              <div class="row">
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">Nombre Completo: <b style="color:red;">*</b></label>
+                  {{form.nombrecompleto}}
+                </div>
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">Profesión u Oficio: <b style="color:red;">*</b></label>
+                  {{form.profesion}}
+                </div>
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">Teléfono: <b style="color:red;">*</b></label>
+                  {{form.telefono}}
+                </div>
+                
+              </div>
+            <div class="row">
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Dirección: <b style="color:red;">*</b></label>
+                {{form.direccion}}
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4">
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <div class="col-12 align-self-center text-right" >
+                  <button type="button" class="btn btn-outline-danger u-btn-danger rounded g-py-13 g-px-25 eliminar" >Eliminar -</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="referenciaper_copia" class="referenciaper_copia" style="display: none;">
+            <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+            <div class="row">
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Nombre Completo: <b style="color:red;">*</b></label>
+                {{ formRefPer.nombre_personal }}
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Profesión u Oficio: <b style="color:red;">*</b></label>
+                {{ formRefPer.profesion_personal }}
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Teléfono: <b style="color:red;">*</b></label>
+                {{ formRefPer.telefono_personal }}
+              </div>
+            </div>
+            <div class="row">
+              
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Dirección: <b style="color:red;">*</b></label>
+                {{ formRefPer.direccion_personal }}
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4">
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <div class="col-12 align-self-center text-right" >
+                  <button type="button" class="btn btn-outline-danger u-btn-danger rounded g-py-13 g-px-25 eliminar" >Eliminar -</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Form -->
+         <form class="g-py-12" method="POST" accept-charset="utf-8" enctype='multipart/form-data'  id="form_solicitud6" action="{% url 'form_soli_6' oferta solicitud.codsolicitud %}">
+         {% csrf_token %}
+         <div class="no_aplica">
+          <label><b style="font-weight: 600">VI. REFERENCIAS LABORALES<b></label> <br>
+            <label>Todos los campos con <b style="color:red;">*</b> son requeridos</label>
+           <div class="row">
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Nombre Completo: <b style="color:red;">*</b></label>
+                {{form.nombrecompleto}}
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Profesión u Oficio: <b style="color:red;">*</b></label>
+                {{form.profesion}}
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Teléfono o Celular: <b style="color:red;">*</b></label>
+                {{form.telefono}}
+              </div>
+              
+            </div>
+            <div class="row">
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Dirección: <b style="color:red;">*</b></label>
+                {{form.direccion}}
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4">
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <div class="col-12 align-self-center text-right">
+                  <button  type="button" class="btn btn-outline-info u-btn-info rounded g-py-13 g-px-25" id="agregar_lab">Nueva referencia laboral</button>
+                </div>
+              </div>
+            </div>
+            <div id="nueva_referencia_lab"></div>
+         </div>
+            
+            <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+            <label><b style="font-weight: 600">VII. REFERENCIAS PERSONALES<b></label><br>
+              <label>Todos los campos con <b style="color:red;">*</b> son requeridos</label>
+            <div class="row">
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Nombre Completo: <b style="color:red;">*</b></label>
+                {{formRefPer.nombre_personal}}
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Profesión u Oficio: <b style="color:red;">*</b></label>
+                {{formRefPer.profesion_personal}}
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Teléfono o Celular: <b style="color:red;">*</b></label>
+                {{formRefPer.telefono_personal}}
+              </div>
+            </div>
+            <div class="row">
+              
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Dirección: <b style="color:red;">*</b></label>
+                {{formRefPer.direccion_personal}}
+              </div>
+
+              <div class="col-xs-12 col-sm-4 mb-4">
+              </div>
+
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label for=""></label>
+                <div class="col-12 align-self-center text-right">
+                  <button  type="button" class="btn btn-outline-info u-btn-info rounded g-py-13 g-px-25" id="agregar_per">Nueva referencia personal</button>
+                </div>
+              </div>
+            </div>
+            <div id="nueva_referencia_per"></div>
+
+            <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 mb-4">
+                <p>Subir Curriculum Vitae <b style="color:red;">*</b></p>
+                  <label class="u-file-attach-v2 g-color-gray-dark-v5 mb-0">
+                    <input id="subir" name="cv" type="file" accept="application/pdf,.doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style="color: green;" required="">
+                    <i class="icon-cloud-upload g-font-size-16 g-pos-rel g-top-2 g-mr-5"></i>
+                    <span class="js-value">Busca tu CV ( no mayor 5MB) </span>
+                  </label><br>
+                  <p hidden="" class="cv" style="color: green;">CV cargado con éxito</p>
+                  <p style="display: none; color: red" id="mensaje"></p>
+              </div>
+
+            </div>
+            <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+            <div  class="row">
+              <div class="col-xs-12 col-sm-12 mb-4">
+                <label><b style="font-weight: 600">VIII. AUTO DESCRIPCIÓN PERSONAL: <b style="color:red;">*</b></b></label>
+                <textarea name="observaciones_adicionales" required="" id="id_observaciones_adicionales" rows="3"></textarea>
+              </div>
+            </div>
+            <hr class="g-brd-green-v20 g-mx-minus-30" style="color: green;">
+            <div class="row" style="text-align: center; display: block;">
+              <label><b>6 de 6</b></label>
+            </div>
+            <div class="col-12 align-self-center text-right">
+              <a href="{% url 'perfil' %}" class="btn btn-md u-btn-indigo  rounded g-py-13 g-px-25" style="margin-right: 5px;">Salir</a>
+              <button type="button" name="guardar_form" id="guardar_form" class="btn btn-md u-btn-primary rounded g-py-13 g-px-25">Finalizar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+</section>
+{% endblock content %}
+{% block javascript %}
+<script>
+  $(document).on('ready', function () {
+    $.HSCore.components.HSTabs.init('[role="tablist"]');
+    $.HSCore.components.HSMaskedInput.init('[data-mask]');
+    $.HSCore.components.HSFileAttachment.init('.js-file-attachment');
+    $.HSCore.helpers.HSFocusState.init();
+  });
+  $( document ).ready(function() {
+    $(" #id_nombre_personal, #id_profesion_personal , #id_telefono_personal, #id_direccion_personal").attr("required", true);
+    $("#form_solicitud6").validate();
+    
+
+    $('#guardar_form').click(function(){
+      if ($('#subir').val() != ''){
+        var tan = $('#subir')[0].files[0].size/1024;
+        console.log(tan);
+        if(tan > 5120){
+          $('.cv').attr('hidden', true);
+          document.getElementById("subir").value = "";
+          $('#mensaje').text('El peso de archivo está por encima de lo permitido (5MB).').fadeIn('slow').delay(5000).fadeOut('slow');
+          
+        }
+        else{
+          $('#form_solicitud6').submit();
+        }
+      } 
+      else{
+        $('#mensaje').text('Este  campo es obligatorio').fadeIn('slow').delay(5000).fadeOut('slow');
+        console.log('Esta Vacio');
+      }
+    });
+
+    $('#subir').change(function(){
+      if ($(this).val() !=''){
+
+        $('.cv').attr('hidden', false);
+      }
+      else{
+        $('.cv').attr('hidden', true);
+      }
+    });
+
+  
+    $('.chckNo_aplica').change(function(){
+      if($(this).val() == "False"){
+         $(this).attr('value', 'True');
+         $('.no_aplica').hide();
+      }else{
+        $(this).attr('value', 'False');
+        $('.no_aplica').show();
+      }
+    });
+
+    $("#id_telefono, #id_telefono_personal").attr("placeholder", "0000-0000");
+    $("#id_telefono, #id_telefono_personal").attr("data-mask", "9999-9999");
+
+
+    $( "input" ).addClass( "form-control rounded-0 u-form-control " );
+    $( "textarea" ).addClass( "form-control rounded-0 u-form-control g-resize-none" );
+    $( "select" ).addClass( "form-control form-control-md form-control-lg rounded-0 g-mb-25 g-brd-primary--hover" );
+    //Refereencias laborales
+    $('input[name=nombrecompleto]').attr('name', 'nombrecompleto[]');
+    $('input[name=profesion]').attr('name', 'profesion[]');
+    $('textarea[name=direccion]').attr('name', 'direccion[]');
+    $('input[name=telefono]').attr('name', 'telefono[]');
+    //Referencias personales
+    $('input[name=nombre_personal]').attr('name', 'nombre_personal[]');
+    $('input[name=profesion_personal]').attr('name', 'profesion_personal[]');
+    $('textarea[name=direccion_personal]').attr('name', 'direccion_personal[]');
+    $('input[name=telefono_personal]').attr('name', 'telefono_personal[]');
+  });
+  $('#agregar_lab').click(function(){
+    $('#referencialab_copia').clone().removeAttr('style').appendTo( '#nueva_referencia_lab' );
+    $('.eliminar').click(function(){
+          var id = $(this).closest("div#referencialab_copia").remove();
+    });
+    $.HSCore.components.HSMaskedInput.init('[data-mask]');
+  });
+  $('#agregar_per').click(function(){
+    $('#referenciaper_copia').clone().removeAttr('style').appendTo( '#nueva_referencia_per' );
+    $('.eliminar').click(function(){
+          var id = $(this).closest("div#referenciaper_copia").remove();
+    });
+    $.HSCore.components.HSMaskedInput.init('[data-mask]');
+  });
+
+  $(document).on('ready', function () {
+    // initialization of tabs
+    $.HSCore.components.HSTabs.init('[role="tablist"]');
+  });
+  $(window).on('load', function () {
+    // initialization of header
+    $.HSCore.components.HSHeader.init($('#js-header'));
+    $.HSCore.helpers.HSHamburgers.init('.hamburger');
+    // initialization of HSMegaMenu component
+    $('.js-mega-menu').HSMegaMenu({
+      event: 'hover',
+      pageContainer: $('.container'),
+      breakpoint: 991
+    });
+  });
+  $(window).on('resize', function () {
+    setTimeout(function () {
+      $.HSCore.components.HSTabs.init('[role="tablist"]');
+    }, 200);
+  });
+</script>
+{% endblock javascript %}
+

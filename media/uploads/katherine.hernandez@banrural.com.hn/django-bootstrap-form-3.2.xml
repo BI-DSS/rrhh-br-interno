@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rdf:RDF xmlns="http://usefulinc.com/ns/doap#" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"><Project><name>django-bootstrap-form</name>
+<shortdesc>django-bootstrap-form</shortdesc>
+<description>=====================
+Django bootstrap form
+=====================
+
+.. image:: https://badge.fury.io/py/django-bootstrap-form.png
+   :alt: PyPI version
+   :target: https://pypi.python.org/pypi/django-bootstrap-form
+
+.. image:: https://travis-ci.org/tzangms/django-bootstrap-form.png?branch=master   
+    :target: https://travis-ci.org/tzangms/django-bootstrap-form
+
+.. image:: https://coveralls.io/repos/tzangms/django-bootstrap-form/badge.png?branch=master  
+   :target: https://coveralls.io/r/tzangms/django-bootstrap-form?branch=master
+   
+
+Twitter Bootstrap for Django Form.
+
+A simple Django template tag to work with `Bootstrap &lt;http://getbootstrap.com/&gt;`_
+
+
+Usage
+======
+
+Add "bootstrapform" to your INSTALLED_APPS.
+
+At the top of your template load in our template tags::
+
+	{% load bootstrap %}
+
+Then to render your form::
+
+	&lt;form role="form"&gt;
+	    &lt;legend&gt;Form Title&lt;/legend&gt;
+	    {% csrf_token %}
+	    {{ form|bootstrap }}
+	    &lt;div class="form-group"&gt;
+	      &lt;button type="submit" class="btn btn-primary"&gt;Submit&lt;/button&gt;
+	    &lt;/div&gt;
+	&lt;/form&gt;
+
+You can also set class="form-vertical" on the form element.
+
+To use class="form-inline" on the form element, also change the "|boostrap" template tag to "|bootstrap_inline".
+
+It is also possible to create a horizontal form. The form class and template tag are both changed, and you will also need slightly different CSS around the submit button::
+
+	&lt;form class="form-horizontal"&gt;
+	    &lt;legend&gt;Form Title&lt;/legend&gt;
+	    {% csrf_token %}
+	    {{ form|bootstrap_horizontal }}
+	    &lt;div class="form-group"&gt;
+	      &lt;div class="col-sm-10 col-sm-offset-2"&gt;
+	      	&lt;button type="submit" class="btn btn-primary"&gt;Submit&lt;/button&gt;
+	      &lt;/div&gt;
+	    &lt;/div&gt;
+	&lt;/form&gt;
+
+
+Demo
+=====
+
+Checkout this `Demo site &lt;http://django-bootstrap-form.herokuapp.com/&gt;`_ to see it in action. 
+</description>
+<homepage rdf:resource="http://github.com/tzangms/django-bootstrap-form" />
+<maintainer><foaf:Person><foaf:name>tzangms</foaf:name>
+<foaf:mbox_sha1sum>fccc62285c21daa96c32c4e4cf70e28f846f2411</foaf:mbox_sha1sum></foaf:Person></maintainer>
+<release><Version><revision>3.2</revision></Version></release>
+</Project></rdf:RDF>

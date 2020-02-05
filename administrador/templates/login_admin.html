@@ -1,0 +1,127 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Ingreso Administrador</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="icon" type="image/png" href=" {% static 'img/logo.png' %}">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans%3A400%2C300%2C500%2C600%2C700">
+    <link rel="stylesheet" href="{% static 'vendor/bootstrap/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/icon-awesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'css/unify.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    <style media="screen">
+      #fondo {
+ 
+        background-image: url({% static "img/fondoRegistro/fondo_admin.jpg" %});
+        background-size: cover;
+        min-height: 850px;
+        background-repeat: no-repeat;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <!-- Login -->
+      <section id="fondo" class="g-min-height-100vh g-flex-centered g-bg-lightblue-radialgradient-circle">
+        <div class="container g-py-100">
+          <div style="text-align: right;">
+            <div class="col-sm-8 col-lg-5">
+              <div class="u-shadow-v24 g-bg-black rounded g-py-40 g-px-30" style="opacity: 0.7;">
+              <header class="text-center mb-4">
+                <img src="{% static 'img/logoBa.png' %}" align="center" width="60%" style="top: 0;">
+                <h2 class="h2 g-color-white g-font-weight-600">Ingreso Administración</h2>
+                {% if error %}
+                  <h2 class="h5 g-color-red g-font-weight-200">{{ error }}</h2>
+                {% endif %}
+              </header>
+                <!-- Form -->
+                <form class="g-py-15" id="form_login" action="{% url 'login_admin' %}" method="POST">
+                  {% csrf_token %}
+                  <div class="mb-4" style=" text-align: right;">
+                    <input required name="username" class="form-control g-color-black  g-brd-gray-light-v4 g-brd-black--hover rounded g-py-15 g-px-15" type="text" placeholder="Número Usuario" style="background-color: #a09f9f;">
+                  </div>
+
+                  <div class=" mb-4">
+                    <input required name="password" class="form-control g-color-black  g-brd-gray-light-v4 g-brd-black--hover rounded g-py-15 g-px-15 mb-3" type="password" placeholder="Contraseña" style="background-color: #a09f9f;">
+                  </div>
+
+                  <div class="mb-4" style="text-align: right;">
+                     <button class="btn btn-md u-btn-primary rounded g-py-13 g-px-25" type="submit">Ingresar</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- End Login -->
+    </main>
+    <div class="g-py-30" style="background-color:#007a33;color:white;">
+      <div class="container-fluid">
+        <div class="row">
+          <!-- Footer Content -->
+          <div class="col-lg-4 col-md-6 g-mb-40 g-mb-0--lg text-center">
+            <div class="u-heading-v2-3--bottom g-brd-white-opacity-0_8 g-mb-20">
+              <h2 class="u-heading-v2__title h6 text-uppercase mb-0">Copyright</h2>
+            </div>
+            <p>Derechos Reservados 2017 &copy; Banrural Honduras</p>
+          </div>
+          <!-- End Footer Content -->
+          <!-- Footer Content -->
+          <div class="col-lg-4 col-md-6 g-mb-40 g-mb-0--lg text-center">
+            <div class="u-heading-v2-3--bottom g-brd-white-opacity-0_8 g-mb-20">
+              <h2 class="u-heading-v2__title h6 text-uppercase mb-0">Redes Sociales</h2>
+            </div>
+            <div class="row">
+              <div class="text-center col-md-12">
+                <ul class="list-inline">
+                  <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title="Facebook">
+                    <a href="https://es-la.facebook.com/BanruralHonduras/" target="_blank" class="g-color-white-opacity-0_5 g-color-white--hover">
+                      <i class="fa fa-2x fa-facebook"></i>
+                    </a>
+                  </li>
+                  <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title="Twitter">
+                    <a href="https://twitter.com/banruralhn" target="_blank" class="g-color-white-opacity-0_5 g-color-white--hover">
+                      <i class="fa fa-2x fa-twitter"></i>
+                    </a>
+                  </li>
+                  <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title="Instagram">
+                    <a href="https://www.instagram.com/banruralhn/" target="_blank" class="g-color-white-opacity-0_5 g-color-white--hover">
+                      <i class="fa fa-2x fa-instagram"></i>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- End Footer Content -->
+          <!-- Footer Content -->
+          <div class="col-lg-4 col-md-6 g-mb-40 g-mb-0--lg text-center">
+            <div class="u-heading-v2-3--bottom g-brd-white-opacity-0_8 g-mb-20">
+              <h2 class="u-heading-v2__title h6 text-uppercase mb-0">Ubicación</h2>
+            </div>
+            <p>Banrural Honduras, Centro de Servicios Florencia</p>
+            <p>Blvd. Suyapa, Col. Florencia Norte, 3730</p>
+            <p>Tegucigalpa, Honduras</p>
+          </div>
+          <!-- End Footer Content -->
+        </div>
+      </div>
+    </div>
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/jquery-migrate/jquery-migrate.min.js' %}"></script>
+    <script src="{% static 'vendor/tether.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/hs.core.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
+    <script src="{% static 'js/jquery.validate.js' %}"></script>
+    <script src="{% static 'js/messages_es.js' %}"></script>
+    <script type="text/javascript">
+      $('#form_login').validate();
+    </script>
+  </body>
+</html>

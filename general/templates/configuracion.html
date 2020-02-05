@@ -1,0 +1,314 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+<div class="col-lg-9">
+  <div class="d-flex align-items-center justify-content-sm-between g-mb-5">
+    <h2 class="g-font-weight-300 g-mr-10">{{ request.user.first_name }} {{ request.user.last_name }}</h2>
+  </div>
+  <ul class="list-inline g-font-weight-300">
+    <li class="list-inline-item g-mr-20">
+      <i class="icon-location-pin g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> {{ perfil.codmunicipiodomicilio.descripcionmunicipio }} {{ perfil.coddepartamentodomicilio.descripciondepartamento }}
+    </li>
+    {% if request.user.is_active %}
+      <li class="list-inline-item g-mr-20">
+        {% if perfil.empleado %}
+        <i class="icon-check g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> Empleado Banrural
+        {% else %}
+        <i class="icon-check g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> Usuario Verificado
+        {% endif %}
+      </li>
+    {% endif %}
+  </ul>
+  <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+  <h2 class="h3 g-font-weight-300">Información Personal
+    {% if perfil.vista > 1 %}
+    <!-- <span>
+      <i class="p icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1" data-toggle="modal" data-target="#editar_perfil"></i>
+    </span> -->
+    {% endif %}
+  </h2>
+  <div class="modal fade" id="editar_perfil" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title g-font-weight-300" id="exampleModalLabel">EDITAR PERFIL</h4>
+        </div>
+        <div class="modal-body">
+          <form method="POST" action="{% url 'editar_infoperfil' %}">
+            {% csrf_token %}
+            <div class="row">
+              <div class="form-group col-xs-12 col-md-6">
+                <label for="amortizacion" class="control-label">Nombre:</label>
+                <input type="text" class="form-control" name="nombre" value="{{ request.user.first_name }}">
+              </div>
+              <div class="form-group col-xs-12 col-md-6">
+                <label for="amortizacion" class="control-label">Apellido:</label>
+                <input type="text" class="form-control" name="apellido" value="{{ request.user.last_name }}">
+              </div>
+              <div class="form-group col-xs-12 col-md-6">
+                <label for="amortizacion" class="control-label">Departamento:</label>
+                <select class="form-control" name="departamento" id="departamento">
+                  <option value="{{ perfil.cod_departamento.coddepartamento }}">{{ perfil.cod_departamento.descripciondepartamento }}</option>
+                  {% for departamento in lista_departamentos %}
+                      <option value="{{ departamento.coddepartamento }}">{{ departamento.descripciondepartamento }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="form-group col-xs-12 col-md-6">
+                <label for="amortizacion" class="control-label">Municipio:</label>
+                <select class="form-control" name="municipio" id="municipio">
+                  <option value="{{ perfil.cod_municipio.codmunicipio }}">{{ perfil.cod_municipio.descripcionmunicipio }}</option>
+                </select>
+              </div>
+              <div class="form-group col-xs-12 col-md-12">
+                <label for="amortizacion" class="control-label">Dirección:</label>
+                <textarea name="direccion" class="form-control form-control-md g-resize-none rounded-0">{{ perfil.direccion_usuario }}</textarea>
+              </div>
+              <div class="form-group col-xs-12 col-md-6">
+                <label for="amortizacion" class="control-label">Celular:</label>
+                <input type="text" class="form-control" name="celular" value="{{ perfil.telefono_celular }}">
+              </div>
+              <div class="form-group col-xs-12 col-md-6">
+                <label for="amortizacion" class="control-label">Teléfono:</label>
+                <input type="text" class="form-control" name="telefono" value="{{ perfil.telefono_fijo }}">
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ul class="list-unstyled g-mb-30">
+    <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+      <div class="g-pr-10">
+        <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Nombre Completo:</strong>
+        <span class="align-top">{{ perfil.nombres }} {{ perfil.primerapellido }}</span>
+      </div>
+    </li>
+    <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+      <div class="g-pr-10">
+        {% if perfil.empleado %}
+        <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Usuario:</strong>
+        {% else %}
+        <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Correo electrónico:</strong>
+
+        {% endif %}
+        <span class="align-top">{{ request.user.username }}</span>
+      </div>
+    </li>
+    <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+      <div class="g-pr-10">
+        <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Último ingreso:</strong>
+        <span class="align-top">{{ request.user.last_login }}</span>
+      </div>
+    </li>
+
+  </ul>
+
+  <h2 class="h3 g-font-weight-300">Foto de Perfil</h2>
+  <div class="row">
+    <div class="col-sm-12 col-lg-4">
+      <figure class="text-center">
+        {% if perfil.foto_usuario %}
+        <div class="mx-auto g-width-250 g-height-250 g-mb-15">
+          <img class="g-width-250 g-height-250 rounded-circle" src="{{ perfil.foto_usuario.url }}" alt="Image Description">
+        </div>
+        {% endif %}
+        <form id="form_imagen" action="{% url 'cambiar_imagen' %}" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <input type="text" name="datos_imagen" value="" id="datos_imagen" hidden="hidden">
+          <div class="form-group mb-0">
+            <label class="u-file-attach-v2 mb-0 btn btn-md u-btn-outline-primary g-mr-10 g-mb-15">
+              <input id="upload" name="foto_usuario" type="file" accept="image/*" >
+              <i class="icon-cloud-upload g-font-size-16 g-pos-rel g-top-2 g-mr-5"></i>
+              <span class="js-value">{% if perfil.foto_usuario %}Cambiar Imagen{%else%}Cargar Imagen{% endif %}</span>
+            </label>
+          </div>
+        </form>
+      </figure>
+      <br>
+    </div>
+    <div class="col-sm-12 col-lg-8">
+      <div style="width:300px;">
+        <div id="upload-demo" hidden="hidden"></div>
+        <div class="text-center">
+          <button class="btn u-btn-indigo" id="guardar_imagen" hidden>Guardar Imagen</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <br>
+  {% if not perfil.empleado %}
+  <h2 class="h3 g-font-weight-300">Cambio de Contraseña</h2>
+  <br>
+  
+  <form action="{% url 'cambiar_clave' %}" method="POST" id="form_clave">
+    {% csrf_token %}
+    <div class="row"> 
+      <div class="form-group col-xs-12 col-md-4">
+        <label for="clave_actual" class="control-label">Contraseña Actual:</label>
+        <input type="password" class="form-control" name="clave_actual" id="clave_actual">
+      </div>
+      <div class="form-group col-xs-12 col-md-4">
+        <label for="clave_nueva" class="control-label">Nueva Contraseña:</label>
+        <input type="password" class="form-control" name="clave_nueva" id="clave_nueva">
+      </div>
+      <div class="form-group col-xs-12 col-md-4">
+        <label for="confirmacion_clave" class="control-label">Confirmar Contraseña:</label>
+        <input type="password" class="form-control" name="confirmacion_clave" id="confirmacion_clave">
+      </div>
+    </div>
+  </form>
+  <div class="row">
+    <div class="form-group col-xs-12 col-md-4">
+      <button type="button" class="btn  u-btn-outline-primary" id="cambiar_clave">Cambiar Contraseña</button>
+    </div>
+  </div>
+  {% endif %}
+</div>
+<div class="modal fade" id="modal_error" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">ERROR</h4>
+      </div>
+      <div class="modal-body">
+        <p id="mensaje" class="h5 g-font-weight-300"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="modal_exito" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">ÉXITO</h4>
+      </div>
+      <div class="modal-body">
+        <p class="h5 g-font-weight-300">Su contraseña se cambio exitosamente, para comprobarla cierre sesión y vuelva a iniciar.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Comprobar más tarde</button>
+        <a href="{% url 'cerrar_sesion' %}" class="btn btn-danger g-font-white">Cerrar Sesión</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+{% block javascript %}
+<script type="text/javascript">
+  $(document).ready(function(){
+    if ('{{message}}' == 'error') {
+      $('#mensaje').html('¡Su contraseña actual que ingreso no es la correcta!');
+      $('#modal_error').modal('show');
+    }else if ('{{message}}' == 'exito') {
+      $('#modal_exito').modal('show');
+    }
+  });
+  $('#cambiar_clave').click(function(){
+    var clave_actual = $('#clave_actual').val();
+    var clave_nueva = $('#clave_nueva').val();
+    var confirmacion_clave = $('#confirmacion_clave').val();
+    if (clave_actual == '') {
+      $('#mensaje').html('¡Debe ingresar su clave actual!');
+      $('#modal_error').modal('show');
+    }else if (clave_nueva != confirmacion_clave) {
+      $('#mensaje').html('¡Las contraseñas no coinciden!');
+      $('#modal_error').modal('show');
+    }else if (clave_nueva.length < 8){
+      $('#mensaje').html('¡Su contraseña debe contener al menos ocho caracteres!');
+      $('#modal_error').modal('show');
+    }else {
+      $('#form_clave').submit();
+    }
+  });
+  $('#departamento').change(function(){
+    $('#municipio').empty();
+    $('#municipio').append("<option value='{{ perfil.cod_municipio.codmunicipio }}'>{{ perfil.cod_municipio.descripcionmunicipio }}</option>");
+     var cod_departamento = $(this).val();
+     $.ajax({
+        type: "GET",
+        data: { cod_departamento: cod_departamento },
+        url: "{% url 'cargar_municipios' %}",
+        success: function(response){
+         $.each(response, function(key, val){
+          $('#municipio').append("<option value="+val.codmunicipio+">" + val.descripcionmunicipio + "</option>");
+          });
+            $('#municipio').trigger("chosen:updated");
+          }
+        });
+  });
+  $uploadCrop = $('#upload-demo').croppie({
+    enableExif: true,
+    viewport: {
+        width: 96,
+        height: 96,
+        type: 'square'
+    },
+    boundary: {
+        width: 300,
+        height: 300
+    }
+  });
+  function readFile(input) {
+    if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+        $('.upload-demo').addClass('ready');
+              $uploadCrop.croppie('bind', {
+                url: e.target.result
+              }).then(function(){
+                console.log('jQuery bind complete');
+              });
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+        else {
+          swal("Sorry - you're browser doesn't support the FileReader API");
+      }
+  }
+  $('#upload').on('change', function () {
+    $('#upload-demo').attr('hidden', false);
+    readFile(this);
+    $('#guardar_imagen').attr('hidden', false);
+  });
+  $('#guardar_imagen').click(function(){
+    var archivo = $("#upload").val();
+    if (archivo != '') {
+      var size_image = $('#upload')[0].files[0].size;
+      var sizekiloByte = parseInt(size_image / 1024);
+      var extension = archivo.substring(archivo.lastIndexOf("."));
+      if (sizekiloByte > 1024) {
+        $('#mensaje').html('El peso de la imagen está por encima de lo permitido (1MB).');
+        $('#modal_error').modal('show');
+      } else if (extension != '.jpg') {
+        $('#mensaje').html('Solo se permiten archivos con extensión ".jpg"');
+        $('#modal_error').modal('show');
+      } else {
+        var valores = $('#upload-demo').croppie('get').points;
+        var zoom = $('#upload-demo').croppie('get').zoom;
+        var data = $('#datos_imagen').val(valores+","+zoom);
+        $('#form_imagen').submit();
+      }
+    }
+  });
+  $(document).ready(function(){
+    $('#sidemenu a').each(function(){
+      $(this).removeClass();
+      $(this).addClass('list-group-item list-group-item-action justify-content-between');
+    });
+    $('#configuracion').addClass('list-group-item list-group-item-action justify-content-between active');
+  });
+</script>
+{% endblock javascript %}

@@ -1,0 +1,148 @@
+{% extends "baseperfil.html" %}
+{% load staticfiles %}
+{% block content %}
+<div class="col-lg-9">
+  <!-- User Details -->
+  <div class="d-flex align-items-center justify-content-sm-between g-mb-5">
+    <h2 class="g-font-weight-300 g-mr-10">{{ solicitud.nombres }} {{ solicitud.primerapellido }}</h2>
+  </div>
+  <ul class="list-inline g-font-weight-300">
+    <li class="list-inline-item g-mr-20">
+      <i class="icon-location-pin g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> {{ solicitud.codmunicipiodomicilio.descripcionmunicipio }}, {{ solicitud.coddepartamentodomicilio.descripciondepartamento }}
+    </li> 
+    {% if solicitud.anonima %}
+      <li class="list-inline-item g-mr-20">
+        <i class="icon-check g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> Solicitante a plaza Anonima
+      </li>
+    {% endif %}
+  </ul>
+  <!-- Timeline #02 -->
+  <section class="g-py-10">
+    {% if laboral %}
+    <div class="container">
+      <!-- Timeline Box -->
+      <ul class="row u-timeline-v2-wrap list-unstyled">
+        {% for la in laboral %}
+        <li class="col-md-12 g-mb-40">
+          <div class="row">
+            <!-- Timeline Date -->
+            <div class="col-md-3 text-md-right g-pt-20--md g-pr-40--md g-mb-20">
+              <h5 class="h6 mb-0">Desde {{la.fechaingreso}}</h5>
+              {% if la.fechaegreso == None %}
+                <h5 class="h6 mb-0">Hasta la fecha</h5>
+              {% else %}
+                <h5 class="h6 mb-0">Hasta {{la.fechaegreso}}</h5>
+              {% endif %}
+            </div>
+            <!-- End Timeline Date -->
+
+            <!-- Timeline Content -->
+            <div class="col-md-9 g-orientation-left g-pl-40--md">
+              <!-- Timeline Dot -->
+              <div class="hidden-sm-down u-timeline-v2__icon g-top-35">
+                <i class="d-block g-width-18 g-height-18 g-bg-white g-brd-around g-brd-3 g-brd-gray-light-v5 rounded-circle"></i>
+              </div>
+              <!-- End Timeline Dot -->
+
+              <article class="g-pos-rel g-bg-gray-light-v5 g-pa-30">
+                <!-- Timeline Arrow -->
+                <div class="hidden-sm-down u-triangle-inclusive-v1--right g-top-30 g-z-index-2">
+                  <div class="u-triangle-inclusive-v1--right__back g-brd-gray-light-v5-right"></div>
+                </div>
+                <div class="hidden-md-up u-triangle-inclusive-v1--top g-left-20 g-z-index-2">
+                  <div class="u-triangle-inclusive-v1--top__back g-brd-gray-light-v5-bottom"></div>
+                </div>
+                <!-- End Timeline Arrow -->
+                <div class="row">
+                    <h3 class="g-font-weight-300">{{la.nombreempresa}}</h3> &nbsp; &nbsp;
+                </div>
+                <ul class="list-unstyled g-mb-30">
+                  <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-1">
+                    <div class="g-pr-10">
+                      <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Dirección empresa:</strong>
+                      <span class="align-top" id="vivienda">{{la.direccionempresa}}</span>
+                    </div>
+                  </li>
+                 </ul>
+
+                 <ul class="list-unstyled g-mb-30">
+                  <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-1">
+                    <div class="g-pr-10">
+                      <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Jefe inmediato:</strong>
+                      <span class="align-top" id="vivienda">{{la.nombrejefeinmediato}}</span>
+                    </div>
+                  </li>
+                 </ul>
+                 <ul class="list-unstyled g-mb-30">
+                  <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-1">
+                    <div class="g-pr-10">
+                      <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Puesto:</strong>
+                      <span class="align-top" id="vivienda">{% if la.puesto %}{{la.puesto}}{% else %}{% endif %}</span>
+                    </div>
+                  </li>
+                 </ul>
+                 <ul class="list-unstyled g-mb-30">
+                  <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-1">
+                    <div class="g-pr-10">
+                      <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Funciones del puesto:</strong>
+                      <span class="align-top" id="vivienda">{% if la.fucionespuesto %}{{la.fucionespuesto}}{% else %}{% endif %}</span>
+                    </div>
+                  </li>
+                 </ul>
+                 <ul class="list-unstyled g-mb-30">
+                  <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-1">
+                    <div class="g-pr-10">
+                      <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Salario:</strong>
+                      <span class="align-top" id="vivienda">{% if la.salariofinal %}{{la.salariofinal}}{% else %}{% endif %}</span>
+                    </div>
+                  </li>
+                 </ul>
+
+                 {% if la.motivoretiro %}
+                 <ul class="list-unstyled g-mb-30">
+                  <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-1">
+                    <div class="g-pr-10">
+                      <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Motivo retiro:</strong>
+                      <span class="align-top" id="vivienda">{{la.motivoretiro}}</span>
+                    </div>
+                  </li>
+                 </ul>
+                 {% else %}
+                 <ul class="list-unstyled g-mb-30">
+                  <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-1">
+                    <div class="g-pr-10">
+                      <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Trabajo Actual</strong>
+                    
+                    </div>
+                  </li>
+                 </ul>
+                 {% endif %}
+
+
+              </article>
+            </div>
+          </div>
+        </li>
+        {% endfor %}
+        {% else%}
+        <h2 class="g-font-weight-300 g-mr-10">No ha llenado esta información</h2>
+        {% endif%}
+      </ul>
+      <!-- End Timeline Box -->
+    </div>
+  </section>
+<!-- End Timeline #02 -->
+<!-- End Experience Timeline -->
+</div>
+{% endblock content %}
+{% block javascript %}
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('#sidemenu a').each(function(){
+      $(this).removeClass();
+      $(this).addClass('list-group-item list-group-item-action justify-content-between');
+    });
+    $('#trabajo').addClass('list-group-item list-group-item-action justify-content-between active');
+  });
+</script>
+{% endblock javascript %}

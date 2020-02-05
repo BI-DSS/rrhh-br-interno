@@ -1,0 +1,78 @@
+<div id="hermano_copia" style="display: none;">
+  <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+  <div class="row">
+    <div class="col-xs-12 col-sm-4 mb-4">
+      <label style="font-weight: normal;">Nombre completo: <b style="color:red;">*</b> </label>
+      <input type="text" name="nombrecompleto[]" id="id_nombrecompleto" class="soloLetras" maxlength="100">
+    </div>
+    <div class="col-xs-12 col-sm-4 mb-4">
+      <label style="font-weight: normal;">Edad:</label> 
+      <input type="number" name="edad[]" id="id_edad">
+    </div>
+
+    <div class="col-xs-12 col-sm-4 mb-4" id="clonar">
+      <label style="font-weight: normal;">Profesión u Oficio:</label>
+      <input type="text" name="ocupacion[]" maxlength="100" id="id_ocupacion">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-4 mb-4">
+      <label style="font-weight: normal;">Celular:</label>
+      <input type="text" name="telefono[]" id="id_telefono" maxlength="10">
+    </div>
+      
+    <div class="col-xs-12 col-sm-4 mb-4">
+      <label style="font-weight: normal;">Domicilio:</label>
+      <textarea name="domicilio[]" id="id_domicilio" maxlength="200" rows="3"></textarea>
+    </div>
+
+    <div class="col-xs-12 col-sm-4 mb-4">
+      <div class="col-12 align-self-center text-right">
+      <br>
+        <button  type="button" class="btn btn-outline-danger u-btn-info eliminar" id="eliminar">
+          Eliminar</button>
+        </div>
+      </div>
+  </div>
+</div> 
+<div id="hijo_copia" style="display: none;">
+  <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+  <div class="row">
+    <div class="col-xs-12 col-sm-4 mb-4">
+      <label style="font-weight: normal;">Nombres: <b style="color:red;">*</b> </label>
+      <input type="text" name="nombreshijo[]" id="id_nombreshijo" class="soloLetras" maxlength="100">
+    </div>
+    <div class="col-xs-12 col-sm-4 mb-4">
+      <label style="font-weight: normal;">Apellidos: <b style="color:red;">*</b> </label>
+      <input type="text" name="apellidoshijo[]" id="id_apellidoshijo" class="soloLetras" maxlength="100">
+    </div>
+    <div class="col-xs-12 col-sm-4 mb-4">
+      <label style="font-weight: normal;">Edad:</label>
+      <input type="number" name="edadhijo[]" id="id_edadhijo">
+    </div>
+  </div>
+  <div class="row" style="text-align: left;">
+    <div class="col-12 align-self-center text-right">
+      <button  type="button" class="btn btn-outline-danger u-btn-info eliminar_hijo" id="eliminar_hijo">Eliminar</button>
+    </div>
+  </div>
+</div>
+<div id="dependiente_copia" style="display: none;">
+  <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+  <div class="row">
+    <div class="col-xs-12 col-sm-4 mb-4">
+      <label style="font-weight: normal;">Nombre Completo:</label>
+      <input type="text" name="nombredependiente" id="id_nombredependiente" class="soloLetras" maxlength="100">
+    </div>
+    <div class="col-xs-12 col-sm-4 mb-4">
+      <label style="font-weight: normal;">Tipo de dependencia:</label>
+      {{depen.tipodependencia}}
+    </div>
+    <div class="col-xs-12 col-sm-4 mb-4">
+      <div class="col-12 align-self-center text-right">
+        <br>
+        <button  type="button" class="btn btn-outline-danger u-btn-info rounded eliminar_dependiente" id="eliminar_dependiente">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>

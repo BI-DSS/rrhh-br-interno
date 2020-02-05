@@ -1,0 +1,655 @@
+{% extends "basesolicitud.html" %}
+{% load staticfiles %}
+{% block content %}
+<main>
+  <!-- Signup -->
+  <section class="g-bg-gray-light-v5">
+    <div class="container g-py-30">
+      <div class="row justify-content-center">
+        <div class="col-sm-10 col-md-9 col-lg-12">
+          <div class="u-shadow-v25 g-bg-white rounded g-py-30 g-px-25">
+            <header class="text-center mb-4">
+              <h4 class="h4 g-color-black g-font-weight-500">EDICIÓN DE DATOS PERSONALES</h4>
+            </header>
+            <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+            <label> <b> I. DATOS PERSONALES <b> </label>
+              <!-- Form -->
+              <form class="g-py-30" method="POST" accept-charset="utf-8" id="form_solicitud1" action="{% url 'editar_datosgenerales' solicitud.codsolicitud %}">
+                {% csrf_token %}
+                <div class="row" style="display:none;">
+                  <input type="text" name="codigo_organizacion" value="" id="codigo_organizacion">
+                  <input type="text" name="nombre_orga" value="" id="nombre_orga">
+                </div>
+                <div class="row">
+                  <div class="form-group col-xs-12 col-sm-4 mb-4">
+                    <label class="g-mb-10" for="nombres">Nombres</label>
+                    <input name="nombres" id="nombres" class="form-control form-control-md rounded-0 soloLetras" type="text" value="{{ solicitud.nombres }}">
+                  </div>
+                  <div class="form-group col-xs-12 col-sm-4 mb-4">
+                    <label class="g-mb-10" for="primerapellido">Apellidos</label>
+                    <input name="primerapellido" id="primerapellido" class="form-control form-control-md rounded-0 soloLetras" type="text" value="{{ solicitud.primerapellido }}">
+                  </div>
+                  <div class="form-group col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;" class="g-mb-10" for="lugarnacimiento">Nacionalidad</label>
+                    <select name="nacionalidad" id="nacionalidad">
+                      <option value="{{solicitud.codpaisnacimiento.codpais}}">{{solicitud.codpaisnacimiento.descripcionpais}}</option>
+                      {% for x in lista_paises %}
+                        <option value="{{x.codpais}}">{{x.descripcionpais}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div><br>
+                <div class="row">
+                  <div class="form-group col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;" class="g-mb-10" for="identidad">N° de Identidad</label>
+                    <input name="identidad" id="identidad" class="form-control form-control-md rounded-0" value="{{ solicitud.identidad }}">
+                  </div>
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;" for="id_identidad">Extendida en:</label>
+                    <select name="codmunicipioidentidad" id="id_codmunicipioidentidad">
+                      <option value="{{ solicitud.codmunicipioidentidad.codmunicipio }}">{{ solicitud.codmunicipioidentidad.descripcionmunicipio }}</option>
+                      {% for municipios in lista_municipios %}
+                          <option value="{{municipios.codmunicipio}}">{{ municipios.descripcionmunicipio }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div><br>
+                <div class="row">
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13" style="font-weight: normal;">Sexo: </label> <br>
+                    <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600 g-font-size-13" style="font-weight: normal;">
+                      <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="sexo" type="radio"  value="femenino" id="f" checked="" >
+                      <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18" >
+                        <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                      </div>
+                      FEMENINO
+                    </label>
+                    <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600  g-font-size-13" style="font-weight: normal;">
+                      <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="sexo" type="radio" value="masculino" id="m" >
+                      <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                        <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                      </div>
+                      MASCULINO
+                    </label>
+                  </div>
+                  
+                  <div class="form-group col-xs-12 col-sm-4 mb-4">
+                    <label class="g-mb-10" for="estadocivil">Estado civil</label>
+                    <select name="estadocivil" id="estadocivil">
+                      <option {% if solicitud.estadocivil == 'S' %} selected="" {% endif %} value="S">Soltero</option>
+                      <option {% if solicitud.estadocivil == 'C' %} selected="" {% endif %} value="C">Casado(a)</option>
+                      <option {% if solicitud.estadocivil == 'U' %} selected="" {% endif %} value="U">Unión Libre</option>
+                      <option {% if solicitud.estadocivil == 'V' %} selected="" {% endif %} value="V">Viudo</option>
+                      <option {% if solicitud.estadocivil == 'D' %} selected="" {% endif %} value="D">Divorciado</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;" class="g-mb-10" for="profesion">Profesión</label>
+                    <input type="text" name="profesion" id="profesion" value="{{ solicitud.profesion }}">
+                  </div>
+                  <div class="form-group col-xs-12 col-sm-4 mb-4" id="apellido_de_casada"
+                  {% if not solicitud.sexo == 'femenino' and solicitud.estadocivil == 'C' %}
+                    hidden=""{% endif %} >
+                    <label class="g-mb-10" for="apellidocasada">Apellido Casada</label>
+                      <input id="apellidocasada" class="form-control form-control-md rounded-0" value="{{ solicitud.apellidocasada | default:'' }}" name="apellidocasada" maxlength="100">
+                  </div>
+                </div><br>
+                <div class="row">
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;">Departamento:</label>
+                    <select class="" name="coddepartamentodomicilio" id="id_coddepartamentodomicilio">
+                      <option value="{{ solicitud.coddepartamentodomicilio.coddepartamento }}">{{ solicitud.coddepartamentodomicilio.descripciondepartamento }}</option>
+                      {% for departamento in lista_departamentos %}
+                      <option value="{{departamento.coddepartamento}}">{{departamento.descripciondepartamento}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;" >Municipio:</label>
+                    <select class="" name="codmunicipiodomicilio" id="id_codmunicipiodomicilio">
+                      <option value="{{ solicitud.codmunicipiodomicilio.codmunicipio }}">{{ solicitud.codmunicipiodomicilio.descripcionmunicipio }}</option>
+                    </select>
+                  </div>
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;" for="direcciondomicilio">Dirección</label>
+                    <textarea name="direcciondomicilio" id="direcciondomicilio" class="form-control form-control-md g-resize-none rounded-0" rows="3">{{ solicitud.direcciondomicilio }}</textarea>
+                  </div>
+                </div><br>
+                <div class="row">
+                  <div class="form-group col-xs-12 col-sm-4 mb-4">
+                    <label class="g-mb-10" for="telefonofijo">Teléfono Fijo</label>
+                    <input name="telefonofijo" id="telefonofijo" class="form-control form-control-md rounded-0" value="{{ solicitud.telefonofijo }}">
+                  </div>
+                  <div class="form-group col-xs-12 col-sm-4 mb-4">
+                    <label class="g-mb-10" for="celular">Teléfono Celular</label>
+                    <input name="celular" id="celular" class="form-control form-control-md rounded-0" value="{{ solicitud.celular }}">
+                  </div>
+                </div><br>
+                <div class="row">
+                  
+                  <div class="form-group g-mb-30 col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;" class="g-mb-10">Fecha de Nacimiento:</label>
+                    <div class="input-group g-brd-primary--focus">
+                      <input name="fechanacimiento" id="fechanacimiento" class="form-control form-control-md u-datepicker-v1 g-brd-right-none rounded-0" type="text" value="{{ solicitud.fechanacimiento }}">
+                      <div class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-dark-v5 rounded-0">
+                        <i class="icon-calendar"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;" class="g-mb-10" for="edad">Edad</label>
+                    <input name="edad" id="edad" class="form-control form-control-md rounded-0" value="{{ solicitud.edad }}" readonly="">
+                  </div>
+                </div><br>
+                <div class="row">
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13" style="font-weight: normal;">¿Posee automovil? </label> <br>
+                    <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600 g-font-size-13" style="font-weight: normal;">
+                      <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="automovil" type="radio"  value="True" id="si_automovil" >
+                      <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                        <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                      </div>
+                      SI
+                    </label>
+                    <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600  g-font-size-13" style="font-weight: normal;">
+                      <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="automovil" type="radio" value="False" id="no_automovil" checked="" >
+                      <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                        <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                      </div>
+                      NO
+                    </label>
+                  </div>
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13" style="font-weight: normal;">Licencia de conducir: </label> <br>
+                    <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600 g-font-size-13" style="font-weight: normal;">
+                      <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="licencia" type="radio"  value="True" id="licencia_si" {% if solicitud.tipolicencia %} checked="" {% endif %}>
+                      <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                        <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                      </div>
+                      SI
+                    </label>
+                    <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600  g-font-size-13" style="font-weight: normal;">
+                      <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="licencia" type="radio" value="False" id="licencia_no" {% if not solicitud.tipolicencia %} checked="" {% endif %}>
+                      <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                        <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                      </div>
+                      NO
+                    </label>
+                  </div>
+                  <div class="col-xs-12 col-sm-4 mb-4 tipo_licencia">
+                    <label  style="font-weight: normal;">Seleccione los tipos de licencias que posee: </label> <br>
+                      <div class="g-mb-20 ">
+                        <label class="form-check-inline u-check g-pl-25">
+                          <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox"  hidden="" name="liviana"{% if solicitud.liviana == True %} value="True"  checked="" {% else %}  value="False"  {% endif %}>
+                          <div class="u-check-icon-checkbox-v6 g-absolute-centered--y g-left-0">
+                            <i class="fa" data-check-icon=""></i>
+                          </div>
+                          Liviana
+                        </label>
+
+                        <label class="form-check-inline u-check g-pl-25">
+                          <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" hidden="" name="pesada" {% if solicitud.pesada == True %} value="True"  checked="" {% else %}  value="False"  {% endif %}>
+                          <div class="u-check-icon-checkbox-v6 g-absolute-centered--y g-left-0">
+                            <i class="fa" data-check-icon=""></i>
+                          </div>
+                          Pesada
+                        </label>
+
+                        <label class="form-check-inline u-check g-pl-25">
+                          <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" hidden="" name="motocicleta" {% if solicitud.motocicleta == True %} value="True"  checked="" {% else %}  value="False"  {% endif %}>
+                          <div class="u-check-icon-checkbox-v6 g-absolute-centered--y g-left-0">
+                            <i class="fa" data-check-icon=""></i>
+                          </div>
+                          Motocicleta
+                        </label>
+                      </div>
+                  </div>
+                </div><br>
+                <div class="row">
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13" style="font-weight: normal;">Tiene poliza de seguro: </label> <br>
+                    <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600 g-font-size-13" style="font-weight: normal;">
+                      <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="polizaseguro" type="radio"  value="True" id="si_poliza" >
+                      <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                        <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                      </div>
+                      SI
+                    </label>
+                    <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600  g-font-size-13" style="font-weight: normal;">
+                      <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="polizaseguro" type="radio" value="False" id="no_poliza" checked="" >
+                      <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                        <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                      </div>
+                      NO
+                    </label>
+                  </div>
+                  <div class="form-group col-xs-12 col-sm-4 mb-4" id="compania_poliza">
+                    <label style="font-weight: normal;" class="g-mb-10" for="companiapoliza">En que Compañía</label>
+                    <select name="compania" id="compania">
+                      <option value="{{solicitud.cod_seguros.cod_seguros}}">{{solicitud.cod_seguros.compania_seguros}}</option>
+                      {% for se in lista_seguros %}
+                          <option value="{{se.cod_seguros}}">{{ se.compania_seguros }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13" style="font-weight: normal;">Practicas deporte: </label> <br>
+                    <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600 g-font-size-13" style="font-weight: normal;">
+                      <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="deporte" type="radio"  value="True" id="si_deporte" >
+                      <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                        <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                      </div>
+                      SI
+                    </label>
+                    <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600  g-font-size-13" style="font-weight: normal;">
+                      <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="deporte" type="radio" value="False" id="no_deporte" checked="">
+                      <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                        <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                      </div>
+                      NO
+                    </label>
+                  </div>
+                </div> <br>
+                <div class="row" id="deporte">
+                  <div class="form-group col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;" class="g-mb-10" for="tipodeporte">¿Que deporte?</label>
+                      <input type="text" name="tipodeporte" value="{{solicitud.tipodeporte}}">
+
+                  </div>
+                  <div class="form-group g-mb-30 col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;" class="g-mb-10">¿Desde que fecha?</label>
+                    <div class="input-group g-brd-primary--focus">
+                      <input name="fechadeporte" id="fechadeporte" class="form-control form-control-md u-datepicker-v1 g-brd-right-none rounded-0" type="text" value="{{ solicitud.fechadeporte }}">
+                      <div class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-dark-v5 rounded-0">
+                        <i class="icon-calendar"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div><br>
+                <div class="row">
+                  <div class="form-group col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;" for="rtn">RTN <sup style="color: rgb(77, 188, 69)">*opcional</sup></label>
+                    {% if solicitud.rtn %}
+                      <input name="rtn" id="rtn" class="form-control form-control-md rounded-0" value="{{ solicitud.rtn }}" maxlength="16">
+                    {% else %}
+                      <input name="rtn" id="rtn" class="form-control form-control-md rounded-0" maxlength="16">
+                    {% endif %}
+                  </div>
+                  <div class="form-group col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;" for="numeropasaporte">Numero de Pasaporte <sup style="color: rgb(77, 188, 69)">*opcional</sup></label>
+                    {% if solicitud.numeropasaporte %}
+                      <input name="numeropasaporte" id="numeropasaporte" class="form-control form-control-md rounded-0" value="{{ solicitud.numeropasaporte }} " maxlength="50">
+                    {% else %}
+                      <input name="numeropasaporte" id="numeropasaporte" class="form-control form-control-md rounded-0" maxlength="50">
+                    {% endif %}
+                  </div>
+                  <div class="form-group col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;" for="numeroihss">Numero de IHSS <sup style="color: rgb(77, 188, 69)">*opcional</sup></label>
+                    {% if solicitud.numeroihss %}
+                      <input name="numeroihss" id="numeroihss" class="form-control form-control-md rounded-0" value="{{ solicitud.numeroihss }}" maxlength="50">
+                    {% else %}
+                      <input name="numeroihss" id="numeroihss" class="form-control form-control-md rounded-0" maxlength="50">
+                    {% endif %}
+                  </div>
+                </div><br>
+                <div class="row">
+                  <div class="col-xs-1 col-sm-1 mb-1" style="text-align:right;">
+                    <a href="#!" class="btn btn-sm u-btn-outline-primary g-mr-10 g-mb-15" data-toggle="modal" data-target="#myModal" data-backdrop="false" title="Agregar Organización">
+                      <i class="fa fa-plus-square-o fa-2x" aria-hidden="true"></i>
+                    </a>
+                  </div>
+                  <div class="col-xs-11 col-sm-4 mb-4">
+                    <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Seleccione organizaciones o clubes a los que usted ha pertenecido</label>
+                    <select id="select_organizaciones">
+                    </select>
+                  </div>
+                  <div class="col-xs-12 col-sm-7 mb-7">
+                    <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Organizaciones o clubes a los que usted ha pertenecido</label>
+                    <div class="table-responsive">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th>Código</th>
+                            <th>Nombre</th>
+                            <th>Borrar</th>
+                          </tr>
+                        </thead>
+                        <tbody id="body_organizaciones">
+                          {% if lista_organizaciones %}
+                              {% for org in lista_organizaciones %}
+                                  <tr>
+                                    <td>{{ org.cod_organizacion }}</td>
+                                    <td>{{ org.nombre }}</td>
+                                    <td><a href="#!" class="borrar"><span class="u-label u-label-danger g-color-white">Borrar</span></a></td>
+                                  </tr>
+                              {% endfor %}
+                          {% endif %}
+                        </tbody>
+                      </table>
+                    </div>
+                    <!-- End Basic Table -->
+                  </div>
+                </div>
+                <input type="text" value="" id="input_registros" name="input_registros" hidden>
+              </form>
+              <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog modal-md" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close_modal"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="myModalLabel">Nueva Organización</h4>
+                    </div>
+                    <div class="modal-body text-center">
+                      <div class="form-group g-mb-20">
+                        <label class="g-mb-10" for="inputGroup1_1">Nombre Organización</label>
+                        <input id="nueva_organizacion" class="form-control form-control-md rounded-0" type="text" placeholder="Ingrese el nombre">
+                        <small class="form-text text-muted g-font-size-default g-mt-10">Antes de agregar, verifique bien que la organización no existe.</small>
+                      </div>
+                    </div>
+                    <div class="modal-footer text-center">
+                      <button id="agregar_organizacion" class="btn btn-success">Guardar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row" style="text-align: center; display: block;">
+                <label><b>1 de 6</b></label>
+              </div>
+              <div class="col-12 align-self-center text-right">
+                <a href="{% url 'datos_personales' %}" class="btn btn-secondary" style="margin-right: 5px;">Cancelar</a>
+                <button id="siguiente" class="btn btn-primary">Guardar Cambios</button>
+              </div>
+              <!-- End Form -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End Signup -->
+  </main>
+{% endblock content %}
+{% block javascript %}
+  <script>
+  $(document).on('ready', function () {
+    var estado_civil = {S:"Soltero(a)", C:'Casado(a)', U:'Unión Libre', V:'Viudo(a)', D:'Divorciado(a)'}
+    // initialization of tabs
+    $.HSCore.components.HSTabs.init('[role="tablist"]');
+    $.HSCore.components.HSMaskedInput.init('[data-mask]');
+    $.HSCore.components.HSCountQty.init('.js-quantity');
+    $.HSCore.helpers.HSFocusState.init();
+   
+    
+    var licencia = {A:"Automovil", M:'Motocicleta', O:'Otro'}
+    $('#estadocivil_option').html(estado_civil["{{ solicitud.estadocivil }}"]);
+    $('#estadocivil').select2({
+      theme:'bootstrap',
+      width: '100%'
+    });
+
+    $('select #licencia_option').html(licencia["{{ solicitud.tipolicencia }}"]);
+    $('#tipolicencia').select2({
+      theme:'bootstrap',
+      width: '100%'
+    });
+    if ('{{solicitud.sexo}}' == 'masculino') {
+      $('#m').prop('checked', true);
+      $('#f').prop('checked', false);
+    }else if ('{{solicitud.sexo}}' == 'femenino') {
+      $('#m').prop('checked', false);
+      $('#f').prop('checked', true);
+    }
+    if ('{{ solicitud.automovil }}' == 'True') {
+      $('#si_automovil').prop('checked', true);
+      $('#no_automovil').prop('checked', false);
+    }else if ('{{ solicitud.automovil }}' == 'False') {
+      $('#si_automovil').prop('checked', false);
+      $('#no_automovil').prop('checked', true);
+    }
+    if ('{{ solicitud.licencia }}' == 'True') {
+      $('#licencia_si').prop('checked', true);
+      $('#licencia_no').prop('checked', false);
+    }else if ('{{ solicitud.automovil }}' == 'False') {
+      $('#licencia_si').prop('checked', false);
+      $('#licencia_no').prop('checked', true);
+    }
+    if('{{solicitud.licencia}}' !='True'){
+      $('.tipo_licencia').hide();
+    }
+
+    if ('{{ solicitud.polizaseguro }}' == 'True') {
+      $('#si_poliza').prop('checked', true);
+      $('#no_poliza').prop('checked', false);
+      $('#compania_poliza').show();
+    }else if ('{{ solicitud.polizaseguro }}' == 'False') {
+      $('#si_poliza').prop('checked', false);
+      $('#no_poliza').prop('checked', true);
+      $('#compania_poliza').hide();
+    }
+    if ('{{ solicitud.deporte }}' == 'True') {
+      $('#si_deporte').prop('checked', true);
+      $('#no_deporte').prop('checked', false);
+      $('#deporte').show();
+    }else if ('{{ solicitud.deporte }}' == 'False') {
+      $('#si_deporte').prop('checked', false);
+      $('#no_deporte').prop('checked', true);
+      $('#deporte').hide();
+    }
+  });
+  $(document).ready(function(){
+    $(".soloLetras").keypress(function(event){
+        var inputValue = event.charCode;
+        if(!(inputValue >= 65 && inputValue <= 122) && (inputValue != 32 && inputValue != 0) && (inputValue != 241) ){
+            event.preventDefault();
+        }
+    });
+
+    cargar_organizaciones();
+    $("#form_solicitud1").validate();
+  });
+  $('#agregar_organizacion').click(function(){
+    var nombre = $('#nueva_organizacion').val();
+    $.ajax({
+      type: "GET",
+      data: {nombre: nombre},
+      url: "{% url 'ajax_adicionarorg' %}",
+      success: function(response){
+        if (response == 'exito') {
+          cargar_organizaciones();
+          $('#nueva_organizacion').attr('value', '');
+        }
+      }
+    });
+  });
+  $('#select_organizaciones').change(function(){
+    var id_organizacion = $('#select_organizaciones option:selected').val()
+    var nombre_organizacion = $('#select_organizaciones option:selected').text()
+    $('#body_organizaciones').append('<tr><td>'+ id_organizacion +'</td><td>' + nombre_organizacion + '</td><td><a href="#!" class="borrar"><span class="u-label u-label-danger g-color-white">Borrar</span></a></td></tr>');
+  });
+  function cargar_organizaciones(){
+    $('#select_organizaciones').empty();
+    $('#select_organizaciones').append("<option value=''>-----------</option>");
+    $.ajax({
+      type: "GET",
+      url: "{% url 'ajax_cargarorgs' %}",
+      success: function(response){
+        $.each(response, function(key, val){
+          $('#select_organizaciones').append("<option value="+val.cod_organizaciones+">" + val.nombre_organizacion + "</option>");
+        });
+        $('#select_organizaciones').trigger("chosen:updated");
+      }
+    });
+  }
+  $(document).on('click', '.borrar', function (event) {
+    event.preventDefault();
+    $(this).closest('tr').remove();
+  });
+  $('#siguiente').click(function(){
+    var lista_registros = ""
+    var registro = ""
+    $("#body_organizaciones tr").each(function(index){
+      $(this).children("td").each(function(index2){
+        registro +=  $(this).text() + '/';
+      });
+      lista_registros += registro + '_'
+      registro = ""
+    });
+    $('#input_registros').attr('value', lista_registros);
+    $('#form_solicitud1').submit();
+  });
+  $( document ).ready(function() {
+    $("#telefonofijo , #celular").attr("placeholder", "0000-0000");
+    $("#telefonofijo , #celular").attr("data-mask", "9999-9999");
+    $("#fechanacimiento , #fechadeporte").attr("data-mask", "9999-99-99");
+    $("#fechanacimiento , #fechadeporte").attr("placeholder", "2017-01-01");
+    $("#identidad").attr("placeholder", "0000-0000-00000");
+    $("#identidad").attr("data-mask", "9999-9999-99999");
+    $('input[name=cod_organizacion]').attr('name', 'cod_organizacion[]')
+    $('input[name=nombre_orga]').attr('name', 'nombre_orga[]')
+    $( "input" ).addClass( "form-control rounded-0 u-form-control " );
+    $( "textarea" ).addClass( "form-control rounded-0 u-form-control g-resize-none" );
+    $("#nombres , #primerapellido , #estadocivil, #codpaisnacimiento, #coddepartamentodomicilio, #codmunicipiodomicilio, #celular, #lugarnacimiento, #fechanacimiento, #edad, #profesion, #identidad, #codmunicipioidentidad").attr("required", true);
+    $('select').select2({
+      theme:'bootstrap',
+      width: '100%'
+    });
+    $('#fechanacimiento' ).datepicker({
+      autoclose: true,
+      format: 'yyyy-mm-dd',
+      language: 'es',
+    });
+    $('#fechadeporte' ).datepicker({
+      autoclose: true,
+      format: 'yyyy-mm-dd',
+      language: 'es',
+    });
+    $("input[name=sexo], #estadocivil").change(function(){
+     var sexo= $('input[name=sexo]:checked').val();
+     var civil = $('#estadocivil').val();
+     if(sexo =='femenino' && civil=='C'){
+       $('#apellido_de_casada').removeAttr('hidden');
+     }
+     else{
+       $('#apellido_de_casada').attr('hidden', true);
+     }
+   });
+   //$('#apellido_de_casada').hide();
+   // ################################################################
+    // if para ocultar o nos motrar data
+    $("input[name=licencia]").change(function(){
+      var lic= $('input[name=licencia]:checked').val();
+      if(lic == 'True' ){
+        $('.tipo_licencia').show();
+      }
+      else{
+        $('.tipo_licencia').hide();
+      }
+    });
+    $('#fechanacimiento').change(function(){
+      var fecha = $(this).val();
+      var born_year = fecha.split("-")
+      var date = new Date();
+      var year = date.getFullYear();
+      var yearsold = parseInt(year) - parseInt(born_year[0]);
+      $('#edad').val(yearsold);
+    });
+
+     // ############################### checkbox's de tipo de licencias ##############################################
+    $("input[name=liviana]").change(function(){
+      var livi= $('input[name=liviana]:checked').val();
+      if(livi =='False'){
+        $("input[name=liviana]").attr('value', 'True');
+      }
+      else{
+       $("input[name=liviana]").attr('value', 'False');
+      }
+    });
+
+    $("input[name=pesada]").change(function(){
+      var pesa= $('input[name=pesada]:checked').val();
+      if(pesa =='False'){
+        $("input[name=pesada]").attr('value', 'True');
+      }
+      else{
+       $("input[name=pesada]").attr('value', 'False');
+      }
+    });
+
+    $("input[name=motocicleta]").change(function(){
+      var moto= $('input[name=motocicleta]:checked').val();
+      if(moto =='False'){
+        $("input[name=motocicleta]").attr('value', 'True');
+      }
+      else{
+       $("input[name=motocicleta]").attr('value', 'False');
+      }
+    });
+    //#########################################################################
+    // Poliza if
+    $('#si_poliza').change(function(){
+      if($(this).val()=="True"){
+        $('#compania_poliza').show();
+      }else{
+        $('#compania_poliza').hide();
+      }
+    });
+    $('#compania_poliza').hide();
+    $('#no_poliza').change(function(){
+      if($(this).val()=="False"){
+        $('#compania_poliza').hide();
+      }else{
+        $('#compania_poliza').show();
+      }
+    });
+    //Deporte If
+    $('#si_deporte').change(function(){
+      if($(this).val()=="True"){
+        $('#deporte').show();
+      }else{
+        $('#deporte').hide();
+      }
+    });
+    $('#deporte').hide();
+    $('#no_deporte').change(function(){
+      if($(this).val()=="False"){
+        $('#deporte').hide();
+      }else{
+        $('#deporte').show();
+      }
+    });
+    $(window).on('load', function () {
+      // initialization of header
+      $.HSCore.components.HSHeader.init($('#js-header'));
+      $.HSCore.helpers.HSHamburgers.init('.hamburger');
+      // initialization of HSMegaMenu component
+      $('.js-mega-menu').HSMegaMenu({
+        event: 'hover',
+        pageContainer: $('.container'),
+        breakpoint: 991
+      });
+    });
+    $(window).on('resize', function () {
+      setTimeout(function () {
+        $.HSCore.components.HSTabs.init('[role="tablist"]');
+      }, 200);
+    });
+
+    $('#id_coddepartamentodomicilio').change(function(){
+      $('#id_codmunicipiodomicilio').empty();
+      $('#id_codmunicipiodomicilio').append("<option value=''>-----------</option>");
+      coddepartamento = $(this).val()
+      $.ajax({
+        type: "GET",
+        data: { coddepartamento: coddepartamento },
+        url: "{% url 'ajax_municipio' %}",
+        success: function(response){
+          $.each(response, function(key, val){
+            $('#id_codmunicipiodomicilio').append("<option value="+val.codmunicipio+">" + val.descripcionmunicipio + "</option>");
+          });
+          $('#id_codmunicipiodomicilio').trigger("chosen:updated");
+        }
+      });
+    });
+  });
+  </script>
+{% endblock javascript %}

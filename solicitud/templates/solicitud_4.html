@@ -1,0 +1,250 @@
+{% extends "basesolicitud.html" %}
+{% load staticfiles %}
+{% block content %}
+<section class="g-bg-gray-light-v5">
+  <div class="container g-py-30">
+    <div class="row justify-content-center">
+      <div class="col-sm-10 col-md-9 col-lg-12">
+        <div class="u-shadow-v25 g-bg-white rounded g-py-30 g-px-25">
+          <header class="text-center mb-4">
+            <h4 class="h4 g-color-black g-font-weight-400">INGRESO DE INFORMACIÓN</h4>
+          </header>
+          <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+          {% if error %}
+            {% include 'error_alert.html' %}
+          {% endif %}
+          <label> <b style="font-weight: bold;"> IV. HISTORIAL LABORAL <b> </label>
+            <div class="row">
+            <div class="col-xs-12 col-sm-6 mb-6" >
+              <label style="font-weight: 600;" for="">No tengo historial laboral:</label>
+              <a href="{% url 'no_historial_laboral' %}" class="btn btn-sm u-btn-primary "> Saltar este paso</a>
+            </div>
+          </div> <br>
+          {% include 'includes/div_add_historial_lab.html' %}
+          <!-- Form -->
+         <form  class="g-py-30" method="POST" accept-charset="utf-8" id="form_solicitud4">
+            {% csrf_token %}
+            <div class="esta_trabajando">
+              <div class="row">
+                <div  style="margin-top: 3px !important; margin-left:12px; ">
+                  <label for="chck1" style="font-weight: 600;">Selecciona si es tu empleo actual:</label>
+                </div>
+                <div clas.s="col-xs-12 col-sm-6 mb-6">
+                  <label class="form-check-inline u-check g-mr-20 mx-0 mb-0" style="">
+                    <input class="hidden-xs-up g-pos-abs g-top-0 g-right-0 chck1" name="trabajoactual[]" type="checkbox" id="chck1" value="False">
+                    <div class="u-check-icon-radio-v7">
+                      <i class="fa" data-check-icon="" data-uncheck-icon=""></i>
+                    </div>
+                  </label>
+                </div>
+              </div> 
+              <div class="row">
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Nombre de empresa: <b style="color:red;">*</b></label>
+                  <input type="text" name="nombreempresa[]" id="id_nombreempresa" required="" maxlength="50">
+                </div>
+                <div class="form-group col-xs-12 col-sm-4 mb-4 casi">
+                  <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13" for="id_fechanacimiento" id="fechaca">Fecha ingreso: <b style="color:red;">*</b></label>
+                  <div class="input-group g-brd-primary--focus">
+                  <input type="text" name="fechaingreso[]" id="id_fechaingreso" required="" class="dates">
+                    <div class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-dark-v5 rounded-0">
+                      <i class="icon-calendar"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-xs-12 col-sm-4 mb-4 esta">
+                  <label  class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13" for="id_fechanacimiento">Fecha egreso: <b style="color:red;">*</b></label>
+                  <div class="input-group g-brd-primary--focus">
+                    <input type="text" name="fechaegreso[]" id="id_fechaegreso" required="" class="dates is_trab_actual">
+                    <div class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-dark-v5 rounded-0">
+                      <i class="icon-calendar"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Puesto: <b style="color:red;">*</b></label>
+                  <input type="text" name="puesto[]" id="id_puesto" required maxlength="100">
+                </div>
+                <div class="form-group col-xs-12 col-sm-4 mb-4">
+                  <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13" >Funciones del puesto: <b style="color:red;">*</b></label>
+                  <div class="input-group g-brd-primary--focus">
+                    <textarea name="fucionespuesto[]" id="id_fucionespuesto" maxlength="100" required></textarea>
+                  </div>
+                </div>
+                <div class="form-group col-xs-12 col-sm-4 mb-4">
+                    <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13" >Salario: <b style="color:red;">*</b></label>
+                    <div class="input-group g-brd-primary--focus casi">
+                      <input type="number" step="0.01" name="salariofinal[]" id="id_salariofinal">
+                    </div>
+                </div>
+              </div> 
+              <div class="row">
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label  class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Dirección: <b style="color:red;">*</b></label>
+                  <textarea name="direccionempresa[]" id="id_direccionempresa" required maxlength="200"></textarea>
+                </div>
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label  class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Nombre jefe inmediato: <b style="color:red;">*</b></label>
+                  <input type="text" name="nombrejefeinmediato[]" maxlength="200" required="" id="id_nombrejefeinmediato">
+                </div>
+                <div class="col-xs-12 col-sm-4 mb-4 motivopor">
+                  <label  class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Motivo retiro: <b style="color:red;">*</b></label>
+                  <select name="motivoretiro[]" id="id_motivoretiro" required class="is_trab_actual">
+                    <option value="">------------</option>
+                    <option value="Despido">Despido</option>
+                    <option value="Renuncia">Renuncia</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row" style="text-align: left;">
+              <div class="col-12 align-self-center text-right">
+                <button  type="button" class="btn btn-outline-info u-btn-info" id="agregar_laboral">Nuevo historial laboral</button>
+              </div>
+            </div>
+            <div class="nueva_laboral">
+            </div>
+            <br><br>
+            <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+            <div class="row" style="text-align: center; display: block;">
+              <label><b>4 de 6</b></label>
+            </div>
+            <div class="col-12 align-self-center text-right">
+              <a href="{% url 'perfil' %}" class="btn btn-secondary" style="margin-right: 5px;">Salir</a>
+              <button type="submit" class="btn btn-primary">Siguiente</button>
+            </div>
+          </form>
+          <!-- End Form -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section> 
+{% endblock content %}
+{% block javascript %}
+  <!--    SCRIPT PARA INICIAR PLUGINS DE  LA PLANTILLA     -->
+    <script>
+      $(document).on('ready', function(){
+        $.HSCore.components.HSTabs.init('[role="tablist"]');
+        $.HSCore.helpers.HSFocusState.init();
+        $.HSCore.components.HSCountQty.init('.js-quantity');
+        $.HSCore.components.HSMaskedInput.init('[data-mask]');  
+      });
+      
+      $(window).on('load', function () {
+        // initialization of header
+        $.HSCore.components.HSHeader.init($('#js-header'));
+        $.HSCore.helpers.HSHamburgers.init('.hamburger');
+        // initialization of HSMegaMenu component
+        $('.js-mega-menu').HSMegaMenu({
+          event: 'hover',
+          pageContainer: $('.container'),
+          breakpoint: 991
+        });
+      });
+
+      $(window).on('resize', function () {
+        setTimeout(function () {
+          $.HSCore.components.HSTabs.init('[role="tablist"]');
+        }, 200);
+      });
+    </script>
+  <!-- ++++++++++++++++++++++ FIN ++++++++++++++++++++++++ -->
+
+  <!--        SCRIPT PARA INICIAR PLUGINS EXTERNOS         -->
+    <script>
+      $(document).on('ready', function(){
+        $('select').select2({
+          theme:'bootstrap',
+          width: '100%'
+        });
+        $("#form_solicitud4").validate();
+        $('*').bind("cut copy paste",function(e) {
+          e.preventDefault();
+        });
+        $(' input[name="fechaingreso[]"], input[name="fechaegreso[]"] ' ).datepicker({
+          autoclose: true,
+          format: 'yyyy-mm-dd',
+          language: 'es',
+        });
+
+      });
+    </script>
+  <!-- ++++++++++++++++++++++ FIN ++++++++++++++++++++++++ -->
+
+  <!-- SCRIPT PARA ASIGNAR MASCARAS Y PLACEHOLDER A INPUTS -->
+    <script>
+      $(document).on('ready', function(){
+        $("input").addClass( "form-control rounded-0 u-form-control " );
+        $("textarea").addClass( "form-control rounded-0 u-form-control g-resize-none" );
+        $(".dates ").addClass("form-control form-control-md u-datepicker-v1 g-brd-right-none rounded-0");
+
+      });
+    </script>
+  <!-- ++++++++++++++++++++++ FIN ++++++++++++++++++++++++ -->
+
+  <!-- SCRIPT PARA MANEJAR SI EXPERIENCIA ES TRABAJO ACTUAL -->
+    <script>
+      $(document).ready(function() {
+        $(document).on('change', '.chck1', function(){
+          if ($(this).is(':checked')){
+            $(this).closest('div.esta_trabajando').find('.is_trab_actual').each(function(){
+              if($(this).is('select')){
+                $(this).empty();
+                $(this).append("<option value=''>------------</option>");
+                $(this).trigger("chosen:updated");
+                //$(this).prop("selectedIndex", 0).change();
+                $(this).prop('required',false);
+                //$(this).prop('disabled', true);
+              }else{ 
+                $(this).val('');
+                $(this).prop('required',false);
+                $(this).prop('readonly', true);
+              }
+            });
+          }else{
+            $(this).closest('div.esta_trabajando').find('.is_trab_actual').each(function(){
+
+              if($(this).is('select')){
+                $(this).prop('required',true);
+                $(this).empty();
+                $(this).append("<option value=''>------------</option>");
+                $(this).append('<option value="Despido">Despido</option>');
+                $(this).append('<option value="Renuncia">Renuncia</option>');
+                $(this).trigger("chosen:updated");
+
+              }else{
+                $(this).prop('required',true);
+                $(this).prop('readonly', false);
+              }
+
+            });
+          }
+        }); 
+ 
+        $('#agregar_laboral').click(function(){
+          $('select').select2('destroy'); 
+          $this = $('#laboral_copia').clone().removeAttr('style').appendTo( '.nueva_laboral' );
+          $('html, body').animate({scrollTop: $($this).offset().top}, 1000);
+
+
+          $('.eliminar_laboral').click(function(){
+            var id = $(this).closest("div#laboral_copia").remove();
+          });
+          $(' input[name="fechaingreso[]"], input[name="fechaegreso[]"] ' ).datepicker({
+            autoclose: true,
+            format: 'yyyy-mm-dd',
+            language: 'es',
+          });
+          $('select[name=motivoretiro]').attr('name', 'motivoretiro[]')
+          $('select').select2({
+            theme:'bootstrap',
+                width: '100%'
+          });
+        });
+      });
+    </script>
+  <!-- ++++++++++++++++++++++ FIN ++++++++++++++++++++++++ -->
+{% endblock javascript %}

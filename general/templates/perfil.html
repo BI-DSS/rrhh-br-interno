@@ -1,0 +1,292 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+<div class="col-lg-9">
+  <!-- User Details -->
+  <div class="d-flex align-items-center justify-content-sm-between g-mb-5">
+    <h2 class="g-font-weight-300 g-mr-10">{{ perfil.nombres }} {{ perfil.primerapellido }}</h2>
+  </div>
+  <ul class="list-inline g-font-weight-300">
+    <li class="list-inline-item g-mr-20">
+      <i class="icon-location-pin g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> {{ perfil.codmunicipiodomicilio.descripcionmunicipio }} {{ perfil.coddepartamentodomicilio.descripciondepartamento }}
+    </li>
+    {% if request.user.is_active %}
+      <li class="list-inline-item g-mr-20">
+        {% if perfil.empleado %}
+        <i class="icon-check g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> Empleado Banrural
+        {% else %}
+        <i class="icon-check g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> Usuario Verificado
+        {% endif %}
+      </li>
+    {% endif %} 
+  </ul>
+  <!-- End User Info -->
+  <!-- Progreso del perfil -->
+  {% if error %}
+    <h6 class="text-uppercase g-font-size-12 g-font-weight-600 g-letter-spacing-0_5 g-pos-rel g-z-index-2">PERFIL VACÍO</h6>
+    <br>
+    <div class="js-hr-progress-bar progress g-height-20 rounded-0 g-overflow-visible g-mb-20">
+      <div class="js-hr-progress-bar-indicator progress-bar g-pos-rel" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+        <div class="text-center u-progress__pointer-v2 g-font-size-11 g-color-white g-bg-primary">0%</div>
+      </div>
+    </div>
+    <a href="{% url 'solicitud_1' %}" class="btn btn-md u-btn-outline-blue g-mr-10 g-mb-15">Completar Perfil</a>
+  {% endif %}
+  {% if perfil %}
+    <h6 class="text-uppercase g-font-size-12 g-font-weight-600 g-letter-spacing-0_5 g-pos-rel g-z-index-2">PERFIL COMPLETADO AL <b style="font-weight: 600;" id="numero"></b></h6>
+    <br>
+    <div class="js-hr-progress-bar progress g-height-20 rounded-0 g-overflow-visible g-mb-20">
+      <div id="barra_progreso" class="js-hr-progress-bar-indicator progress-bar g-pos-rel" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+        <div id="porcentaje_progreso" class="text-center u-progress__pointer-v2 g-font-size-11 g-color-white g-bg-primary"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-xs-12 col-sm-4 mb-4" id="continuar_llenado">
+        <button id="continuar" class="btn btn-md u-btn-outline-blue ">Continuar Llenado</button>
+      </div>
+      <div class="form-group col-xs-12 col-sm-4 mb-4">
+        <a class="btn btn-md u-btn-outline-primary" href="{% url 'blog'%}">Ofertas de Trabajo</a>
+      </div> 
+    </div>
+    
+  {% endif %}
+  <!-- Fin progreso -->
+  <hr class="g-brd-gray-light-v4 g-my-20">
+  {% if perfil.observacionesadicionales %}
+    <p class="lead g-line-height-1_8" style="font-size: 15px;">{{ perfil.observacionesadicionales }}</p>
+  {% endif %}
+ 
+  {% if perfil %}
+  <div class="card border-0 rounded-0 g-mb-40">
+    <!-- Panel Header -->
+    <div class="card-header d-flex align-items-center justify-content-between g-bg-gray-light-v5 border-0 g-mb-15">
+      <h3 class="h6 mb-0">
+        <i class="icon-notebook g-pos-rel g-top-1 g-mr-5"></i> Curriculum Vitae
+      </h3>
+
+    </div>
+    <!-- End Panel Header -->
+    <!-- Panel Body -->
+    <div class="js-scrollbar card-block u-info-v1-1 g-bg-white-gradient-v1--after g-height-200 g-pa-0">
+      <ul class="row  list-unstyled">
+        <li class="col-md-12 g-brd-bottom g-brd-0--md g-brd-gray-light-v4 g-pb-30 g-pb-0--md g-mb-30 g-mb-0--md">
+          {% if perfil.cv %}
+          <form method="POST" accept-charset="utf-8" enctype='multipart/form-data' id="Actualizar_cv" action="{% url 'cambiar_cv' %}">
+            {% csrf_token %}
+            <div class="row">
+              <div class="form-group col-xs-12 col-sm-12 mb-4" style="white-space:nowrap"> 
+                <br>
+                  <a href="/media/{{perfil.cv}}" target="_blank" >&nbsp; {{perfil.cvnombre}}</a>&nbsp; &nbsp; &nbsp;
+
+                  <label class="u-file-attach-v2 g-color-gray-dark-v5 mb-0" style="position: relative; bottom: -5px;">
+                    <input id="subir" name="cv" type="file" accept="" style="color: green;" accept="application/msword, text/plain, application/pdf">
+                    <i class="icon-cloud-upload g-font-size-16 g-pos-rel g-top-2 g-mr-5"></i>
+                    <span class="js-value">Actualiza tu CV (no mayor a 5MB)</span>
+                  </label>
+              </div> 
+              
+            </div>
+            <div class="row">
+              <div class="form-group col-xs-12 col-sm-4 mb-4">
+                <label hidden="" class="cv" style="color: green;">CV cargado</label><br>
+                <button id="guardar_cv" type="button" class="btn btn-md u-btn-outline-primary g-mr-10 g-mb-15 cv" hidden="">Guardar</button>
+              </div>
+              <div class="col-xs-12 col-sm-12 mb-4">
+                <p style="display: none; color: red" id="mensaje">El peso de archivo está por encima de lo permitido (5MB).</p>
+              </div>
+            </div>
+          </form>
+          {% endif %}
+        </li>
+      </ul>
+    </div>
+    <!-- End Panel Body -->
+  </div>
+  <!-- Experience Timeline -->
+  <div class="card border-0 rounded-0 g-mb-40">
+    <!-- Panel Header -->
+    <div class="card-header d-flex align-items-center justify-content-between g-bg-gray-light-v5 border-0 g-mb-15">
+      <h3 class="h6 mb-0">
+        <i class="icon-briefcase g-pos-rel g-top-1 g-mr-5"></i> Experiencia
+      </h3>
+    </div>
+    <!-- End Panel Header -->
+    <!-- Panel Body -->
+    <div class="js-scrollbar card-block u-info-v1-1 g-bg-white-gradient-v1--after g-height-200 g-pa-0">
+      <ul class="row u-timeline-v2-wrap list-unstyled">
+        {% if lista_experiencias %}
+          {% for experiencia in lista_experiencias %}
+            <li class="col-md-12 g-brd-bottom g-brd-0--md g-brd-gray-light-v4 g-pb-30 g-pb-0--md g-mb-30 g-mb-0--md">
+            <div class="row">
+              <!-- Timeline Date -->
+              <div class="col-md-3 align-self-center text-md-right g-pr-40--md g-mb-20 g-mb-0--md">
+                {% if experiencia.fechaegreso %}
+                  <h5 class="h6 g-font-weight-300 mb-0">{{ experiencia.fechaingreso }} - {{ experiencia.fechaegreso }}</h5>
+                {% else %}
+                  <h5 class="h6 g-font-weight-300 mb-0">{{ experiencia.fechaingreso }} - A LA FECHA</h5>
+                {% endif %}
+              </div>
+              <!-- End Timeline Date -->
+              <!-- Timeline Content -->
+              <div class="col-md-9 align-self-center g-orientation-left g-pl-40--md">
+                <!-- Timeline Dot -->
+                <div class="hidden-sm-down u-timeline-v2__icon g-top-35">
+                  <i class="d-block g-width-18 g-height-18 g-bg-primary g-brd-around g-brd-4 g-brd-gray-light-v4 rounded-circle"></i>
+                </div>
+                <!-- End Timeline Dot -->
+                <article class="g-pa-10--md">
+                  <h3 class="h4 g-font-weight-300">{{ experiencia.nombreempresa }}</h3>
+                  <p class="mb-0">Jefe Inmediato: {{ experiencia.nombrejefeinmediato }}</p>
+                  {% if experiencia.motivoretiro !=  None %}
+                  <p class="mb-0">Motivo Salida: {{ experiencia.motivoretiro }}</p>
+                  {% else %}
+                  <p class="mb-0">Trabajo actual</p>
+                  {% endif %}
+                </article>
+              </div>
+              <!-- End Timeline Content -->
+            </div>
+          </li>
+          {% endfor %}
+        {% endif %}
+      </ul>
+    </div>
+    <!-- End Panel Body -->
+  </div>
+  <!-- End Experience Timeline -->
+    <!-- Education Timeline -->
+  <div class="card border-0 rounded-0 g-mb-40">
+    <!-- Panel Header -->
+    <div class="card-header d-flex align-items-center justify-content-between g-bg-gray-light-v5 border-0 g-mb-15">
+      <h3 class="h6 mb-0">
+        <i class="icon-graduation g-pos-rel g-top-1 g-mr-5"></i> Educacion
+      </h3>
+    </div>
+    <!-- End Panel Header -->
+    <!-- Panel Body -->
+    <div class="js-scrollbar card-block u-info-v1-1 g-bg-white-gradient-v1--after g-height-300 g-pa-0">
+      <ul class="row u-timeline-v2-wrap list-unstyled">
+        {% if lista_estudios %}
+            {% for estudio in lista_estudios %}
+              <li class="col-md-12 g-brd-bottom g-brd-0--md g-brd-gray-light-v4 g-pb-30 g-pb-0--md g-mb-30 g-mb-0--md">
+                <div class="row">
+                  <!-- Timeline Date -->
+                  <div class="col-md-3 align-self-center text-md-right g-pr-40--md g-mb-20 g-mb-0--md">
+                    <h4 class="h5 g-font-weight-300">{{ estudio.nivelestudios }}</h4>
+                    <h5 class="h6 g-font-weight-300 mb-0">{{ estudio.inicio }} - {{ estudio.fin }}</h5>
+                  </div>
+                  <!-- End Timeline Date -->
+                  <!-- Timeline Content -->
+                  <div class="col-md-9 align-self-center g-orientation-left g-pl-40--md">
+                    <!-- Timeline Dot -->
+                    <div class="hidden-sm-down u-timeline-v2__icon g-top-35">
+                      <i class="d-block g-width-18 g-height-18 g-bg-primary g-brd-around g-brd-4 g-brd-gray-light-v4 rounded-circle"></i>
+                    </div>
+                    <!-- End Timeline Dot -->
+                    <article class="g-pa-10--md">
+                      <h3 class="h4 g-font-weight-300">{{ estudio.nombreinstitucion }}</h3>
+                      <p class="mb-0">{{ estudio.lugarestudio }}</p>
+                      {% if estudio.tituloobtenido %}
+                        <p class="mb-0">{{ estudio.tituloobtenido }}</p>
+                      {% endif %}
+                    </article>
+                  </div>
+                  <!-- End Timeline Content -->
+                </div>
+              </li>
+            {% endfor %}
+        {% endif %}
+      </ul>
+    </div>
+    <!-- End Panel Body -->
+  </div>
+  <!-- End Education Timeline -->
+  {% endif %}
+
+</div>
+{% endblock content %}
+{% block javascript %}
+<script type="text/javascript">
+  $(document).ready(function(){
+    var vista = '{{ perfil.vista }}';
+    if( vista == 0)
+      {
+        var porcentaje = 0;
+      }
+    else if(vista==7)
+    {
+      var porcentaje = Math.round(((vista)/7)*100);
+      $('#continuar_llenado').hide();
+    }
+    else{
+      var porcentaje = Math.round(((vista -1)/6)*100);
+    }
+
+    setTimeout(function(){
+      $('#porcentaje_progreso').html(porcentaje + '%');
+      $('#numero').html(porcentaje + '%');
+      $('#barra_progreso').css("width", String(porcentaje) + "%");
+      $('#barra_progreso').attr('aria-valuenow',  porcentaje);
+    }, 5000);
+
+  });
+  $('#continuar').click(function(){
+    {% if perfil %}
+      var vista = '{{ perfil.vista }}';
+      switch (vista) {
+        case '1':
+            $(location).attr("href", "{% url 'solicitud_1' perfil.codsolicitud %}")
+          break;
+        case '2':
+            $(location).attr("href", "{% url 'solicitud_2' perfil.codsolicitud %}")
+          break;
+        case '3':
+            $(location).attr("href", "{% url 'solicitud_3' perfil.codsolicitud %}")
+          break;
+        case '4':
+            $(location).attr("href", "{% url 'solicitud_4' perfil.codsolicitud %}")
+          break;
+        case '5':
+            $(location).attr("href", "{% url 'solicitud_5' perfil.codsolicitud %}")
+          break;
+        case '6':
+            $(location).attr("href", "{% url 'solicitud_6' perfil.codsolicitud %}")
+          break;
+        default:
+      }
+    {% endif %}
+  });
+  $(document).ready(function(){
+
+
+    $('#guardar_cv').click(function(){
+      var tan = $('#subir')[0].files[0].size/1024;
+      if(tan > 5120){
+        $('#mensaje').fadeIn('slow').delay(5000).fadeOut('slow');
+      }
+      else{
+
+        $('#Actualizar_cv').submit();
+      }
+    });
+
+
+    $('#sidemenu a').each(function(){
+      $(this).removeClass();
+      $(this).addClass('list-group-item list-group-item-action justify-content-between');
+    });
+    $('#perfil').addClass('list-group-item list-group-item-action justify-content-between active');
+
+    $('#subir').change(function(){
+      if ($(this).val() !=''){
+
+        $('.cv').attr('hidden', false);
+      }
+      else{
+        $('.cv').attr('hidden', true);
+      }
+    });
+
+  });
+</script>
+{% endblock javascript %}

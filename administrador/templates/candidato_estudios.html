@@ -1,0 +1,288 @@
+{% extends "baseperfil.html" %}
+{% load staticfiles %}
+{% block content %}
+<div class="col-lg-9">
+  <!-- User Details -->
+  <div class="d-flex align-items-center justify-content-sm-between g-mb-5">
+    <h2 class="g-font-weight-300 g-mr-10">{{ solicitud.nombres }} {{ solicitud.primerapellido }}</h2>
+  </div>
+  <ul class="list-inline g-font-weight-300">
+    <li class="list-inline-item g-mr-20">
+      <i class="icon-location-pin g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> {{ solicitud.codmunicipiodomicilio.descripcionmunicipio }}, {{ solicitud.coddepartamentodomicilio.descripciondepartamento }}
+    </li> 
+    {% if solicitud.anonima %}
+      <li class="list-inline-item g-mr-20">
+        <i class="icon-check g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> Solicitante a plaza Anonima
+      </li>
+    {% endif %}
+  </ul>
+  <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+  <!-- Estudios Academicos -->
+  <div class="card border-0 rounded-0 g-mb-40">
+    <!-- Panel Header -->
+    <div class="card-header d-flex align-items-center justify-content-between g-bg-gray-light-v5 border-0 g-mb-15">
+      <h3 class="h6 mb-0">
+        <i class="icon-graduation g-pos-rel g-top-1 g-mr-5"></i> Educacion
+      </h3>
+    </div>
+    <!-- End Panel Header -->
+    <!-- Panel Body -->
+    <div class="js-scrollbar card-block u-info-v1-1 g-bg-white-gradient-v1--after g-height-300 g-pa-0">
+      <ul class="row u-timeline-v2-wrap list-unstyled">
+        {% if lista_estudios %}
+            {% for estudio in lista_estudios %}
+              <li class="col-md-12 g-brd-bottom g-brd-0--md g-brd-gray-light-v4 g-pb-30 g-pb-0--md g-mb-30 g-mb-0--md">
+                <div class="row">
+                  <!-- Timeline Date -->
+                  <div class="col-md-3 align-self-center text-md-right g-pr-40--md g-mb-20 g-mb-0--md">
+                    <h4 class="h5 g-font-weight-300">{{ estudio.nivelestudios }}</h4>
+                    <h5 class="h6 g-font-weight-300 mb-0">{{ estudio.inicio }} - {{ estudio.fin }}</h5>
+                  </div>
+                  <!-- End Timeline Date -->
+                  <!-- Timeline Content -->
+                  <div class="col-md-9 align-self-center g-orientation-left g-pl-40--md">
+                    <!-- Timeline Dot -->
+                    <div class="hidden-sm-down u-timeline-v2__icon g-top-35">
+                      <i class="d-block g-width-18 g-height-18 g-bg-primary g-brd-around g-brd-4 g-brd-gray-light-v4 rounded-circle"></i>
+                    </div>
+                    <!-- End Timeline Dot -->
+                    <article class="g-pa-10--md">
+                      <h3 class="h4 g-font-weight-300">
+                        {{ estudio.nombreinstitucion }}
+                      </h3>
+                      <p class="mb-0">{{ estudio.lugarestudio }}</p>
+                      {% if estudio.tituloobtenido %}
+                        <p class="mb-0">{{ estudio.tituloobtenido }}</p>
+                      {% endif %}
+                    </article>
+                  </div>
+                  <!-- End Timeline Content -->
+                </div>
+              </li>
+            {% endfor %}
+        {% endif %}
+      </ul>
+    </div>
+    <!-- End Panel Body -->
+  </div>
+  <!-- Cursos -->
+  <div class="card border-0 rounded-0 g-mb-40">
+    <!-- Panel Header -->
+    <div class="card-header d-flex align-items-center justify-content-between g-bg-gray-light-v5 border-0 g-mb-15">
+      <h3 class="h6 mb-0">
+        <i class="icon-book-open g-pos-rel g-top-1 g-mr-5"></i> Cursos
+      </h3>
+    </div>
+    <!-- End Panel Header -->
+    <!-- Panel Body -->
+    <div class="js-scrollbar card-block u-info-v1-1 g-bg-white-gradient-v1--after g-height-300 g-pa-0">
+      <ul class="row u-timeline-v2-wrap list-unstyled">
+        {% if lista_cursos %}
+            {% for curso in lista_cursos %}
+              <li class="col-md-12 g-brd-bottom g-brd-0--md g-brd-gray-light-v4 g-pb-30 g-pb-0--md g-mb-30 g-mb-0--md">
+                <div class="row">
+                  <!-- Timeline Date -->
+                  <div class="col-md-3 align-self-center text-md-right g-pr-40--md g-mb-20 g-mb-0--md">
+                    <h4 class="h5 g-font-weight-300">{{ curso.temacurso }}</h4>
+                    <h5 class="h6 g-font-weight-300 mb-0">{{ curso.duracion }}</h5>
+                  </div>
+                  <!-- End Timeline Date -->
+                  <!-- Timeline Content -->
+                  <div class="col-md-9 align-self-center g-orientation-left g-pl-40--md">
+                    <!-- Timeline Dot -->
+                    <div class="hidden-sm-down u-timeline-v2__icon g-top-35">
+                      <i class="d-block g-width-18 g-height-18 g-bg-primary g-brd-around g-brd-4 g-brd-gray-light-v4 rounded-circle"></i>
+                    </div>
+                    <!-- End Timeline Dot -->
+                    <article class="g-pa-10--md">
+                      <h3 class="h4 g-font-weight-300">
+                        {{ curso.titulo }}
+                      </h3>
+                      <h3 class="h5 g-font-weight-300">{{ curso.nombrecentroestudio }}</h3>
+                      <p class="mb-0">{{ curso.direccioncentroestudio }}</p>
+                    </article>
+                  </div>
+                  <!-- End Timeline Content -->
+                </div>
+              </li>
+            {% endfor %}
+        {% endif %}
+      </ul>
+    </div>
+    <!-- End Panel Body -->
+  </div>
+  <div class="card border-0 rounded-0 g-mb-40">
+    <div class="card-header d-flex align-items-center justify-content-between g-bg-gray-light-v5 border-0 g-mb-15">
+      <h3 class="h6 mb-0">
+        <i class="icon-book-open g-pos-rel g-top-1 g-mr-5"></i> Idiomas
+      </h3>
+    </div>
+    <div class="js-scrollbar card-block u-info-v1-1 g-bg-white-gradient-v1--after g-height-300 g-pa-0">
+        {% if lista_idiomas %}
+              <!-- Basic Table -->
+              <div class="table-responsive">
+                <br>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>IDIOMA</th>
+                      <th>EXPRESIÓN</th>
+                      <th>LECTURA</th>
+                      <th>ESCRITURA</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for idioma in lista_idiomas %}
+                      <tr>
+                        <td>{{ idioma.nombre }}</td>
+                        <td>{{ idioma.habla }}%</td>
+                        <td>{{ idioma.lectura }}%</td>
+                        <td>{{ idioma.escritura }}%</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <!-- End Basic Table -->
+        {% endif %}
+      </div>
+    </div>
+  <!-- Idiomas -->
+
+  <!-- Idiomas -->
+  <div class="card border-0 rounded-0 g-mb-40">
+
+    <!-- Panel Header -->
+    <div class="card-header d-flex align-items-center justify-content-between g-bg-gray-light-v5 border-0 g-mb-15">
+      <h3 class="h6 mb-0">
+        <i class="icon-book-open g-pos-rel g-top-1 g-mr-5"></i> Habilidades
+      </h3>
+    </div>
+
+    <div class="js-scrollbar card-block u-info-v1-1 g-bg-white-gradient-v1--after g-height-300 g-pa-0">
+      {% if lista_habilidades %}
+            <!-- Basic Table -->
+            <div class="table-responsive">
+              <br>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>HABILIDAD</th>
+                    <th>PORCENTAJE</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for habilidad in lista_habilidades %}
+                    <tr>
+                      <td>{{ habilidad.nombre_habilidad }}</td>
+                      <td>{{ habilidad.porcentaje }}%</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <!-- End Basic Table -->
+      {% endif %}
+    </div>
+    <!-- End Panel Body -->
+  </div>
+  <!-- Competencias -->
+  <div class="card border-0 rounded-0 g-mb-40">
+    <!-- Panel Header -->
+    <div class="card-header d-flex align-items-center justify-content-between g-bg-gray-light-v5 border-0 g-mb-15">
+      <h3 class="h6 mb-0">
+        <i class="icon-book-open g-pos-rel g-top-1 g-mr-5"></i> Competencias
+      </h3>
+    </div>
+    <!-- End Panel Header -->
+    <!-- Panel Body -->
+    <div class="js-scrollbar card-block u-info-v1-1 g-bg-white-gradient-v1--after g-height-300 g-pa-0">
+      <div class="table-responsive">
+        <br>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>COMPETENCIA</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for competencia in lista_competencias %}
+              <tr>
+                <td>{{ competencia.nombre_competencia }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- End Panel Body -->
+  </div>
+</div>
+{% endblock content %}
+{% block javascript %}
+<script>
+  $(document).ready(function(){
+    $('#sidemenu a').each(function(){
+      $(this).removeClass();
+      $(this).addClass('list-group-item list-group-item-action justify-content-between');
+    });
+    $('#estudios').addClass('list-group-item list-group-item-action justify-content-between active');
+  });
+  var lista_competencias = []
+  var registro_competencias = "";
+  $('.competencia').change(function(){
+    var competencia = $(this).prop('checked');
+    if (competencia == true) {
+      lista_competencias.push($(this).val());
+    } else if (competencia == false){
+      lista_competencias.pop($(this).val());
+    }
+  });
+  $('#guardar_competencias').click(function(){
+    lista_competencias.forEach(function(element) {
+      registro_competencias += element + '/';
+    }, this);
+    $('#competencias').attr('value', registro_competencias);
+    $('#form_competencias').submit();
+  });
+  $(document).on('ready', function () {
+    // initialization of go to
+    $.HSCore.components.HSGoTo.init('.js-go-to');
+    // initialization of tabs
+    $.HSCore.components.HSTabs.init('[role="tablist"]');
+    // initialization of counters
+    var counters = $.HSCore.components.HSCounter.init('[class*="js-counter"]');
+    // initialization of rating
+     $.HSCore.helpers.HSRating.init();
+    // initialization of HSScrollBar component
+    $.HSCore.components.HSScrollBar.init( $('.js-scrollbar') );
+  });
+  $('#select_habilidades').select2({
+    theme:'bootstrap',
+    width: '100%'
+  });
+  $(window).on('load', function () {
+    // initialization of header
+    $.HSCore.components.HSHeader.init($('#js-header'));
+    $.HSCore.helpers.HSHamburgers.init('.hamburger');
+    // initialization of HSMegaMenu component
+    $('.js-mega-menu').HSMegaMenu({
+      event: 'hover',
+      pageContainer: $('.container'),
+      breakpoint: 991
+    });
+    // initialization of horizontal progress bars
+    setTimeout(function () { // important in this case
+      var horizontalProgressBars = $.HSCore.components.HSProgressBar.init('.js-hr-progress-bar', {
+        direction: 'horizontal',
+        indicatorSelector: '.js-hr-progress-bar-indicator'
+      });
+    }, 1);
+  });
+  $(window).on('resize', function () {
+    setTimeout(function () {
+      $.HSCore.components.HSTabs.init('[role="tablist"]');
+    }, 200);
+  });
+</script>
+{% endblock javascript %}

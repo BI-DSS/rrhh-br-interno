@@ -1,0 +1,89 @@
+{% extends "baseperfil.html" %}
+{% load staticfiles %}
+{% block content %}
+
+            <!-- Profile Content -->
+  <!-- User Details -->
+  <div class="col-lg-9"> 
+  
+  <div class="d-flex align-items-center justify-content-sm-between g-mb-5">
+    <h2 class="g-font-weight-300 g-mr-10">{{ solicitud.nombres }} {{ solicitud.primerapellido }}</h2>
+  </div>
+  <ul class="list-inline g-font-weight-300">
+    <li class="list-inline-item g-mr-20">
+      <i class="icon-location-pin g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> {{ solicitud.codmunicipiodomicilio.descripcionmunicipio }}, {{ solicitud.coddepartamentodomicilio.descripciondepartamento }}
+    </li> 
+    {% if solicitud.anonima %}
+      <li class="list-inline-item g-mr-20">
+        <i class="icon-check g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> Solicitante a plaza Anonima
+      </li>
+    {% endif %}
+  </ul>
+    <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+      <h2 class="h4 g-font-weight-300">Referencias personales</h2>
+      {% if personal %}
+           <div class="table-responsive" style="max-width: ">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Profesión</th>
+                    <th>Domicilio</th>
+                    <th>Telefono</th>
+                  </tr>
+                </thead>
+                <tbody id="body_organizaciones">
+                  {% for her in personal %}
+                  <tr>
+                    <td>{{her.nombre_personal}}</td>
+                    <td>{{her.profesion_personal}}</td>
+                    <td>{{her.direccion_personal}}</td>
+                    <td>{{her.telefono_personal}}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+      {%endif%}
+      <br><br>
+      <h2 class="h4 g-font-weight-300">Referencias laborales</h2>
+      {% if laboral %}
+           <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Profesión</th>
+                    <th>Dirección</th>
+                    <th>Telefono</th>
+                  </tr>
+                </thead>
+                <tbody >
+                  {% for her in laboral %}
+                  <tr>
+                    <td>{{her.nombrecompleto}}</td>
+                    <td>{{her.profesion}}</td>
+                    <td>{{her.direccion}}</td>
+                    <td>{{her.telefono}}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+      {%endif%}
+      <br><br>
+  </div>
+  </div>
+  {% endblock content %}
+  {% block javascript%}
+    <script>
+      $( document ).ready(function() {
+        $.HSCore.components.HSMaskedInput.init('[data-mask]');
+        $('#sidemenu a').each(function(){
+          $(this).removeClass();
+          $(this).addClass('list-group-item list-group-item-action justify-content-between');
+        });
+        $('#referencias').addClass('list-group-item list-group-item-action justify-content-between active');
+      });
+    </script>
+  {% endblock javascript %}

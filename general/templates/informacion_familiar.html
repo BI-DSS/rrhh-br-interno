@@ -1,0 +1,807 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+
+            <!-- Profile Content -->
+  <div class="col-lg-9">
+    <div class="d-flex align-items-center justify-content-sm-between g-mb-5">
+      <h2 class="g-font-weight-300 g-mr-10">{{ request.user.first_name }} {{ request.user.last_name }}</h2>
+    </div>
+
+    <ul class="list-inline g-font-weight-300">
+      <li class="list-inline-item g-mr-20">
+      <i class="icon-location-pin g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> {{ perfil.codmunicipiodomicilio.descripcionmunicipio }} {{ perfil.coddepartamentodomicilio.descripciondepartamento }}
+    </li>
+      {% if request.user.is_active %}
+      <li class="list-inline-item g-mr-20">
+        {% if perfil.empleado %}
+        <i class="icon-check g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> Empleado Banrural
+        {% else %}
+        <i class="icon-check g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> Usuario Verificado
+        {% endif %}
+      </li>
+      {% endif %}
+    </ul>
+    <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+    {% if perfil.vista > 2 %}
+      <!-- DATOS DE PADRE -->
+        <h2 class="h4 g-font-weight-300">Datos del Padre
+          <span>
+            <i class="p icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1" data-toggle="modal" data-target="#padre" onclick="cargar_ocupacion_padre('{{ perfil.profesionpadre }}', '{{ perfil.codsolicitud }}')"></i>
+          </span>
+        </h2>
+        <div class="modal fade" id="padre" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="exampleModalLabel">Editar padre</h4>
+              </div>
+
+              <div class="modal-body">
+                <form method="POST" action="{% url 'update_padre' perfil.codsolicitud %}">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Nombre:</label>
+                    <input type="text" class="form-control soloLetras" {% if perfil.nombrespadre %}  value="{{perfil.nombrespadre}}" {% else %} value="" {% endif %} name="nombrespadre" required="">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Apellidos:</label>
+                    <input type="text" class="soloLetras form-control" {% if perfil.nombrespadre %}  value="{{perfil.apellidospadre}}" {% else %} value="" {% endif %}  name="apellidospadre" required="">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="message-text" class="control-label">Edad:</label>
+                    <input type="number" class="form-control" {% if perfil.edadpadre %}  value="{{perfil.edadpadre}}" {% else %} value="" {% endif %}  name="edadpadre" required="">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="message-text" class="control-label">Domicilio:</label>
+                    <textarea required="" type="text" class="form-control" name="domiciliopadre" rows="3">{% if perfil.domiciliopadre %}  {{perfil.domiciliopadre}} {% else %} {% endif %}</textarea>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="message-text" class="control-label">Telefono:</label>
+                    <input type="text" class="form-control"  value="{{perfil.telefonopadre}}" name="telefonopadre" data-mask="9999-9999" placeholder="0000-0000">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="message-text" class="control-label">Celular:</label>
+                    <input required="" type="text" class="form-control"  value="{{perfil.celularpadre}}" name="celularpadre" data-mask="9999-9999" placeholder="0000-0000">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="message-text" class="control-label">Profesión:</label>
+                    <input type="text" id="ocupaciones_padre" name="profesionpadre" {% if perfil.profesionpadre %}  value="{{perfil.profesionpadre}}" {% else %} value="" {% endif %}>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="message-text" class="control-label">Dirección Laboral:</label>
+                    <textarea  name="direccionlaboralpadre" class="form-control" id="" rows="3">{% if perfil.direccionlaboralpadre %}  {{perfil.direccionlaboralpadre}} {% else %} {% endif %}</textarea>
+                  </div>
+
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% if perfil.nombrespadre %}  
+          <li class="d-flex align-items-center justify-content-between g-brd-gray-light-v4 g-py-15">
+            <div class="g-pr-10">
+              <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Nombre Padre</strong>
+              <span class="align-top">{{ perfil.nombrespadre}} {{perfil.apellidospadre}}</span>
+            </div>
+          </li>
+
+          <li class="d-flex align-items-center justify-content-between g-brd-gray-light-v4 g-py-15">
+            <div class="g-pr-10">
+              <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Edad</strong>
+              <span class="align-top">{{perfil.edadpadre}} años</span>
+            </div>
+          </li>
+
+          <li class="d-flex align-items-center justify-content-between  g-brd-gray-light-v4 g-py-15">
+            <div class="g-pr-10">
+              <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Domicilio</strong>
+              <span class="align-top">{{perfil.domiciliopadre}}</span>
+            </div>
+          </li>
+
+          <li class="d-flex align-items-center justify-content-between  g-brd-gray-light-v4 g-py-15">
+            <div class="g-pr-10">
+              <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Telefono</strong>
+              <span class="align-top">{{perfil.telefonopadre}}</span>
+            </div>
+          </li>
+          <li class="d-flex align-items-center justify-content-between  g-brd-gray-light-v4 g-py-15">
+            <div class="g-pr-10">
+              <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Celular</strong>
+              <span class="align-top">{{perfil.celularpadre}}</span>
+            </div>
+          </li>
+
+          <li class="d-flex align-items-center justify-content-between  g-brd-gray-light-v4 g-py-15">
+            <div class="g-pr-10">
+              <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Profesión</strong>
+              <span class="align-top" id="profesion_padre">{{perfil.profesionpadre}}</span>
+            </div>
+          </li>
+
+          <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+            <div class="g-pr-10">
+              <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Lugar de Trabajo</strong>
+              <span class="align-top">{{perfil.direccionlaboralpadre}}</span>
+            </div>
+          </li>
+        {% endif %}
+        <br><br>
+      <!-- FIN DATOS DE PADRE -->
+
+      <!-- DATOS DE MADRE -->
+        <h2 class="h4 g-font-weight-300">Datos de la Madre
+          <span>
+            <i class="p icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1" data-toggle="modal" data-target="#madre" onclick="cargar_ocupacion_madre('{{ perfil.profesionmadre }}', '{{ perfil.codsolicitud }}')"></i>
+          </span>
+        </h2>
+        <div class="modal fade" id="madre" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Editar Madre</h4>
+              </div>
+
+              <div class="modal-body">
+                <form method="POST" action="{% url 'update_madre' perfil.codsolicitud %}">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Nombre:</label>
+                    <input type="text" class="form-control soloLetras" {% if perfil.nombresmadre %}  value="{{perfil.nombresmadre}}" {% else %} value="" {% endif %} name="nombresmadre" required="">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Apellidos:</label>
+                    <input type="text" class="form-control soloLetras" {% if perfil.apellidosmadre %}  value="{{perfil.apellidosmadre}}" {% else %} value="" {% endif %} name="apellidosmadre" required="">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="message-text" class="control-label">Edad:</label>
+                    <input type="number" class="form-control" {% if perfil.edadmadre %}  value="{{perfil.edadmadre}}" {% else %}  {% endif %}  name="edadmadre">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="message-text" class="control-label">Domicilio:</label>
+                    <textarea  type="text" class="form-control" name="domiciliomadre" rows="3">{% if perfil.domiciliomadre %}{{perfil.domiciliomadre}} {% else %} {% endif %}</textarea>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="message-text" class="control-label">Teléfono:</label>
+                    <input type="text" class="form-control"  value="{{perfil.telefonomadre}}" name="telefonomadre" data-mask="9999-9999" placeholder="0000-0000">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="message-text" class="control-label">Celular:</label>
+                    <input required="" type="text" class="form-control"  value="{{perfil.celularmadre}}" name="celularmadre" data-mask="9999-9999" placeholder="0000-0000">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="message-text" class="control-label">Profesión:</label>
+                    <input type="text" name="profesionmadre" id="ocupaciones_madre" {% if perfil.profesionmadre %} value="{{perfil.profesionmadre}}"  {% else %} value="" {% endif %}>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="message-text" class="control-label">Dirección Laboral:</label>
+                    <textarea  name="direccionlaboralmadre" class="form-control" id="" rows="3">{% if perfil.direccionlaboralmadre %}{{perfil.direccionlaboralmadre}} {% else %} {% endif %}</textarea>
+                  </div>
+
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                  </div>
+
+                </form>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        {% if perfil.nombresmadre %}
+            <li class="d-flex align-items-center justify-content-between g-brd-gray-light-v4 g-py-15">
+              <div class="g-pr-10">
+                <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Nombre Madre</strong>
+                <span class="align-top">{{ perfil.nombresmadre}} {{perfil.apellidosmadre}}</span>
+              </div>
+            </li>
+
+            <li class="d-flex align-items-center justify-content-between g-brd-gray-light-v4 g-py-15">
+              <div class="g-pr-10">
+                <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Edad</strong>
+                <span class="align-top">{{perfil.edadmadre}} años</span>
+              </div>
+            </li>
+
+            <li class="d-flex align-items-center justify-content-between  g-brd-gray-light-v4 g-py-15">
+              <div class="g-pr-10">
+                <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Domicilio</strong>
+                <span class="align-top">{{perfil.domiciliomadre}}</span>
+              </div>
+            </li>
+
+            <li class="d-flex align-items-center justify-content-between  g-brd-gray-light-v4 g-py-15">
+              <div class="g-pr-10">
+                <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Telefono</strong>
+                <span class="align-top">{{perfil.telefonomadre}}</span>
+              </div>
+            </li>
+
+            <li class="d-flex align-items-center justify-content-between  g-brd-gray-light-v4 g-py-15">
+              <div class="g-pr-10">
+                <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Celular</strong>
+                <span class="align-top">{{perfil.celularmadre}}</span>
+              </div>
+            </li>
+
+
+            <li class="d-flex align-items-center justify-content-between  g-brd-gray-light-v4 g-py-15">
+              <div class="g-pr-10">
+                <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Profesión</strong>
+                <span class="align-top" >{{perfil.profesionmadre}}</span>
+              </div>
+            </li>
+
+            <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+              <div class="g-pr-10">
+                <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Lugar de Trabajo</strong>
+                <span class="align-top">{{perfil.direccionlaboralmadre}}</span>
+              </div>
+            </li>
+        {% endif %}
+        <br><br>
+      <!-- FIN DATOS DE MADRE -->
+ 
+      <!-- DATOS DE CONYUGE -->
+        {% if perfil.sexo == 'femenino' and perfil.estadocivil == 'C' %}
+        <h2 class="h4 g-font-weight-300">Datos de Conyugue
+          <span>
+            <i class="p icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1" data-toggle="modal" data-target="#mldConyuge"></i>
+          </span>
+        </h2>
+        <div class="modal fade" id="mldConyuge" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Datos Conyugue</h4>
+              </div> 
+              <div class="modal-body">
+                <form method="POST" action="{% url 'update_conyugue' perfil.codsolicitud %}">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Nombre:</label>
+                    <input type="text" class="form-control soloLetras" value="{{perfil.nombreconyugue|default:''}}" name="nombreconyugue" required maxlength="50">
+                  </div>
+                  <div class="form-group">
+                    <label for="message-text" class="control-label">Edad:</label>
+                    <input type="number" class="form-control" value="{{perfil.edadconyugue|default:''}}"  name="edadconyugue" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="message-text" class="control-label">Domicilio:</label>
+                    <textarea maxlength="100" required type="text" class="form-control" name="domicilioconyugue" rows="3">{{perfil.domicilioconyugue|default:''}}</textarea> 
+                  </div>
+                  <div class="form-group">
+                    <label for="message-text" class="control-label">Teléfono:</label>
+                    <input type="text" class="form-control"  value="{{perfil.telefonoconyugue|default:''}}" name="telefonoconyugue" data-mask="9999-9999" placeholder="0000-0000" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="message-text" class="control-label">Profesión:</label>
+                    <input type="text" name="profesionconyugue" maxlength="50" value="{{perfil.profesionconyugue|default:''}}" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="message-text" class="control-label">Dirección Laboral:</label>
+                    <textarea required  name="direccionlaboralconyugue" class="form-control" rows="3" maxlength="100">{{perfil.direccionlaboralconyugue|default:''}}</textarea>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% if perfil.nombreconyugue %}
+            <li class="d-flex align-items-center justify-content-between g-brd-gray-light-v4 g-py-15">
+              <div class="g-pr-10">
+                <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Nombre</strong>
+                <span class="align-top">{{ perfil.nombreconyugue}}</span>
+              </div>
+            </li>
+            <li class="d-flex align-items-center justify-content-between g-brd-gray-light-v4 g-py-15">
+              <div class="g-pr-10">
+                <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Edad</strong>
+                <span class="align-top">{{perfil.edadconyugue}} años</span>
+              </div>
+            </li>
+
+            <li class="d-flex align-items-center justify-content-between  g-brd-gray-light-v4 g-py-15">
+              <div class="g-pr-10">
+                <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Domicilio</strong>
+                <span class="align-top">{{perfil.domicilioconyugue}}</span>
+              </div>
+            </li> 
+
+            <li class="d-flex align-items-center justify-content-between  g-brd-gray-light-v4 g-py-15">
+              <div class="g-pr-10">
+                <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Telefono</strong>
+                <span class="align-top">{{perfil.telefonoconyugue}}</span>
+              </div>
+            </li>
+            <li class="d-flex align-items-center justify-content-between  g-brd-gray-light-v4 g-py-15">
+              <div class="g-pr-10">
+                <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Profesión</strong>
+                <span class="align-top" >{{perfil.profesionconyugue}}</span>
+              </div>
+            </li>
+
+            <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+              <div class="g-pr-10">
+                <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Lugar de Trabajo</strong>
+                <span class="align-top">{{perfil.direccionlaboralconyugue}}</span>
+              </div>
+            </li>
+        {% endif %}
+        <br><br>
+        {% endif %}
+      <!-- FIN DATOS DE CONYUGE -->
+
+      <!-- DATOS DE HERMANOS -->
+        <h2 class="h4 g-font-weight-300">Datos de Hermanos
+          <span>
+            <i class="p icon-plus g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1" data-toggle="modal" data-target="#nuevo-hermano"></i>
+          </span>
+        </h2>
+        <div class="modal fade" id="nuevo-hermano" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Nuevo hermano</h4>
+              </div>
+              <div class="modal-body">
+                <form method="POST" action="{% url 'create_hermanos' perfil.codsolicitud %}">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Nombre completo:</label>
+                    <input type="text" class="form-control soloLetras"  value="" name="nombrecompleto" required="">
+                  </div>
+                  <div class="form-group">
+                    <label for="message-text" class="control-label">Edad:</label>
+                    <input type="number" class="form-control"  value="" name="edad" >
+                  </div>
+                  <div class="form-group">
+                    <label for="message-text" class="control-label">Domicilio:</label>
+                    <textarea type="text" class="form-control" rows="3"  value="" name="domicilio" ></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="message-text" class="control-label">Telefono:</label>
+                    <input type="text" class="form-control"  value="" name="telefono"  placeholder="0000-0000" data-mask="9999-9999">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="message-text" class="control-label">Profesión u Oficio:</label>
+                    <input type="text " id="ocupaciones_hermanos" name="ocupacion" >
+                  </div>
+
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                  </div>
+
+                </form>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        {% if hermano %}
+         <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Edad</th>
+                  <th>Domicilio</th>
+                  <th>Telefono</th>
+                  <th>Profesión</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody id="body_organizaciones">
+                {% for her in hermano %}
+                <tr>
+                  <td>{{her.nombrecompleto}}</td>
+                  <td>{{her.edad}}</td>
+                  <td>{{her.domicilio}}</td>
+                  <td>{{her.telefono}}</td>
+                  <td>{{ her.ocupacion}}</td>
+                  <td>
+                    <i class="p icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1" data-toggle="modal" data-target="#hermano-{{her.codhermano}}" onclick="cargar_ocupacion('{{ her.ocupacion }}', '{{ her.codhermano }}')"></i> &nbsp;
+                    <div class="modal fade" id="hermano-{{her.codhermano}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="exampleModalLabel">Editar hermano</h4>
+                          </div>
+                          <div class="modal-body">
+                            <form method="POST" action="{% url 'editar_hermanos' her.codhermano %}">
+                              {% csrf_token %}
+                              <div class="form-group">
+                                <label for="recipient-name" class="control-label">Nombre Completo:</label>
+                                <input type="text" class="form-control soloLetras"  value="{{her.nombrecompleto}}" name="nombrecompleto" required="">
+                              </div>
+                              <div class="form-group">
+                                <label for="message-text" class="control-label">Edad:</label>
+                                <input type="number" class="form-control"  value="{{her.edad}}" name="edad">
+                              </div>
+                              <div class="form-group">
+                                <label for="message-text" class="control-label">Domicilio:</label>
+                                <textarea type="text" class="form-control" name="domicilio" rows="3">{{her.domicilio}}</textarea>
+                              </div>
+                              <div class="form-group">
+                                <label for="message-text" class="control-label">Teléfono:</label>
+                                <input type="text" class="form-control"  value="{{her.telefono}}" name="telefono" data-mask="9999-9999" placeholder="0000-0000">
+                              </div>
+
+                              <div class="form-group">
+                                <label for="message-text" class="control-label">Profesión:</label>
+                                <input type="text" id="ocupaciones_hermanos" name="ocupacion" value="{{her.ocupacion}}">
+                              </div>
+
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                              </div>
+
+                            </form>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+                    <i class="p icon-trash g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1"  data-toggle="modal" data-target="#Eliminar_hermano-{{her.codhermano}}"></i>
+
+                    <div class="modal fade" id="Eliminar_hermano-{{her.codhermano}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="exampleModalLabel">Eliminar</h4>
+                          </div>
+                          <div class="modal-body">
+
+                              <h5>¿Desea eliminar a:  {{her.nombrecompleto}}?</h5>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                <a href="{% url 'delete_hermano' her.codhermano %}" class="btn btn-primary">Borrar</a>
+                              </div>
+
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+                  </td>
+
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {%endif%}
+        <br><br>
+      <!-- FIN DATOS DE HERMANOS -->
+
+      <!-- DATOS DE HIJOS -->
+        <h2 class="h4 g-font-weight-300">Datos de Hijos
+          <span>
+            <i class="p icon-plus g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1" data-toggle="modal" data-target="#nuevo-hijo"></i>
+          </span>
+        </h2>
+        <div class="modal fade" id="nuevo-hijo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Nuevo Hijo</h4>
+              </div>
+              <div class="modal-body">
+                <form method="POST" action="{% url  'create_hijo' perfil.codsolicitud %}">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Nombres:</label>
+                    <input type="text" class="soloLetras form-control"  value="" name="nombreshijo" required="">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Apellidos:</label>
+                    <input type="text" class="form-control"  value="" name="apellidoshijo" required="">
+                  </div>
+                  <div class="form-group">
+                    <label for="message-text" class="control-label">Edad:</label>
+                    <input type="number" class="form-control"  value="" name="edadhijo" >
+                  </div>
+
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                  </div>
+
+                </form>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        {% if hijo %}
+         <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Nombre Completo</th>
+                  <th>Edad</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody >
+                {% for hi in hijo %}
+                <tr>
+                  <td>{{hi.nombreshijo}} {{hi.apellidoshijo}}</td>
+                  <td>{{hi.edadhijo}}</td>
+                  <td> <i class="p icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1" data-toggle="modal" data-target="#hijo-{{hi.codhijo}}" ></i> &nbsp;
+                    <div class="modal fade" id="hijo-{{hi.codhijo}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="exampleModalLabel">Editar Hijo</h4>
+                          </div>
+                          <div class="modal-body">
+                            <form method="POST" action="{% url  'editar_hijo' hi.codhijo %}">
+                              {% csrf_token %}
+                              <div class="form-group">
+                                <label for="recipient-name" class="control-label">Nombres:</label>
+                                <input type="text" class="form-control soloLetras"  value="{{hi.nombreshijo}}" name="nombreshijo" required="">
+                              </div>
+                              <div class="form-group">
+                                <label for="recipient-name" class="control-label">Apellidos:</label>
+                                <input type="text" class="form-control"  value="{{hi.apellidoshijo}}" name="apellidoshijo" required="">
+                              </div>
+                              <div class="form-group">
+                                <label for="message-text" class="control-label">Edad:</label>
+                                <input type="number" class="form-control"  value="{{hi.edadhijo}}" name="edadhijo" >
+                              </div>
+
+
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                              </div>
+
+                            </form>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+                    <i class="p icon-trash g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1"  data-toggle="modal" data-target="#Eliminar_hijo-{{hi.codhijo}}"></i>
+
+                    <div class="modal fade" id="Eliminar_hijo-{{hi.codhijo}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="exampleModalLabel">Eliminar</h4>
+                          </div>
+                          <div class="modal-body">
+
+                              <h5>¿Desea eliminar de tu lista de hijos a: {{hi.nombreshijo}}?</h5>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                <a href="{% url 'delete_hijo' hi.codhijo %}" class="btn btn-primary">Borrar</a>
+                              </div>
+
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {%endif%}
+        <br><br>
+      <!-- FIN DATOS DE HIJOS -->
+
+      <!-- DATOS DE DEPENDIENTES -->
+        <h2 class="h4 g-font-weight-300">Datos de Dependientes
+          <span>
+            <i class="p icon-plus g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1" data-toggle="modal" data-target="#nuevo-dependiente"></i>
+          </span>
+        </h2>
+        <div class="modal fade" id="nuevo-dependiente" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Nuevo dependiente</h4>
+              </div>
+              <div class="modal-body">
+                <form method="POST" action="{% url 'create_dependiente' perfil.codsolicitud %}">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Nombre:</label>
+                    <input type="text" class="soloLetras form-control"  value="" name="nombredependiente" required="">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Tipo de dependencia:</label>
+                    <select id="ocupaciones_hermanos"  class="form-control" name="tipodependencia" required="">
+                        <option value="">---------</option>
+                        <option value="T">Total</option>
+                        <option value="P">Parcial</option>
+
+                    </select>
+                  </div>
+
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                  </div>
+
+                </form>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        {% if depen %}
+         <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Tipo de dependencia</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody >
+                {% for dep in depen %}
+                <tr>
+                  <td>{{dep.nombredependiente}}</td>
+                  {% if dep.tipodependencia == 'T' %}
+                  <td>Total</td>
+                  {% elif dep.tipodependencia == 'P' %}
+                  <td>Parcial</td>
+                  {% endif %}
+                  <td><i class="p icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1" data-toggle="modal" data-target="#dependiente-{{dep.coddependiente}}"  onclick="cargar_dependencia('{{ dep.tipodependencia }}', '{{ dep.coddependiente }}')" ></i> &nbsp;
+                    <div class="modal fade" id="dependiente-{{dep.coddependiente}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="exampleModalLabel">Editar dependiente</h4>
+                          </div>
+                          <div class="modal-body">
+                            <form method="POST" action="{% url 'update_dependiente' dep.coddependiente %}">
+                              {% csrf_token %}
+                              <div class="form-group">
+                                <label for="recipient-name" class="control-label">Nombre Completo:</label>
+                                <input type="text" class="form-control soloLetras"  value="{{dep.nombredependiente}}" name="nombredependiente" required="">
+                              </div>
+                              <div class="form-group">
+                                <label for="recipient-name" class="control-label">Tipo de dependencia:</label>
+                                <select class="form-control" name="tipodependencia" id="" required="">
+                                  <option value="{{ dep.tipodependencia }}" id="tipo_dependencia_{{ dep.coddependiente }}"></option>
+
+                                  {% if dep.tipodependencia == 'P' %}
+                                  <option value="T">Total</option>
+
+                                  {% else %}
+                                  <option value="P">Parcial</option>
+                                  {% endif %}
+
+                                </select>
+
+                              </div>
+
+
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                              </div>
+
+                            </form>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+                    <i class="p icon-trash g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1"  data-toggle="modal" data-target="#Eliminar_dependiente-{{dep.coddependiente}}"></i>
+
+                    <div class="modal fade" id="Eliminar_dependiente-{{dep.coddependiente}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="exampleModalLabel">Eliminar</h4>
+                          </div>
+                          <div class="modal-body">
+
+                              <h5>¿Desea eliminar de tu lista de dependientes a: {{dep.nombredependiente}}?</h5>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                <a href="{% url 'delete_dependiente' dep.coddependiente %}" class="btn btn-primary">Borrar</a>
+                              </div>
+
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {%endif%}
+        <br><br>
+      <!-- FIN DATOS DE DEPENDIENTES -->
+
+    {% endif %}
+  </div>
+
+  {% endblock content %}
+
+  {% block javascript%}
+  <script>
+      $(document).on('ready', function () {
+    // initialization of tabs
+    $.HSCore.components.HSTabs.init('[role="tablist"]');
+    //$.HSCore.components.HSMaskedInput.init('[data-mask]');
+    $('#id_edad').prop('readonly', true);
+  });
+     $(".soloLetras").keypress(function(event){
+        var inputValue = event.charCode;
+        if(!(inputValue >= 65 && inputValue <= 122) && (inputValue != 32 && inputValue != 0) && (inputValue != 241) ){
+            event.preventDefault();
+        }
+    });
+    var dependencia = {T:'Total', P:'Parcial'}
+
+    function cargar_dependencia(depen, codigo){
+      var texto_dependencia = dependencia[depen];
+
+      $('#tipo_dependencia_' + codigo).html(texto_dependencia);
+    }
+    $(document).ready(function(){
+      $('#sidemenu a').each(function(){
+        $(this).removeClass();
+        $(this).addClass('list-group-item list-group-item-action justify-content-between');
+      });
+      $('#familia').addClass('list-group-item list-group-item-action justify-content-between active');
+    });
+  </script>
+
+  {% endblock javascript %}

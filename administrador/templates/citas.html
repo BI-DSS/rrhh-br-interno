@@ -1,0 +1,326 @@
+{% extends "otrabase.html" %}
+{% load staticfiles %}
+{% block content %}
+	<div class="container">
+		<h1 class="h2 g-font-weight-300 g-color-black text-center">Listado de Citas</h1></br>
+		<div class="row">
+			<div class="col-xs-12 col-sm-4 mb-4">
+				<label>Filtrar citas:</label>
+				<select name="filtro_cita" id="filtro_cita">
+					<option value="">------------</option>
+					<option value="1">Fecha Especifica</option>
+					<option value="2">Rango de Fechas</option>
+					<option value="3">Mes</option>
+				</select>
+
+			</div>
+		</div> <br> 
+		
+		<div class="row">
+			<div class="col-xs-12 col-sm-4 mb-4">
+				<a href="{% url 'PDFCitas' %}" class=" btn u-btn-outline-blue" target="_blank">PDF Citas del día</a>
+			</div>	
+		</div>
+
+		<div hidden="" class="todo" id="fecha">
+				<form method="POST" accept-charset="utf-8" action="{% url 'Citas' %}">
+					{% csrf_token %}
+					<div class="row">
+						<input type="number" name="metodo" hidden="" value="1">
+						<div class="col-xs-12 col-sm-2 mb-4">
+							<label>Seleccione Fecha:</label>
+							<input type="text" name="filtrar" id="filtrar" class="date">
+						</div>
+						<div class="col-xs-12 col-sm-2 mb-4">
+							<button style="position: absolute; bottom: 0;" class="btn u-btn-outline-primary g-font-size-13 text-uppercase g-py-10 g-px-15">Buscar</button>
+						</div>
+					</div>
+
+				</form>
+		</div>
+
+		<div hidden="" class="todo" id="rango">
+			<form method="POST" accept-charset="utf-8" action="{% url 'Citas' %}">
+				{% csrf_token %}
+				<div class="row">
+					<input type="number" name="metodo" hidden="" value="2">
+		            <div class="col-xs-12 col-sm-2 mb-4">
+		            	<label>Seleccione Fecha Inicio:</label>
+		            	<input type="text" name="TxtFchInicio" class="date">
+		            	
+		            </div >
+
+		            <div class="col-xs-12 col-sm-2 mb-4">
+		            	<label>Seleccione Fecha Final:</label>
+		            	<input type="text" name="TxtFchFinal" class="date">
+		            </div>
+
+		            <div class="col-xs-12 col-sm-4 mb-4">
+		            	<button style="position: absolute; bottom: 0;" class="btn u-btn-outline-primary g-font-size-13 text-uppercase g-py-10 g-px-15">Buscar</button>
+		            </div>
+		        </div>
+			</form>
+		</div>
+
+		<div hidden="" class="todo" id="por_meses">
+			<form method="POST" accept-charset="utf-8" action="{% url 'Citas' %}">
+				{% csrf_token %}
+				<div class="row">
+					<input type="number" name="metodo" hidden="" value="3">
+					<div class="col-xs-12 col-sm-2 mb-4">
+		            	<label>Seleccione año:</label>
+		            	<select name="years" id="years" class="years" required="">
+		            		<option value="">---------</option>
+		            	</select>
+		            	
+		            </div >		            <div class="col-xs-12 col-sm-2 mb-4">
+		            	<label>Seleccione el mes:</label>
+		            	<select name="meses" id="meses" required="">
+		            		<option value="">---------</option>
+		            		<option value="01">ENERO</option>
+		            		<option value="02">FEBRERO</option>
+		            		<option value="03">MARZO</option>
+		            		<option value="04">ABRIL</option>
+		            		<option value="05">MAYO</option>
+		            		<option value="06">JUNIO</option>
+		            		<option value="07">JULIO</option>
+		            		<option value="08">AGOSTO</option>
+		            		<option value="09">SEPTIEMBRE</option>
+		            		<option value="10">OCTUBRE</option>
+		            		<option value="11">NOVIEMBRE</option>
+		            		<option value="12">DICIEMBRE</option>
+		            	</select>
+		            	
+		            </div >
+
+		            <div class="col-xs-12 col-sm-4 mb-4">
+		            	<button style="position: absolute; bottom: 0;" class="btn u-btn-outline-primary g-font-size-13 text-uppercase g-py-10 g-px-15">Buscar</button>
+		            </div>
+		        </div>
+			</form>
+		</div>
+
+		<div class="row">
+			
+			<section class="g-py-30">
+				<hr>
+				<div class="container">
+
+					<!-- Nav tabs -->
+					<ul class="nav justify-content-center u-nav-v2-1 u-nav-rounded-3 g-mb-50" role="tablist"
+					    data-target="heading-09" data-tabs-mobile-type="slide-up-down" data-btn-classes="btn btn-md btn-block u-btn-outline-primary">
+					    <li class="nav-item">
+					      <a class="nav-link active" data-toggle="tab" href="#heading-09-1" role="tab">Primera Entrevista</a>
+					    </li>
+					    <li class="nav-item">
+					      <a class="nav-link" data-toggle="tab" href="#heading-09-2" role="tab">Pruebas Psicométricos</a>
+					    </li>
+					    <li class="nav-item">
+					      <a class="nav-link" data-toggle="tab" href="#heading-09-3" role="tab">Entrevista Jefe Inmediato</a>
+					    </li>
+					    <li class="nav-item">
+					      <a class="nav-link" data-toggle="tab" href="#heading-09-4" role="tab">Pruebas Poligrafo</a>
+					    </li>
+					    <li class="nav-item">
+					      <a class="nav-link" data-toggle="tab" href="#heading-09-5" role="tab">Verificación de Documentación</a>
+					    </li>
+					    
+					</ul>
+					<!-- End Nav tabs -->
+
+					<!-- Tab panes -->
+					<div id="heading-09" class="tab-content ">
+
+					  	<div id="heading-09-1" class="tab-pane fade show active" role="tabpanel">
+						    <div id="shortcode9-1">
+						      	<div class="shortcode-html">
+							        <div class="u-heading-v2-3--bottom g-mb-30">
+							          <h2 class=" h4 u-heading-v2__title g-mb-10 g-color-primary">PRIMERA ENTREVISTA</h2>
+							        </div>
+
+						        	<table class="table  table-hover table-responsive table-striped table-borders">
+							          	<thead>
+								            <tr>
+								              <th>NOMBRE CANDIDATO</th>
+								              <th>PLAZA</th>
+								              <th>HORA ENTREVISTA</th>
+								            </tr>
+							          	</thead>
+					          			<tbody>
+					            			{% for primera in primera_cita %}
+								            <tr>
+								              	<td class="align-middle">{{primera.Cod_Solicitud.nombres}} {{primera.Cod_Solicitud.primerapellido}} </td>
+								              	<td class="align-middle">{{primera.Cod_Oferta.Puesto_oferta }}</td>
+								              	<td class="align-middle">{{primera.Hor_Pr_Entrevista }}</td>
+								            </tr>
+					            			{% endfor %} 
+					          			</tbody>
+					        		</table>
+						      	</div>
+						    </div>
+						</div>
+					
+						<div id="heading-09-2" class="tab-pane fade text-center" role="tabpanel">
+						    <div id="shortcode9-2">
+						      <div class="shortcode-html">
+						        <div class="u-heading-v2-3--bottom g-mb-30">
+						          <h2 class="h4 u-heading-v2__title g-mb-10 g-color-primary">Pruebas Psicométricas</h2>
+						        </div>
+
+						        	<table class="table  table-hover table-responsive table-striped table-borders">
+							          	<thead>
+								            <tr>
+								              <th>NOMBRE CANDIDATO</th>
+								              <th>PLAZA</th>
+								              <th>HORA PRUEBA</th>
+								            </tr>
+							          	</thead>
+					          			<tbody>
+					            			{% for prueba in pruebas_psico %}
+								            <tr>
+								              	<td class="align-middle">{{prueba.Cod_Solicitud.nombres}} {{prueba.Cod_Solicitud.primerapellido}} </td>
+								              	<td class="align-middle">{{prueba.Cod_Oferta.Puesto_oferta }}</td>
+								              	<td class="align-middle">{{prueba.Fch_Pruebas_Psico }}</td>
+								            </tr>
+					            			{% endfor %}
+					          			</tbody>
+					        		</table>
+						      </div>
+						    </div>
+						</div>
+
+						<div id="heading-09-3" class="tab-pane fade text-center" role="tabpanel">
+						    <div id="shortcode9-3">
+						      <div class="shortcode-html">
+						        <div class="u-heading-v2-3--bottom g-mb-30">
+						          <h2 class="h4 u-heading-v2__title g-mb-10 g-color-primary">Entrevista Jefe Inmediato</h2>
+						        </div>
+
+
+						        	<table class="table  table-hover table-responsive table-striped table-borders" align="center">
+							          	<thead>
+								            <tr>
+								              <th>NOMBRE CANDIDATO</th>
+								              <th>PLAZA</th>
+								              <th>HORA ENTREVISTA</th>
+								            </tr>
+							          	</thead>
+					          			<tbody>
+					            			{% for jefe in entre_jefe %}
+								            <tr>
+								              	<td class="align-middle">{{jefe.Cod_Solicitud.nombres}} {{jefe.Cod_Solicitud.primerapellido}} </td>
+								              	<td class="align-middle">{{jefe.Cod_Oferta.Puesto_oferta }}</td>
+								              	<td class="align-middle">{{jefe.Hor_Jefe }}</td>
+								            </tr>
+					            			{% endfor %}
+					          			</tbody>
+					        		</table>
+						      </div>
+						    </div>
+						</div>
+
+						<div id="heading-09-4" class="tab-pane fade text-center" role="tabpanel">
+						    <div id="shortcode9-4">
+						      <div class="shortcode-html">
+						        <div class="u-heading-v2-3--bottom g-mb-30">
+						          <h2 class="h4 u-heading-v2__title g-mb-10 g-color-primary">Prueba Poligrafo</h2>
+						        </div>
+
+						        	<table class="table  table-hover table-responsive table-striped table-borders">
+							          	<thead>
+								            <tr>
+								              <th>NOMBRE CANDIDATO</th>
+								              <th>PLAZA</th>
+								              <th>HORA PRUEBA</th>
+								            </tr>
+							          	</thead>
+					          			<tbody>
+					            			{% for prueba in poligrafo %}
+								            <tr>
+								              	<td class="align-middle">{{prueba.Cod_Solicitud.nombres}} {{prueba.Cod_Solicitud.primerapellido}} </td>
+								              	<td class="align-middle">{{prueba.Cod_Oferta.Puesto_oferta }}</td>
+								              	<td class="align-middle">{{prueba.Hor_Poligrafo }}</td>
+								            </tr>
+					            			{% endfor %}
+					          			</tbody>
+					        		</table>
+						      </div>
+						    </div>
+						</div>
+
+						<div id="heading-09-5" class="tab-pane fade text-center" role="tabpanel">
+						    <div id="shortcode9-5">
+						      <div class="shortcode-html">
+						        <div class="u-heading-v2-3--bottom g-mb-30">
+						          <h2 class="h4 u-heading-v2__title g-mb-10 g-color-primary">Verificación de Documentación</h2>
+						        </div>
+
+						        	<table class="table  table-hover table-responsive table-striped table-borders ">
+							          	<thead>
+								            <tr>
+								              <th>NOMBRE CANDIDATO</th>
+								              <th>PLAZA</th>
+								              <th>HORA LÍMITE</th>
+								            </tr>
+							          	</thead>
+					          			<tbody>
+					            			{% for d in doc %}
+								            <tr>
+								              	<td class="align-middle">{{d.Cod_Solicitud.nombres}} {{d.Cod_Solicitud.primerapellido}} </td>
+								              	<td class="align-middle">{{d.Cod_Oferta.Puesto_oferta }}</td>
+								              	<td class="align-middle">{{d.Fch_Doc }}</td>
+								            </tr>
+					            			{% endfor %}
+					          			</tbody>
+					        		</table>
+						      </div>
+						    </div>
+						</div>
+
+					</div>
+
+					<!-- End Tab panes -->
+				</div>
+			</section>
+		</div>
+	</div>
+
+{% endblock content %}
+{% block javascript %}
+
+<script type="text/javascript">
+    $(document).ready(function(){
+    	for (i = new Date().getFullYear(); i > 1900; i--)
+	    {
+	      $('.years').append($('<option/>').val(i).html(i));
+	    }
+
+    	$(' .date').datepicker({
+	      autoclose: true,
+	      format: 'yyyy-mm-dd',
+	      language: 'es',
+    	});
+
+    	$('#filtro_cita').change(function(){
+	   		$('.todo').attr('hidden', 'true');
+	    	var nivel = $('#filtro_cita option:selected').val();
+	     	switch (nivel) {
+	        case '1':
+	        $('#fecha').removeAttr('hidden', '');
+	          break;
+
+	        case '2':
+	        $('#rango').removeAttr('hidden', '');
+	          break;
+
+	        case '3':
+	        $('#por_meses').removeAttr('hidden', '');
+
+	        default:
+
+	      	}
+	  	});
+
+    });
+</script>
+{% endblock javascript %}

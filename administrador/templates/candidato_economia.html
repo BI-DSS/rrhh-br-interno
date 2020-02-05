@@ -1,0 +1,443 @@
+{% extends "baseperfil.html" %}
+{% load staticfiles %}
+{% block content %}
+<!-- Profile Content -->
+<div class="col-lg-9">
+  <!-- User Details -->
+  <div class="d-flex align-items-center justify-content-sm-between g-mb-5">
+    <h2 class="g-font-weight-300 g-mr-10">{{ solicitud.nombres }} {{ solicitud.primerapellido }}</h2>
+  </div>
+  <ul class="list-inline g-font-weight-300">
+    <li class="list-inline-item g-mr-20">
+      <i class="icon-location-pin g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> {{ solicitud.codmunicipiodomicilio.descripcionmunicipio }}, {{ solicitud.coddepartamentodomicilio.descripciondepartamento }}
+    </li> 
+    {% if solicitud.anonima %}
+      <li class="list-inline-item g-mr-20">
+        <i class="icon-check g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> Solicitante a plaza Anonima
+      </li>
+    {% endif %}
+  </ul>
+    <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+    <h2 class="h3 g-font-weight-300">Informacion Economica</h2><br>
+    <h2 class="h5 g-font-weight-300">Vivienda</h2>
+    <ul class="list-unstyled g-mb-30">
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Vivienda</strong>
+          <span class="align-top" id="vivienda">{{ solicitud.tipovivienda }}</span>
+        </div>
+      </li>
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Amortización</strong>
+          {% if solicitud.totalamortizacion %}
+            <span class="align-top" id="vivienda">{{ solicitud.totalamortizacion }}</span>
+          {% else %}
+            <span class="align-top" id="vivienda">No</span>
+          {% endif %}
+        </div>
+      </li>
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Renta</strong>
+          {% if solicitud.totalinquilino %}
+            <span class="align-top">{{ solicitud.totalinquilino }}</span>
+          {% else %}
+            <span class="align-top">No</span>
+          {% endif %}
+        </div>
+      </li>
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Pensión</strong>
+          {% if solicitud.totalpensionista %}
+            <span class="align-top">{{ solicitud.totalpensionista }}</span>
+          {% else %}
+            <span class="align-top">No</span>
+          {% endif %}
+        </div>
+      </li>
+    </ul>
+    <h2 class="h5 g-font-weight-300">Cuentas Bancarias</h2>
+    {% if lista_cuentas %}
+    <div class="row">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>TIPO CUENTAS</th>
+              <th>CANTIDAD</th>
+              <th>INSTITUCIÓN</th>
+              <th>NÚMERO</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for cuenta in lista_cuentas %}
+            <tr>
+              <td>
+                {% if cuenta.tipo_cuenta == 'M' %}
+                    Depósitos monetarios
+                {% elif cuenta.tipo_cuenta == 'A' %}
+                    Depósitos de ahorro
+                {% else %}
+                  Otros
+                {% endif %}
+              </td>
+              <td>{{ cuenta.cantidad }}</td>
+              <td>{{ cuenta.institucion }}</td>
+              <td>{{ cuenta.numero_cuenta }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <br>
+      </div>
+    </div>
+    {% endif %}
+    <h2 class="h5 g-font-weight-300">Datos de Deudas</h2>
+    <ul class="list-unstyled g-mb-30">
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Deudas Pendientes</strong>
+          {% if solicitud.deudaspendientes == True %}
+            <span class="align-top">Si</span>
+          {% else %}
+            <span class="align-top">No</span>
+          {% endif %}
+        </div>
+      </li>
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Nombre Acreedor</strong>
+          {% if solicitud.deudaspendientes == True %}
+            <span class="align-top">{{ solicitud.nombreacreedor }}</span>
+          {% else %}
+            <span class="align-top">Nadie</span>
+          {% endif %}
+        </div>
+      </li>
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Monto Deuda</strong>
+          {% if solicitud.deudaspendientes == True %}
+            <span class="align-top">{{ solicitud.montodeuda }}</span>
+          {% else %}
+            <span class="align-top">No</span>
+          {% endif %}
+        </div>
+      </li>
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Cuota Mensual</strong>
+          {% if solicitud.deudaspendientes == True %}
+            <span class="align-top">{{ solicitud.cuotamensual }}</span>
+          {% else %}
+            <span class="align-top">No</span>
+          {% endif %}
+        </div>
+      </li>
+    </ul>
+    <h2 class="h5 g-font-weight-300">Información de Embargo</h2>
+    <ul class="list-unstyled g-mb-30">
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Tiene Embargo</strong>
+          {% if solicitud.embargado == True %}
+            <span class="align-top">Si</span>
+          {% else %}
+            <span class="align-top">No</span>
+          {% endif %}
+        </div>
+      </li>
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Persona</strong>
+          {% if solicitud.embargado == True %}
+            <span class="align-top">{{ solicitud.nombrequienembargo }}</span>
+          {% else %}
+            <span class="align-top">No</span>
+          {% endif %}
+        </div>
+      </li>
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Motivo Embargo</strong>
+          {% if solicitud.embargado == True %}
+            <span class="align-top">{{ solicitud.motivoembargo }}</span>
+          {% else %}
+            <span class="align-top">No</span>
+          {% endif %}
+        </div>
+      </li>
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Monto Embargo</strong>
+          {% if solicitud.embargado == True %}
+            <span class="align-top">{{ solicitud.montoembargo }}</span>
+          {% else %}
+            <span class="align-top">No</span>
+          {% endif %}
+        </div>
+      </li>
+    </ul>
+    <h2 class="h5 g-font-weight-300">Otra Información</h2>
+    <ul class="list-unstyled g-mb-30">
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Manejo de Valores Efectivo</strong>
+          {% if solicitud.valoresefectivo == True %}
+            <span class="align-top">Si</span>
+          {% else %}
+            <span class="align-top">No</span>
+          {% endif %}
+        </div>
+      </li>
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Monto Efectivo</strong>
+          {% if solicitud.valoresefectivo == True %}
+            <span class="align-top">{{ solicitud.montoefectivo }}</span>
+          {% else %}
+            <span class="align-top">No</span>
+          {% endif %}
+        </div>
+      </li>
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Familiares en la Institución</strong>
+          {% if solicitud.familiaresinstitucion == True %}
+            <span class="align-top">Si</span>
+          {% else %}
+            <span class="align-top">No</span>
+          {% endif %}
+        </div>
+      </li>
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Nombre del Familiar</strong>
+          {% if solicitud.familiaresinstitucion == True %}
+            <span class="align-top">{{ solicitud.nombrefamiliar }}</span>
+          {% else %}
+            <span class="align-top">No</span>
+          {% endif %}
+        </div>
+      </li>
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Parentesco</strong>
+          {% if solicitud.familiaresinstitucion == True %}
+            <span class="align-top" id="parentesco_familiar"></span>
+          {% else %}
+            <span class="align-top">No</span>
+          {% endif %}
+        </div>
+      </li>
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Puesto Familiar</strong>
+          {% if solicitud.familiaresinstitucion == True %}
+            <span class="align-top">{{ solicitud.puestofamiliar }}</span>
+          {% else %}
+            <span class="align-top">No</span>
+          {% endif %}
+        </div>
+      </li>
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Recomendación</strong>
+          <span class="align-top">{{ solicitud.nombrequienrecomienda }}</span>
+        </div>
+      </li>
+    </ul>
+    <h2 class="h5 g-font-weight-300">Información de Aspiración Laboral</h2>
+    <ul class="list-unstyled g-mb-30">
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Puesto que solicita</strong>
+          <span class="align-top">{{ solicitud.puestoquesolicita }}</span>
+        </div>
+      </li>
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Aspiración Salarial</strong>
+          <span class="align-top">{{ solicitud.sueldopretende }}</span>
+        </div>
+      </li>
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Fecha Inicio</strong>
+          <span class="align-top">{{ solicitud.fechainicio }}</span>
+        </div>
+      </li>
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Disponibilidad de trabajar fuera del país</strong>
+          {% if solicitud.trabajarcualquierlugar == True %}
+            <span class="align-top">Si</span>
+          {% else %}
+            <span class="align-top">No</span>
+          {% endif %}
+        </div>
+      </li>
+    </ul>
+</div>
+<!-- End Profile Content -->
+{% endblock content %}
+{% block javascript %}
+<script>
+  $(document).ready(function(){
+    $('#sidemenu a').each(function(){
+      $(this).removeClass();
+      $(this).addClass('list-group-item list-group-item-action justify-content-between');
+    });
+    $('#economia').addClass('list-group-item list-group-item-action justify-content-between active');
+  });
+  $(document).on('ready', function () {
+    // initialization of go to
+    $.HSCore.components.HSGoTo.init('.js-go-to');
+    // initialization of tabs
+    $.HSCore.components.HSTabs.init('[role="tablist"]');
+    // initialization of counters
+    var counters = $.HSCore.components.HSCounter.init('[class*="js-counter"]');
+    // initialization of rating
+    $.HSCore.components.HSRating.init($('.js-rating'), {
+      spacing: 2
+    });
+    // initialization of HSScrollBar component
+    $.HSCore.components.HSScrollBar.init( $('.js-scrollbar') );
+    var vivienda = {F:"Con su familia", P:"Propietario", I:"Inquilino", E:"Pensionista"}
+    var parentsco = {C:"Conyuge", H:"Hijo", I:"Hija", P:"Padre", M:"Madre", 'F':"Familiar", O:"Otros"}
+    $('#vivienda').html(vivienda["{{ solicitud.tipovivienda }}"]);
+    $('#vivienda_editar').html(vivienda["{{ solicitud.tipovivienda }}"]);
+    $('#parentesco').html(parentsco["{{ solicitud.parentesco }}"]);
+    $('#parentesco_familiar').html(parentsco["{{ solicitud.parentesco }}"]);
+    $('#fechainicio' ).datepicker({
+      autoclose: true,
+      format: 'yyyy-mm-dd',
+      language: 'es',
+    });
+    if ('{{ solicitud.deudaspendientes }}' != 'None') {
+      $('#si_deudas').prop('checked', true);
+      $('#no_deudas').prop('checked', false);
+      $('#deuda').show();
+    }else {
+      $('#si_deudas').prop('checked', false);
+      $('#no_deudas').prop('checked', true);
+      $('#deuda').hide();
+    }
+    if ('{{ solicitud.embargado }}' != 'False') {
+      $('#si_embargo').prop('checked', true);
+      $('#no_embargo').prop('checked', false);
+      $('#embargo').show();
+    }else {
+      $('#si_embargo').prop('checked', false);
+      $('#no_embargo').prop('checked', true);
+      $('#embargo').hide();
+    }
+    if ('{{ solicitud.valoresefectivo }}' != 'False') {
+      $('#si_efectivo').prop('checked', true);
+      $('#no_efectivo').prop('checked', false);
+      $('#efectivo').show();
+    }else {
+      $('#si_efectivo').prop('checked', false);
+      $('#no_efectivo').prop('checked', true);
+      $('#efectivo').hide();
+    }
+    if ('{{ solicitud.familiaresinstitucion }}' != 'False') {
+      $('#si_familiar').prop('checked', true);
+      $('#no_familiar').prop('checked', false);
+      $('#familiar').show();
+    }else {
+      $('#si_familiar').prop('checked', false);
+      $('#no_familiar').prop('checked', true);
+      $('#familiar').hide();
+    }
+    if ('{{ solicitud.trabajarcualquierlugar }}' != 'False') {
+      $('#si_fuerapais').prop('checked', true);
+      $('#no_fuerapais').prop('checked', false);
+    }else {
+      $('#si_fuerapais').prop('checked', false);
+      $('#no_fuerapais').prop('checked', true);
+    }
+  });
+  $('#si_deudas').change(function(){
+    if ($(this).val() == "True") {
+        $('#deuda').show();
+    }else{
+       $('#deuda').hide();
+    }
+  });
+  $('#no_deudas').change(function(){
+    if ($(this).val() == "False") {
+        $('#deuda').hide();
+    }else{
+       $('#deuda').show();
+    }
+  });
+  $('#si_embargo').change(function(){
+    if ($(this).val() == "True") {
+        $('#embargo').show();
+    }else{
+       $('#embargo').hide();
+    }
+  });
+  $('#no_embargo').change(function(){
+    if ($(this).val() == "False") {
+        $('#embargo').hide();
+    }else{
+       $('#embargo').show();
+    }
+  });
+  $('#si_efectivo').change(function(){
+    if ($(this).val() == "True") {
+        $('#efectivo').show();
+    }else{
+       $('#efectivo').hide();
+    }
+  });
+  $('#no_efectivo').change(function(){
+    if ($(this).val() == "False") {
+        $('#efectivo').hide();
+    }else{
+       $('#efectivo').show();
+    }
+  });
+  $('#si_familiar').change(function(){
+    if ($(this).val() == "True") {
+        $('#familiar').show();
+    }else{
+       $('#familiar').hide();
+    }
+  });
+  $('#no_familiar').change(function(){
+    if ($(this).val() == "False") {
+        $('#familiar').hide();
+    }else{
+       $('#familiar').show();
+    }
+  });
+  $(window).on('load', function () {
+    // initialization of header
+    $.HSCore.components.HSHeader.init($('#js-header'));
+    $.HSCore.helpers.HSHamburgers.init('.hamburger');
+    // initialization of HSMegaMenu component
+    $('.js-mega-menu').HSMegaMenu({
+      event: 'hover',
+      pageContainer: $('.container'),
+      breakpoint: 991
+    });
+    // initialization of horizontal progress bars
+    setTimeout(function () { // important in this case
+      var horizontalProgressBars = $.HSCore.components.HSProgressBar.init('.js-hr-progress-bar', {
+        direction: 'horizontal',
+        indicatorSelector: '.js-hr-progress-bar-indicator'
+      });
+    }, 1);
+  });
+  $(window).on('resize', function () {
+    setTimeout(function () {
+      $.HSCore.components.HSTabs.init('[role="tablist"]');
+    }, 200);
+  });
+</script>
+{% endblock javascript %}

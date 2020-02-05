@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+<div class="col-lg-9">
+  <div class="d-flex align-items-center justify-content-sm-between g-mb-5">
+      <h2 class="g-font-weight-300 g-mr-10">{{ request.user.first_name }} {{ request.user.last_name }}</h2>
+  </div>
+
+  <ul class="list-inline g-font-weight-300">
+    <li class="list-inline-item g-mr-20">
+      <i class="icon-location-pin g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> {{ perfil.codmunicipiodomicilio.descripcionmunicipio }} {{ perfil.coddepartamentodomicilio.descripciondepartamento }}
+    </li>
+    {% if request.user.is_active %}
+      <li class="list-inline-item g-mr-20">
+        {% if perfil.empleado %}
+        <i class="icon-check g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> Empleado Banrural
+        {% else %}
+        <i class="icon-check g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> Usuario Verificado
+        {% endif %}
+      </li>
+    {% endif %}
+  </ul>
+   {% if perfil.vista > 4 %}
+  <div class="row" style="text-align: center; display: inline;">
+      <h3 class="g-font-weight-300">Historial laboral &nbsp;<a href="{% url 'create_laboral' %}" style="text-decoration: none;"><i class="p icon-plus g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1" data-toggle="modal" data-target="#padre"></i></a></h3>
+
+  </div> <br>
+
+
+  <!-- Timeline #02 -->
+  <section class="g-py-10">
+    {% if laboral %}
+
+    <div class="container">
+      <!-- Timeline Box -->
+      <ul class="row u-timeline-v2-wrap list-unstyled">
+
+
+        {% for la in laboral %}
+        <li class="col-md-12 g-mb-40">
+          <div class="row">
+            <!-- Timeline Date -->
+            <div class="col-md-3 text-md-right g-pt-20--md g-pr-40--md g-mb-20">
+              <h5 class="h6 mb-0">Desde {{la.fechaingreso}}</h5>
+              {% if la.fechaegreso == None %}
+              <h5 class="h6 mb-0">Hasta la fecha</h5>
+              {% else %}
+              <h5 class="h6 mb-0">Hasta {{la.fechaegreso}}</h5>
+              {% endif %}
+            </div>
+            <!-- End Timeline Date -->
+
+            <!-- Timeline Content -->
+            <div class="col-md-9 g-orientation-left g-pl-40--md">
+              <!-- Timeline Dot -->
+              <div class="hidden-sm-down u-timeline-v2__icon g-top-35">
+                <i class="d-block g-width-18 g-height-18 g-bg-white g-brd-around g-brd-3 g-brd-gray-light-v5 rounded-circle"></i>
+              </div>
+              <!-- End Timeline Dot -->
+
+              <article class="g-pos-rel g-bg-gray-light-v5 g-pa-30">
+                <!-- Timeline Arrow -->
+                <div class="hidden-sm-down u-triangle-inclusive-v1--right g-top-30 g-z-index-2">
+                  <div class="u-triangle-inclusive-v1--right__back g-brd-gray-light-v5-right"></div>
+                </div>
+                <div class="hidden-md-up u-triangle-inclusive-v1--top g-left-20 g-z-index-2">
+                  <div class="u-triangle-inclusive-v1--top__back g-brd-gray-light-v5-bottom"></div>
+                </div>
+                <!-- End Timeline Arrow -->
+                <div class="row">
+
+                    <h3 class="g-font-weight-300">{{la.nombreempresa}}</h3> &nbsp; &nbsp;
+                    <h4 class="g-font-weight-300">
+                      <a href="{% url 'update_laboral' la.codempresa %}" style="text-decoration: none;"><i class="p icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1" data-toggle="modal" data-target="#padre"></i></a>&nbsp;
+                      <i class="p icon-trash g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1"  data-toggle="modal" data-target="#Eliminar_laboral-{{la.codempresa}}"></i>
+                    </h4>
+
+
+                      <div class="modal fade" id="Eliminar_laboral-{{la.codempresa}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                              <h4 class="modal-title" id="exampleModalLabel">Eliminar</h4>
+                            </div>
+                            <div class="modal-body">
+
+                                <h5>¿Desea eliminar a:  {{la.nombreempresa}}?</h5>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                  <a href="{% url 'delete_laboral' la.codempresa %}" class="btn btn-primary">Aceptar</a>
+                                </div>
+
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                </div>
+
+                <ul class="list-unstyled g-mb-30">
+                  <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-1">
+                    <div class="g-pr-10">
+                      <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Dirección empresa:</strong>
+                      <span class="align-top" id="vivienda">{{la.direccionempresa}}</span>
+                    </div>
+                  </li>
+                 </ul>
+
+                 <ul class="list-unstyled g-mb-30">
+                  <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-1">
+                    <div class="g-pr-10">
+                      <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Jefe inmediato:</strong>
+                      <span class="align-top" id="vivienda">{{la.nombrejefeinmediato}}</span>
+                    </div>
+                  </li>
+                 </ul>
+                 <ul class="list-unstyled g-mb-30">
+                  <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-1">
+                    <div class="g-pr-10">
+                      <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Puesto:</strong>
+                      <span class="align-top" id="vivienda">{% if la.puesto %}{{la.puesto}}{% else %}{% endif %}</span>
+                    </div>
+                  </li>
+                 </ul>
+                 <ul class="list-unstyled g-mb-30">
+                  <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-1">
+                    <div class="g-pr-10">
+                      <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Funciones del puesto:</strong>
+                      <span class="align-top" id="vivienda">{% if la.fucionespuesto %}{{la.fucionespuesto}}{% else %}{% endif %}</span>
+                    </div>
+                  </li>
+                 </ul>
+                 <ul class="list-unstyled g-mb-30">
+                  <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-1">
+                    <div class="g-pr-10">
+                      <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Salario:</strong>
+                      <span class="align-top" id="vivienda">{% if la.salariofinal %}{{la.salariofinal}}{% else %}{% endif %}</span>
+                    </div>
+                  </li>
+                 </ul>
+
+
+                 {% if la.motivoretiro %}
+                 <ul class="list-unstyled g-mb-30">
+                  <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-1">
+                    <div class="g-pr-10">
+                      <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Motivo retiro:</strong>
+                      <span class="align-top" id="vivienda">{{la.motivoretiro}}</span>
+                    </div>
+                  </li>
+                 </ul>
+                 {% else %}
+                 <ul class="list-unstyled g-mb-30">
+                  <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-1">
+                    <div class="g-pr-10">
+                      <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Trabajo Actual</strong>
+                    </div>
+                  </li>
+                 </ul>
+                 {% endif %}
+              </article>
+            </div>
+          </div>
+        </li>
+        {% endfor %}
+        {% endif%}
+      </ul>
+      <!-- End Timeline Box -->
+    </div>
+  </section>
+  {% endif %}
+</div>
+{% endblock content %}
+{% block javascript %}
+<script type="text/javascript">
+$(document).ready(function(){
+  $('#sidemenu a').each(function(){
+    $(this).removeClass();
+    $(this).addClass('list-group-item list-group-item-action justify-content-between');
+  });
+  $('#trabajo').addClass('list-group-item list-group-item-action justify-content-between active');
+});
+</script>
+{% endblock javascript %}

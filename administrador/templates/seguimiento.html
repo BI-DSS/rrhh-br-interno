@@ -1,0 +1,853 @@
+{% extends "otrabase.html" %}
+{% load staticfiles %}
+{% block content %}
+
+	<div class="container">
+		<h1 class="h2 g-font-weight-300 g-color-black text-center">Seguimiento: {{aplicacion.Cod_solicitud.nombres}} {{aplicacion.Cod_solicitud.primerapellido}} </h1></br>
+		<h2 class="h4 g-font-weight-300 g-color-black">Plaza: {{aplicacion.Cod_oferta.Puesto_oferta}}</h2><br>
+
+		<div class="row">
+			
+			<section class="g-py-30">
+				<hr>
+				<div class="container">
+
+					<!-- Nav tabs -->
+					<ul class="nav justify-content-center u-nav-v2-1 u-nav-rounded-3 g-mb-50" role="tablist"
+					    data-target="heading-09" data-tabs-mobile-type="slide-up-down" data-btn-classes="btn btn-md btn-block u-btn-outline-primary">
+					    <li class="nav-item" {% if seguimiento.Pr_Entrevista %} style="background-color: #94f968;" {% endif %}>
+					      <a class="nav-link" data-toggle="tab" href="#heading-09-1" role="tab">Primera Entrevista</a>
+					    </li>
+					    <li class="nav-item" {% if seguimiento.Pruebas_Psico %} style="background-color: #94f968;" {% endif %}>
+					      <a class="nav-link" data-toggle="tab" href="#heading-09-2" role="tab">Pruebas Psicométricos</a>
+					    </li>
+					    <li class="nav-item" {% if seguimiento.Jefe_Inme %} style="background-color: #94f968;" {% endif %}>
+					      <a class="nav-link" data-toggle="tab" href="#heading-09-3" role="tab">Entrevista Jefe Inmediato</a>
+					    </li>
+					    <li class="nav-item" {% if seguimiento.Poligrafo %} style="background-color: #94f968;" {% endif %}>
+					      <a class="nav-link" data-toggle="tab" href="#heading-09-4" role="tab">Pruebas Poligrafo</a>
+					    </li>
+					    <li class="nav-item" {% if seguimiento.Socio_Econ %} style="background-color: #94f968;" {% endif %}>
+					      <a class="nav-link" data-toggle="tab" href="#heading-09-5" role="tab">Estudio Socio-Económico</a>
+					    </li>
+					    <li class="nav-item" {% if seguimiento.Documentacion %} style="background-color: #94f968;" {% endif %}>
+					      <a class="nav-link" data-toggle="tab" href="#heading-09-6" role="tab">Verificación de la Documentación</a>
+					    </li>
+					    <li class="nav-item" {% if seguimiento.Medicos %} style="background-color: #94f968;" {% endif %}>
+					      <a class="nav-link" data-toggle="tab" href="#heading-09-7" role="tab">Exámenes Médicos</a>
+					    </li>
+					    <li class="nav-item" {% if seguimiento.CC %} style="background-color: #94f968;" {% endif %}>
+					      <a class="nav-link" data-toggle="tab" href="#heading-09-8" role="tab">Ingreso al CC</a>
+					    </li>
+					</ul>
+					<!-- End Nav tabs -->
+
+					<!-- Tab panes -->
+					<div id="heading-09" class="tab-content ">
+
+					  	<div id="heading-09-1" class="tab-pane fade show active" role="tabpanel">
+						    <div id="shortcode9-1">
+						      	<div class="shortcode-html">
+							        <div class="u-heading-v2-3--bottom g-mb-30">
+							          <h2 class=" h4 u-heading-v2__title g-mb-10 g-color-primary">PRIMERA ENTREVISTA</h2>
+							        </div>
+							        {% if seguimiento.Pr_Entrevista %}
+							        <div class="row " >
+							        	<div class="col-md-4">
+										<div class="card card-inverse g-bg-teal g-brd-teal text-white rounded-0">
+											<h3 class="card-header h5">
+												<i class="fa fa-tasks g-font-size-default g-mr-5"></i> Primera Entrevista
+											</h3>
+											<div class="card-block g-pa-15">
+												<strong class="g-color-black"><b style="text-decoration: underline;">Fecha y Hora Entrevista:</b> {{seguimiento.Hor_Pr_Entrevista}}</strong>
+												
+											</div>
+										</div>
+										</div>
+							        	
+							        </div>
+									{% endif %}
+
+						      	</div>
+						    </div>
+						</div>
+					
+						<div id="heading-09-2" class="tab-pane fade " role="tabpanel">
+						    <div id="shortcode9-2">
+						      <div class="shortcode-html">
+						        <div class="u-heading-v2-3--bottom g-mb-30">
+						          <h2 class="h4 u-heading-v2__title g-mb-10 g-color-primary">Pruebas Psicométricas</h2>
+						        </div>
+						        {% if seguimiento.Pruebas_Psico %}
+						        <div class="row">
+						        	<div class="col-md-4">
+										<div class="card card-inverse g-bg-blue g-brd-blue text-white rounded-0">
+											<h3 class="card-header h5">
+												<i class="fa fa-tasks g-font-size-default g-mr-5"></i> Pruebas Psicometricas
+											</h3>
+											<div class="card-block g-pa-15">
+												<strong class="g-color-black"><b style="text-decoration: underline;">Usuario asignado:</b> {{seguimiento.Email}}</strong><br>
+												<strong class="g-color-black"><b style="text-decoration: underline;">Contraseña:</b> {{seguimiento.Contrasena}}</strong><br>
+												<strong class="g-color-black"><b style="text-decoration: underline;">Fecha Limite:</b> {{seguimiento.Fch_Pruebas_Psico}}</strong>
+												
+											</div>
+										</div>
+									</div>
+								</div>
+								{% endif %}
+						      </div>
+						    </div>
+						</div>
+
+						<div id="heading-09-3" class="tab-pane fade" role="tabpanel">
+						    <div id="shortcode9-3">
+						      <div class="shortcode-html">
+						        <div class="u-heading-v2-3--bottom g-mb-30">
+						          <h2 class="h4 u-heading-v2__title g-mb-10 g-color-primary">Entrevista Jefe Inmediato</h2>
+						        </div>
+						        {% if seguimiento.Jefe_Inme %}
+						        <div class="row">
+						        	<div class="col-md-4">
+										<div class="card card-inverse g-bg-teal g-brd-teal text-white rounded-0">
+											<h3 class="card-header h5">
+												<i class="fa fa-tasks g-font-size-default g-mr-5"></i> Entrevista con Jefe
+											</h3>
+											<div class="card-block g-pa-15">
+												<strong class="g-color-black"> <b style="text-decoration: underline;">Fecha y Hora Entrevista:</b> {{seguimiento.Hor_Jefe}}</strong>
+												
+											</div>
+										</div>
+									</div>
+								</div>
+								{% endif %}
+						      </div>
+						    </div>
+						</div>
+
+						<div id="heading-09-4" class="tab-pane fade" role="tabpanel">
+						    <div id="shortcode9-4">
+						      <div class="shortcode-html">
+						        <div class="u-heading-v2-3--bottom g-mb-30">
+						          <h2 class="h4 u-heading-v2__title g-mb-10 g-color-primary">Prueba Poligrafo</h2>
+						        </div>
+						        {% if seguimiento.Poligrafo %}
+						        <div class="row">
+						        	<div class="col-md-4">
+										<div class="card card-inverse g-bg-blue g-brd-blue text-white rounded-0">
+											<h3 class="card-header h5">
+												<i class="fa fa-tasks g-font-size-default g-mr-5"></i> Prueba de Polígrafo
+											</h3>
+											<div class="card-block g-pa-15">
+												<strong class="g-color-black"><b style="text-decoration: underline;">Hora y Fecha: </b>{{seguimiento.Hor_Poligrafo}}</strong><br>
+												<strong class="g-color-black"><b style="text-decoration: underline;">Dirección:</b> {{seguimiento.Dir_Poligrafo}}</strong><br>
+												
+											</div>
+										</div>
+									</div>
+								</div>
+								{% endif %}
+						      </div>
+						    </div>
+						</div>
+
+						<div id="heading-09-5" class="tab-pane fade" role="tabpanel">
+						    <div id="shortcode9-5">
+						      <div class="shortcode-html">
+						        <div class="u-heading-v2-3--bottom g-mb-30">
+						          <h2 class="h4 u-heading-v2__title g-mb-10 g-color-primary">Estudio Socio Económico</h2>
+						        </div>
+						        {% if seguimiento.Socio_Econ %}
+						        <div class="row">
+						        	<div class="col-md-4">
+										<div class="card card-inverse card-success text-white rounded-0">
+											<h3 class="card-header h5">
+												<i class="fa fa-tasks g-font-size-default g-mr-5"></i> Estudio Socio Económico
+											</h3>
+											<div class="card-block g-pa-15">
+												<strong class="g-color-black"><b style="text-decoration: underline;">Fecha y Hora de Visita: </b>{{seguimiento.Hor_Socio}}</strong>
+												
+											</div>
+										</div>
+									</div>
+								</div>
+								{% endif %}
+						      </div>
+						    </div>
+						</div>
+						<div id="heading-09-6" class="tab-pane fade" role="tabpanel">
+						    <div id="shortcode9-5">
+						      <div class="shortcode-html">
+						        <div class="u-heading-v2-3--bottom g-mb-30">
+						          <h2 class="h4 u-heading-v2__title g-mb-10 g-color-primary">Verificación de la Documentación</h2>
+						        </div>
+						        {% if seguimiento.Documentacion %}
+						        <div class="row">
+						        	<div class="col-md-4">
+										<div class="card card-inverse g-bg-blue g-brd-blue text-white rounded-0">
+											<h3 class="card-header h5">
+												<i class="fa fa-tasks g-font-size-default g-mr-5"></i> Verificación de Documentación
+											</h3>
+											<div class="card-block g-pa-15">
+												<strong class="g-color-black"> <b style="text-decoration: underline;">Fecha Límite:</b> {{seguimiento.Fch_Doc}}</strong>
+												
+											</div>
+										</div>
+									</div>
+								</div>
+								{% endif %}
+						      </div>
+						    </div>
+						</div>
+						<div id="heading-09-7" class="tab-pane fade" role="tabpanel">
+						    <div id="shortcode9-5">
+						      <div class="shortcode-html">
+						        <div class="u-heading-v2-3--bottom g-mb-30">
+						          <h2 class="h4 u-heading-v2__title g-mb-10 g-color-primary">Exámenes Médicos</h2>
+						        </div>
+						        {% if seguimiento.Medicos %}
+						        <div class="row">
+						        	<div class="col-md-4">
+										<div class="card card-inverse g-bg-teal g-brd-teal text-white rounded-0">
+											<h3 class="card-header h5">
+												<i class="fa fa-tasks g-font-size-default g-mr-5"></i>Exámenes Médicos
+											</h3>
+											<div class="card-block g-pa-15">
+												<strong class="g-color-black"><b style="text-decoration: underline;">Fecha y Hora de examenes:</b> {{seguimiento.Hor_Medicos}}</strong><br>
+												<strong class="g-color-black"><b style="text-decoration: underline;">Dirección:</b> {{seguimiento.Dir_Medicos}}</strong>
+												
+											</div>
+										</div>
+									</div>
+								</div>
+								{% endif %}
+						      </div>
+						    </div>
+						</div>
+						<div id="heading-09-8" class="tab-pane fade" role="tabpanel">
+						    <div id="shortcode9-5">
+						      <div class="shortcode-html">
+						        <div class="u-heading-v2-3--bottom g-mb-30">
+						          <h2 class="h4 u-heading-v2__title g-mb-10 g-color-primary">Ingreso al CC</h2>
+						        </div>
+						        {% if seguimiento.CC %}
+						        <div class="row">
+						        	<div class="col-md-4">
+										<div class="card card-inverse card-success text-white rounded-0">
+											<h3 class="card-header h5">
+												<i class="fa fa-tasks g-font-size-default g-mr-5"></i>Ingreso a CC
+											</h3>
+											<div class="card-block g-pa-15">
+												<strong class="g-color-black"><b style="text-decoration: underline;">Fecha Ingreso:</b> {{seguimiento.Fch_Ingreso}}</strong>
+												
+											</div>
+										</div>
+									</div>
+								</div>
+								{% endif %}
+						      </div>
+						    </div>
+						</div>
+
+					</div>
+
+					<!-- End Tab panes -->
+				</div>
+			</section>
+		</div>
+
+
+
+
+		{% if seguimiento %}
+
+			<hr>
+			<div class="row">
+				<div class="col-xs-12 col-sm-4 mb-4">
+
+					<label for="Seguimiento" style="font-weight: normal;">SEGUIMIENTO</label>
+					<select name="Seguimiento" id="Seguimiento">
+						<option value="" disabled="" selected="">--------</option>
+						{% for seg in lista_seguimiento %}
+						<option value="{{seg.Cod_seguimiento}}">{{seg.Descripcion_seguimiento}}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</div>
+		{% else %}
+			<hr>
+			<div class="row">
+				<div class="col-xs-12 col-sm-4 mb-4">
+
+					<label for="Seguimiento" style="font-weight: normal;">SEGUIMIENTO</label>
+					<select name="Seguimiento" id="Seguimiento">
+						<option value="" disabled="" selected="">--------</option>
+						<option value="1"> Primera Entrevista</option>
+					</select>
+				</div>
+			</div>
+		
+		{% endif %}
+		
+		<section hidden="" id="primera_entrevista" class="todos">
+			<hr>
+			<form method="POST" accept-charset="utf-8" action="{% url 'Primera_entrevista' aplicacion.Cod_aplicacion %}" content='text/html; charset=UTF-8'> {% csrf_token %}
+				<h2 class="h4 g-font-weight-300 g-color-black">Primera Entrevista</h2><br>
+				<div  class="row">
+					<div class="col-xs-12 col-sm-4 mb-4">
+						<label for="Fecha_Primera_entrevista" style="font-weight: normal;"> Fecha de Entrevista:</label>
+						<input type="text" class="date" name="Fecha_Primera_entrevista" id="Fecha_Primera_entrevista" required="">
+					</div>
+					<div class="col-xs-12 col-sm-2 mb-2">
+						<label>Hora</label>
+						<select name="hora" id="hora" required="">
+							<option value="" disabled="">-----</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+							<option value="11">11</option>
+							<option value="12">12</option>
+						</select>
+					</div>
+					<div class="col-xs-12 col-sm-2 mb-2">
+						<label>Minutos</label>
+						<select  name="minuto" id="minuto" required="">
+							<option value="" disabled="">-----</option>
+							<option value="00">00</option>
+							<option value="10">10</option>
+							<option value="20">20</option>
+							<option value="30">30</option>
+							<option value="40">40</option>
+							<option value="50">50</option>
+						</select>
+					</div>
+					<div class="col-xs-12 col-sm-2 mb-2" >
+						<div class="g-mb-15" style="position: absolute; bottom: 0;">
+
+						    <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25">
+						      <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="Tiempo" type="radio" checked="" value="am">
+						      <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+						        <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+						      </div>
+						      AM
+						    </label>
+
+						    <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25">
+						      <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="Tiempo" type="radio" value="pm">
+						      <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+						        <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+						      </div>
+						      PM
+						    </label>
+  						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12 col-sm-4 mb-4">
+						<label for="Dirección_Poligrafo" style="font-weight: normal;"> Dirección:</label>
+						<textarea rows="3" name="direccion" id="direccion" required=""></textarea>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-xs-12 col-sm-4 mb-4">
+						<label>Teléfono para contacto: </label>
+						<input type="text" name="txtTelefono" required="" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" >
+					</div>
+					<div class="col-xs-12 col-sm-2 mb-2">
+						<label>Extensión: </label>
+						<input type="text" name="txtExtension" required="" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" >
+					</div>
+					
+				</div>
+				<div class="row">
+					<div class="col-xs-12 col-sm-4 mb-4">
+						<button type="submit" name="" id="" class="btn btn-md u-btn-primary rounded g-py-13 g-px-25" {% if seguimiento %} disabled="" {% endif %}>Enviar Cita</button>
+					</div>
+				</div>
+			</form>
+		</section>
+
+		<section hidden="" id="pruebas_psicometricas" class="todos">
+			<hr>
+			<form method="POST" accept-charset="utf-8" action="{% url 'Examen_psico' aplicacion.Cod_aplicacion %}" content='text/html; charset=UTF-8'> {% csrf_token %}
+				<h2 class="h4 g-font-weight-300 g-color-black">Pruebas Psicométricas</h2><br>
+				<div  class="row">
+					<div class="col-xs-12 col-sm-4 mb-4">
+						<label for="Correo_pruebas" style="font-weight: normal;">Correo de Usuario:</label>
+						<input type="text" name="Correo_pruebas" id="Correo_pruebas" maxlength="50" required="">
+					</div>
+					<div class="col-xs-12 col-sm-4 mb-4">
+						<label for="Contrasena_pruebas" style="font-weight: normal;"> Contraseña Usuario:</label>
+						<input type="text" name="Contrasena_pruebas" id="Contrasena_pruebas" maxlength="50" required="">
+					</div>
+					<div class="col-xs-12 col-sm-4 mb-4">
+						<label for="Fecha_limite_pruebas" style="font-weight: normal;"> Fecha Limite:</label>
+						<input type="text" class="date" name="Fecha_limite_pruebas" id="Fecha_limite_pruebas" required="">
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-xs-12 col-sm-4 mb-4">
+						<button type="submit" name="" id="" class="btn btn-md u-btn-primary rounded g-py-13 g-px-25">Enviar Cita</button>
+					</div>
+					
+				</div>
+			</form>
+		</section>
+
+		<section hidden="" id="jefe_inmediato" class="todos">
+			<hr>
+			<form method="POST" accept-charset="utf-8" action="{% url 'Entrevista_jefe' aplicacion.Cod_aplicacion %}"> {% csrf_token %}
+				<h2 class="h4 g-font-weight-300 g-color-black">Entrevista Jefe Inmediato</h2><br>
+				<div  class="row">
+					<div class="col-xs-12 col-sm-4 mb-4">
+						<label for="Entrevista_Jefe" style="font-weight: normal;"> Fecha de Entrevista:</label>
+						<input type="text" class="date" name="Entrevista_Jefe" id="Entrevista_Jefe" required="">
+					</div>
+					<div class="col-xs-12 col-sm-2 mb-2">
+						<label>Hora</label>
+						<select name="hora" id="hora" required="">
+							<option value="" disabled="">-----</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+							<option value="11">11</option>
+							<option value="12">12</option>
+						</select>
+					</div>
+					<div class="col-xs-12 col-sm-2 mb-2">
+						<label>Minutos</label>
+						<select  name="minuto" id="minuto" required="">
+							<option value="" disabled="">-----</option>
+							<option value="00">00</option>
+							<option value="10">10</option>
+							<option value="20">20</option>
+							<option value="30">30</option>
+							<option value="40">40</option>
+							<option value="50">50</option>
+						</select>
+					</div>
+					<div class="col-xs-12 col-sm-2 mb-2" >
+						<div class="g-mb-15" style="position: absolute; bottom: 0;">
+
+						    <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25">
+						      <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="Tiempo" type="radio" checked="" value="am">
+						      <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+						        <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+						      </div>
+						      AM
+						    </label>
+
+						    <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25">
+						      <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="Tiempo" type="radio" value="pm">
+						      <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+						        <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+						      </div>
+						      PM
+						    </label>
+  						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12 col-sm-4 mb-4">
+						<label for="Dirección_Poligrafo" style="font-weight: normal;"> Dirección:</label>
+						<textarea rows="3" name="direccion" id="direccion" required=""></textarea>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-xs-12 col-sm-4 mb-4">
+						<button type="submit" name="" id="" class="btn btn-md u-btn-primary rounded g-py-13 g-px-25">Enviar Cita</button>
+					</div>
+					
+				</div>
+			</form>
+		</section>
+
+		<section hidden="" id="poligrafo" class="todos">
+			<hr>
+			<form method="POST" accept-charset="utf-8" action="{% url 'Poligrafo' aplicacion.Cod_aplicacion %}"> 
+				{% csrf_token %}
+				<h2 class="h4 g-font-weight-300 g-color-black">Prueba Polígrafo</h2><br>
+				<div  class="row">
+					<div class="col-xs-12 col-sm-4 mb-4">
+						<label for="poligrafo_fecha" style="font-weight: normal;"> Fecha de Prueba:</label>
+						<input type="text" class="date" name="poligrafo_fecha" id="poligrafo_fecha" required="">
+					</div>
+					<div class="col-xs-12 col-sm-2 mb-2">
+						<label>Hora</label>
+						<select name="hora" id="hora" required="">
+							<option value="" disabled="">-----</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+							<option value="11">11</option>
+							<option value="12">12</option>
+						</select>
+					</div>
+					<div class="col-xs-12 col-sm-2 mb-2">
+						<label>Minutos</label>
+						<select  name="minuto" id="minuto" required="">
+							<option value="" disabled="">-----</option>
+							<option value="00">00</option>
+							<option value="10">10</option>
+							<option value="20">20</option>
+							<option value="30">30</option>
+							<option value="40">40</option>
+							<option value="50">50</option>
+						</select>
+					</div>
+					<div class="col-xs-12 col-sm-2 mb-2" >
+						<div class="g-mb-15" style="position: absolute; bottom: 0;">
+
+						    <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25">
+						      <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="Tiempo" type="radio" checked="" value="am">
+						      <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+						        <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+						      </div>
+						      AM
+						    </label>
+
+						    <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25">
+						      <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="Tiempo" type="radio" value="pm">
+						      <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+						        <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+						      </div>
+						      PM
+						    </label>
+  						</div>
+					</div>
+				</div>
+				<div  class="row">
+					<div class="col-xs-12 col-sm-4 mb-4">
+						<label for="Dirección_Poligrafo" style="font-weight: normal;"> Dirección:</label>
+						<textarea rows="3" name="Direccion_Poligrafo" id="Direccion_Poligrafo" required=""></textarea>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-xs-12 col-sm-4 mb-4">
+						<button type="submit" name="" id="" class="btn btn-md u-btn-primary rounded g-py-13 g-px-25">Enviar Cita</button>
+					</div>
+				</div>
+			</form>
+		</section>
+
+		<section hidden="" id="socio_economico" class="todos">
+			<hr>
+			<form method="POST" accept-charset="utf-8" action="{% url 'socio' aplicacion.Cod_aplicacion %}">
+				{% csrf_token %}
+				<h2 class="h4 g-font-weight-300 g-color-black">Estudio Socio-Económico</h2><br>
+				<div  class="row">
+					<div class="col-xs-12 col-sm-4 mb-4">
+						<label for="visita_fecha" style="font-weight: normal;"> Fecha de Visita:</label>
+						<input type="text" class="date" name="visita_fecha" id="visita_fecha" required="">
+					</div>
+					<div class="col-xs-12 col-sm-2 mb-2">
+						<label>Hora</label>
+						<select name="hora" id="hora" required="">
+							<option value="" disabled="">-----</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+							<option value="11">11</option>
+							<option value="12">12</option>
+						</select>
+					</div>
+					<div class="col-xs-12 col-sm-2 mb-2">
+						<label>Minutos</label>
+						<select  name="minuto" id="minuto" required="">
+							<option value="" disabled="">-----</option>
+							<option value="00">00</option>
+							<option value="10">10</option>
+							<option value="20">20</option>
+							<option value="30">30</option>
+							<option value="40">40</option>
+							<option value="50">50</option>
+						</select>
+					</div>
+					<div class="col-xs-12 col-sm-2 mb-2" >
+						<div class="g-mb-15" style="position: absolute; bottom: 0;">
+
+						    <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25">
+						      <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="Tiempo" type="radio" checked="" value="am">
+						      <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+						        <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+						      </div>
+						      AM
+						    </label>
+
+						    <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25">
+						      <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="Tiempo" type="radio" value="pm">
+						      <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+						        <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+						      </div>
+						      PM
+						    </label>
+  						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12 col-sm-4 mb-4">
+						<label for="Dirección_Poligrafo" style="font-weight: normal;"> Dirección:</label>
+						<textarea rows="3" name="direccion" id="direccion" required=""></textarea>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12 col-sm-4 mb-4">
+						<button type="submit" name="" id="" class="btn btn-md u-btn-primary rounded g-py-13 g-px-25">Enviar Cita</button>
+					</div>
+				</div>
+			</form>
+		</section>
+
+		<section hidden="" id="verificar_documentacion" class="todos">
+			<hr>
+			<form method="POST" accept-charset="utf-8" action="{% url 'Doc' aplicacion.Cod_aplicacion %}">
+				{% csrf_token %}
+				<h2 class="h4 g-font-weight-300 g-color-black">Verificación de Documentación</h2><br>
+				<div  class="row">
+					<div class="col-xs-12 col-sm-4 mb-4">
+						<label for="Fecha_Limite" style="font-weight: normal;"> Fecha Limite:</label>
+						<input type="text" class="date" name="Fecha_Limite" id="Fecha_Limite" required="">
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-xs-12 col-sm-4 mb-4">
+						<label>Teléfono para contacto: </label>
+						<input type="text" name="txtTelefono" required="" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+					</div>
+					<div class="col-xs-12 col-sm-2 mb-2">
+						<label>Extensión: </label>
+						<input type="text" name="txtExtension" required="" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+					</div>
+					
+				</div>
+
+				<div class="row">
+					<div class="col-xs-12 col-sm-4 mb-4">
+						<button type="submit" name="" id="" class="btn btn-md u-btn-primary rounded g-py-13 g-px-25">Enviar Cita</button>
+					</div>
+					
+				</div>
+			</form>
+		</section>
+
+		<section hidden="" id="examenes_medicos" class="todos">
+			<hr>
+			<form method="POST" accept-charset="utf-8" action="{% url 'Medicos' aplicacion.Cod_aplicacion %}">
+				{% csrf_token %}
+				<h2 class="h4 g-font-weight-300 g-color-black">Exámenes Médicos</h2><br>
+				<div  class="row">
+					<div class="col-xs-12 col-sm-4 mb-4">
+						<label for="Fecha_medicos" style="font-weight: normal;"> Fecha:</label>
+						<input type="text" class="date" name="Fecha_medicos" id="Fecha_medicos" required="">
+					</div>
+					<div class="col-xs-12 col-sm-2 mb-2">
+						<label>Hora</label>
+						<select name="hora" id="hora" required="">
+							<option value="" disabled="">-----</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+							<option value="11">11</option>
+							<option value="12">12</option>
+						</select>
+					</div>
+					<div class="col-xs-12 col-sm-2 mb-2">
+						<label>Minutos</label>
+						<select  name="minuto" id="minuto" required="">
+							<option value="" disabled="">-----</option>
+							<option value="00">00</option>
+							<option value="10">10</option>
+							<option value="20">20</option>
+							<option value="30">30</option>
+							<option value="40">40</option>
+							<option value="50">50</option>
+						</select>
+					</div>
+					<div class="col-xs-12 col-sm-2 mb-2" >
+						<div class="g-mb-15" style="position: absolute; bottom: 0;">
+
+						    <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25">
+						      <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="Tiempo" type="radio" checked="" value="am">
+						      <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+						        <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+						      </div>
+						      AM
+						    </label>
+
+						    <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25">
+						      <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="Tiempo" type="radio" value="pm">
+						      <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+						        <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+						      </div>
+						      PM
+						    </label>
+  						</div>
+					</div>
+				</div>
+				<div  class="row">
+					<div class="col-xs-12 col-sm-4 mb-4">
+						<label for="Direccion_Examenes" style="font-weight: normal;"> Dirección:</label>
+						<textarea rows="3" name="Direccion_Examenes" id="Direccion_Examenes" required=""></textarea>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-xs-12 col-sm-4 mb-4">
+						<button type="submit" name="" id="" class="btn btn-md u-btn-primary rounded g-py-13 g-px-25">Enviar Cita</button>
+					</div>
+					
+				</div>
+			</form>
+		</section>
+
+		<section hidden="" id="CC" class="todos">
+			<hr>
+			<form method="POST" accept-charset="utf-8" action="{% url 'CC' aplicacion.Cod_aplicacion %}">
+				{% csrf_token %}
+				<h2 class="h4 g-font-weight-300 g-color-black">Ingreso Centro de Capacitación</h2><br>
+				<div  class="row">
+					<div class="col-xs-12 col-sm-4 mb-4">
+						<label for="Fecha_Ingreso" style="font-weight: normal;"> Fecha de Ingreso:</label>
+						<input type="text" class="date" name="Fecha_Ingreso" id="Fecha_Ingreso" required="">
+					</div>
+					<div class="col-xs-12 col-sm-4 mb-4">
+						<label for="Fecha_Comienzo" style="font-weight: normal;"> Fecha de Comienzo:</label>
+						<input type="text" class="date" name="Fecha_Comienzo" id="Fecha_Comienzo" required="">
+					</div>
+
+				</div>
+
+
+				<div class="row">
+					<div class="col-xs-12 col-sm-4 mb-4">
+						<button type="submit" name="" id="" class="btn btn-md u-btn-primary rounded g-py-13 g-px-25">Enviar Cita</button>
+					</div>
+					
+				</div>
+			</form>
+		</section>
+	</div>
+{% endblock content %}
+{% block javascript %}
+<script type="text/javascript">
+    $(document).ready(function(){
+    	
+/*    	$('.date').change(function(){
+    		var fecha = $(this).val();
+
+			var myDate = new Date(fecha);
+
+			var today = new Date();
+
+    		if (today > myDate){
+    			console.log('entre en if');
+    			$(this).val('');
+    			$(this).attr("placeholder", "NO FECHAS ANTERIORES A HOY");
+    			$(this).css("border","solid 1px red");
+    		}
+    		else{
+    			$(this).css("border","");
+    		}
+
+    	});*/
+
+    	$('.date ').datepicker({
+	      autoclose: true,
+	      format: 'yyyy-mm-dd',
+	      language: 'es',
+    	});
+
+	   	$('#Seguimiento').change(function(){
+	   		$('.todos').attr('hidden', 'true');
+	    	var nivel = $('#Seguimiento option:selected').val();
+	     	switch (nivel) {
+	        case '1':
+	        $('#primera_entrevista').removeAttr('hidden', '');
+	          break;
+
+	        case '2':
+	        $('#pruebas_psicometricas').removeAttr('hidden', '');
+	          break;
+
+	        case '3':
+	        $('#jefe_inmediato').removeAttr('hidden', '');
+	          break;
+
+	        case '4':
+	        $('#poligrafo').removeAttr('hidden', '');
+	          break;
+
+	        case '5':
+	        $('#socio_economico').removeAttr('hidden', '');
+	          break;
+
+	        case '6':
+	        $('#verificar_documentacion').removeAttr('hidden', '');
+	          break;
+
+	        case '7':
+	        $('#examenes_medicos').removeAttr('hidden', '');
+	          break;
+
+	        case '8':
+	        $('#CC').removeAttr('hidden', '');
+
+	        default:
+
+	      	}
+	  	});
+	  // 	Date.prototype.yyyymmdd = function() {
+			//   var mm = this.getMonth() + 1; // getMonth() is zero-based
+			//   var dd = this.getDate();
+
+			//   return [this.getFullYear(),
+			//           (mm>9 ? '' : '0') + mm,
+			//           (dd>9 ? '' : '0') + dd
+			//          ].join('-');
+			// };
+
+			// var date = new Date();
+			//  var o = date.yyyymmdd();
+
+    });
+</script>
+{% endblock javascript %}

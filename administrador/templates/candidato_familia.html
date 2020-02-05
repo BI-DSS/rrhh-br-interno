@@ -1,0 +1,296 @@
+{% extends "baseperfil.html" %}
+{% load staticfiles %}
+{% block content %}
+<!-- Profile Content -->
+<div class="col-lg-9">
+  <!-- User Details -->
+  <div class="d-flex align-items-center justify-content-sm-between g-mb-5">
+    <h2 class="g-font-weight-300 g-mr-10">{{ solicitud.nombres }} {{ solicitud.primerapellido }}</h2>
+  </div>
+  <ul class="list-inline g-font-weight-300">
+    <li class="list-inline-item g-mr-20">
+      <i class="icon-location-pin g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> {{ solicitud.codmunicipiodomicilio.descripcionmunicipio }}, {{ solicitud.coddepartamentodomicilio.descripciondepartamento }}
+    </li> 
+    {% if solicitud.anonima %}
+      <li class="list-inline-item g-mr-20">
+        <i class="icon-check g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> Solicitante a plaza Anonima
+      </li>
+    {% endif %}
+  </ul>
+  <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+  <h2 class="h4 g-font-weight-300">Datos del Padre</h2>
+  {% if solicitud.nombrespadre %}
+  <li class="d-flex align-items-center justify-content-between g-brd-gray-light-v4 g-py-15">
+    <div class="g-pr-10">
+      <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Nombre Padre</strong>
+      <span class="align-top">{{ solicitud.nombrespadre}} {{solicitud.apellidospadre}}</span>
+    </div>
+  </li>
+
+  <li class="d-flex align-items-center justify-content-between g-brd-gray-light-v4 g-py-15">
+    <div class="g-pr-10">
+      <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Edad</strong>
+      <span class="align-top">{{solicitud.edadpadre}} años</span>
+    </div>
+  </li>
+
+  <li class="d-flex align-items-center justify-content-between  g-brd-gray-light-v4 g-py-15">
+    <div class="g-pr-10">
+      <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Domicilio</strong>
+      <span class="align-top">{{solicitud.domiciliopadre}}</span>
+    </div>
+  </li>
+
+  <li class="d-flex align-items-center justify-content-between  g-brd-gray-light-v4 g-py-15">
+    <div class="g-pr-10">
+      <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Telefono</strong>
+      <span class="align-top">{{solicitud.telefonopadre}}</span>
+    </div>
+  </li>
+
+  <li class="d-flex align-items-center justify-content-between  g-brd-gray-light-v4 g-py-15">
+    <div class="g-pr-10">
+      <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Ocupacion o Profesion</strong>
+      <span class="align-top" id="profesion_padre"></span>
+    </div>
+  </li>
+  {% if solicitud.profesionpadre != 'E' and solicitud.profesionpadre != 'J' %}
+  <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+    <div class="g-pr-10">
+      <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Lugar de Trabajo</strong>
+      <span class="align-top">{{solicitud.direccionlaboralpadre}}</span>
+    </div>
+  </li>
+  {% endif %}
+  {% endif %}
+
+  <!-- End Address -->
+  <br><br>
+
+
+  <h2 class="h4 g-font-weight-300">Datos de la Madre</h2>
+  <!-- Address -->
+  {% if solicitud.nombresmadre %}
+  <li class="d-flex align-items-center justify-content-between g-brd-gray-light-v4 g-py-15">
+    <div class="g-pr-10">
+      <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Nombre Padre</strong>
+      <span class="align-top">{{ solicitud.nombresmadre}} {{solicitud.apellidosmadre}}</span>
+    </div>
+  </li>
+
+  <li class="d-flex align-items-center justify-content-between g-brd-gray-light-v4 g-py-15">
+    <div class="g-pr-10">
+      <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Edad</strong>
+      <span class="align-top">{{solicitud.edadmadre}} años</span>
+    </div>
+  </li>
+
+  <li class="d-flex align-items-center justify-content-between  g-brd-gray-light-v4 g-py-15">
+    <div class="g-pr-10">
+      <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Domicilio</strong>
+      <span class="align-top">{{solicitud.domiciliomadre}}</span>
+    </div>
+  </li>
+
+  <li class="d-flex align-items-center justify-content-between  g-brd-gray-light-v4 g-py-15">
+    <div class="g-pr-10">
+      <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Telefono</strong>
+      <span class="align-top">{{solicitud.telefonomadre}}</span>
+    </div>
+  </li>
+
+
+  <li class="d-flex align-items-center justify-content-between  g-brd-gray-light-v4 g-py-15">
+    <div class="g-pr-10">
+      <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Ocupacion o Profesion</strong>
+      <span class="align-top" id="profesion_madre"></span>
+    </div>
+  </li>
+
+  {% if solicitud.profesionmadre != 'E' and solicitud.profesionmadre != 'J' %}
+  <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+    <div class="g-pr-10">
+      <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Lugar de Trabajo</strong>
+      <span class="align-top">{{solicitud.direccionlaboralmadre}}</span>
+    </div>
+  </li>
+  {% endif %}
+  {% endif %}
+  <br><br>
+
+  <!-- DATOS DE CONYUGE -->
+        {% if solicitud.sexo == 'femenino' and solicitud.estadocivil == 'C' %}
+        <h2 class="h4 g-font-weight-300">Datos de Conyugue</h2>
+        {% if solicitud.nombreconyugue %}
+            <li class="d-flex align-items-center justify-content-between g-brd-gray-light-v4 g-py-15">
+              <div class="g-pr-10">
+                <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Nombre</strong>
+                <span class="align-top">{{ solicitud.nombreconyugue}}</span>
+              </div>
+            </li>
+            <li class="d-flex align-items-center justify-content-between g-brd-gray-light-v4 g-py-15">
+              <div class="g-pr-10">
+                <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Edad</strong>
+                <span class="align-top">{{solicitud.edadconyugue}} años</span>
+              </div>
+            </li>
+
+            <li class="d-flex align-items-center justify-content-between  g-brd-gray-light-v4 g-py-15">
+              <div class="g-pr-10">
+                <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Domicilio</strong>
+                <span class="align-top">{{solicitud.domicilioconyugue}}</span>
+              </div>
+            </li> 
+
+            <li class="d-flex align-items-center justify-content-between  g-brd-gray-light-v4 g-py-15">
+              <div class="g-pr-10">
+                <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Telefono</strong>
+                <span class="align-top">{{solicitud.telefonoconyugue}}</span>
+              </div>
+            </li>
+            <li class="d-flex align-items-center justify-content-between  g-brd-gray-light-v4 g-py-15">
+              <div class="g-pr-10">
+                <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Profesión</strong>
+                <span class="align-top" >{{solicitud.profesionconyugue}}</span>
+              </div>
+            </li>
+
+            <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+              <div class="g-pr-10">
+                <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Lugar de Trabajo</strong>
+                <span class="align-top">{{solicitud.direccionlaboralconyugue}}</span>
+              </div>
+            </li>
+        {% endif %}
+        <br><br>
+        {% endif %}
+      <!-- FIN DATOS DE CONYUGE -->
+
+
+
+
+
+  <h2 class="h4 g-font-weight-300">Datos de hermanos</h2>
+  {% if hermano %}
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Edad</th>
+          <th>Domicilio</th>
+          <th>Telefono</th>
+          <th>Ocupación</th>
+        </tr>
+      </thead>
+      <tbody id="body_organizaciones">
+        {% for her in hermano %}
+        <tr>
+          <td>{{her.nombrecompleto}}</td>
+          <td>{{her.edad}}</td>
+          <td>{{her.domicilio}}</td>
+          <td>{{her.telefono}}</td>
+          <td>{{her.ocupacion}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {%endif%}
+  <br><br>
+  <h2 class="h4 g-font-weight-300">Datos de Hijos</h2>
+  {% if hijo %}
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Edad</th>
+        </tr>
+      </thead>
+      <tbody >
+        {% for hi in hijo %}
+        <tr>
+          <td>{{hi.nombreshijo}} {{hi.apellidoshijo}}</td>
+          <td>{{hi.edadhijo}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {%endif%}
+  <br><br>
+  <h2 class="h4 g-font-weight-300">Datos de Dependientes</h2>
+  {% if depen %}
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Tipo de dependencia</th>
+        </tr>
+      </thead>
+      <tbody >
+        {% for dep in depen %}
+        <tr>
+          <td>{{dep.nombredependiente}}</td>
+          {% if dep.tipodependencia == 'T' %}
+          <td>Total</td>
+          {% elif dep.tipodependencia == 'P' %}
+          <td>Parcial</td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {%endif%}
+  <br><br>
+
+</div>
+
+{% endblock content %}
+
+{% block javascript%}
+<script>
+$(document).ready(function(){
+  $('#sidemenu a').each(function(){
+    $(this).removeClass();
+    $(this).addClass('list-group-item list-group-item-action justify-content-between');
+  });
+  $('#familia').addClass('list-group-item list-group-item-action justify-content-between active');
+});
+var profesion = {A:'Asalariado', I:'Independiente', J:'Jubilado', E:'Estudiante', M: 'Ama de casa', O:'Otros'}
+$('#profesion_padre').html(profesion["{{ solicitud.profesionpadre }}"]);
+$('#profesion_madre').html(profesion["{{ solicitud.profesionmadre }}"]);
+$('#ocupacion_madre_{{ solicitud.codsolicitud }}').html(profesion["{{ solicitud.profesionmadre }}"]);
+$('#ocupacion_padre_{{ solicitud.codsolicitud }}').html(profesion["{{ solicitud.profesionpadre }}"]);
+function cargar_ocupacion(ocupacion, codigo){
+  var texto_ocupacion = profesion[ocupacion];
+
+  $('#ocupacion_hermano_' + codigo).html(texto_ocupacion);
+}
+
+function cargar_ocupacion_padre(ocupacion, codigo){
+  var texto_ocupacion = profesion[ocupacion];
+
+  $('#ocupacion_padre_' + codigo).html(texto_ocupacion);
+}
+
+function cargar_ocupacion_madre(ocupacion, codigo){
+  var texto_ocupacion = profesion[ocupacion];
+
+  $('#ocupacion_madre_' + codigo).html(texto_ocupacion);
+}
+
+var dependencia = {T:'Total', P:'Parcial'}
+
+function cargar_dependencia(depen, codigo){
+  var texto_dependencia = dependencia[depen];
+
+  $('#tipo_dependencia_' + codigo).html(texto_dependencia);
+}
+
+</script>
+
+{% endblock javascript %}

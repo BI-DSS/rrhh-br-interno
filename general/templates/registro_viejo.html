@@ -1,0 +1,400 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <!-- Title -->
+    <title>Registrate</title>
+    <!-- Required Meta Tags Always Come First -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href=" {% static 'img/logo.png' %}">
+    <!-- CSS Global Compulsory -->
+    <link rel="stylesheet" href="{% static 'vendor/bootstrap/bootstrap.min.css' %}">
+    <!-- CSS Implementing Plugins -->
+    <link rel="stylesheet" href="{% static 'vendor/icon-awesome/css/font-awesome.min.css' %}">
+  
+    <link rel="stylesheet" href="{% static 'vendor/icon-hs/style.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/dzsparallaxer/dzsparallaxer.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/dzsparallaxer/dzsscroller/scroller.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/dzsparallaxer/advancedscroller/plugin.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/hs-megamenu/src/hs.megamenu.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/hamburgers/hamburgers.min.css' %}">
+    <!-- CSS Unify -->
+    <link rel="stylesheet" href="{% static 'css/unify.css' %}">
+    <!-- CSS Customization -->
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    <style media="screen">
+      /* XS devices (max 767px) */
+      @media (max-width: 767px) {
+        #fondo {
+            background-image: url({% static "img/fondoRegistro/fondo_4.jpg" %});
+            background-size: cover;
+            background-repeat: no-repeat;
+
+          }
+      }
+
+      /* Small devices (tablets, 768px and up) */
+      @media (min-width: 768px) and (max-width: 991px) {
+        #fondo {
+          background-image: url({% static "img/fondoRegistro/fondo_3.jpg" %});
+          background-size: cover;
+          background-repeat: no-repeat;
+        }
+      }
+
+      /* Medium devices (desktops, 992px and up) */
+      @media (min-width: 992px) and (max-width: 1199px) {
+      #fondo {
+          background-image: url({% static "img/fondoRegistro/fondo_2.jpg" %});
+          background-size:  cover;
+          background-repeat: no-repeat;
+        }
+      }
+
+      /* Large devices (large desktops, 1200px and up) */
+      @media (min-width: 1200px) {
+        #fondo {
+          background-image: url({% static "img/fondoRegistro/fondo.jpg" %});
+          background-size: cover ;
+          background-repeat: no-repeat;
+          height: auto;
+          
+        }
+      }
+
+    </style>
+  </head>
+  <body style="">
+      <header id="js-header" class="u-header u-header--static">
+        <div class="u-header__section u-header__section--light g-bg-white g-transition-0_3 g-py-2">
+          <nav class="js-mega-menu navbar navbar-toggleable-md">
+            <div class="container">
+              <!-- Responsive Toggle Button -->
+              <button class="navbar-toggler navbar-toggler-right btn g-line-height-1 g-brd-none g-pa-0 g-pos-abs g-right-0" type="button"
+                      aria-label="Toggle navigation"
+                      aria-expanded="false"
+                      aria-controls="navBar"
+                      data-toggle="collapse"
+                      data-target="#navBar">
+                <span class="hamburger hamburger--slider">
+                  <span class="hamburger-box">
+                    <span class="hamburger-inner"></span>
+                  </span>
+                </span>
+              </button>
+              <!-- End Responsive Toggle Button -->
+              <!-- Logo -->
+              <a class="nav-link g-py-7 g-px-0" href="{% url 'blog' %}" class="navbar-brand">
+                <img src="{% static 'img/nuevo_logo.png'%}" alt="RECLUTAMIENTO BANRURAL" width="60%" >
+              </a>
+              <!-- End Logo -->
+              <!-- Navigation -->
+              <div class="collapse navbar-collapse align-items-center flex-sm-row g-pt-10 g-pt-5--lg g-mr-40--lg"  id="navBar">
+                <ul class="navbar-nav g-pos-rel g-font-weight-600 ml-auto ">
+                  {% if perms.empleado.ver_internas %}
+                  <li class="nav-item g-mx-10--lg g-mx-15--xl" style="padding-bottom: 5px;">
+                    <a class="btn u-btn-outline-primary g-font-size-13 text-uppercase g-py-10 g-px-15" href="{% url 'blog_internas' %}">ofertas internas</a>
+                  </li>
+                  {% endif %}
+                  <li class="nav-item g-mx-10--lg g-mx-15--xl" style="padding-bottom: 5px;">
+                    <a class="btn u-btn-outline-primary g-font-size-13 text-uppercase g-py-10 g-px-15" href="#" data-toggle="modal" data-target="#susbribete">Suscríbete</a>
+                  </li>
+                  {% if request.user.id %}
+                  <li class="nav-item g-mx-10--lg g-mx-15--xl" style="padding-bottom: 5px;">
+                    <a class="btn u-btn-outline-primary g-font-size-13 text-uppercase g-py-10 g-px-15" href="{% url 'perfil' %}">Perfil: {{request.user.first_name}}</a>
+                  </li>
+
+                  <li class="nav-item g-mx-10--lg g-mx-15--xl" style="padding-bottom: 5px;">
+                    <a class="btn u-btn-outline-lightred g-font-size-13 text-uppercase g-py-10 g-px-15" href="{% url 'cerrar_sesion' %}">Cerrar Sesión</a></li>
+                  </li>
+
+                  {% else %}
+
+                  <li class="nav-item g-mx-10--lg g-mx-15--xl" style="padding-bottom: 5px;">
+                    <a class="btn u-btn-outline-primary g-font-size-13 text-uppercase g-py-10 g-px-15" href="{% url 'registro' %}">Registrate</a>
+                  </li>
+                  <li class="nav-item g-mx-10--lg g-mx-15--xl" style="padding-bottom: 5px;">
+                    <a class="btn u-btn-outline-primary g-font-size-13 text-uppercase g-py-10 g-px-15" href="{% url 'login' %}">Iniciar Sesión</a>
+                  </li>
+                  {% endif %}
+                </ul>
+              </div>
+              <!-- End Navigation -->
+            </div>
+          </nav>
+        </div>
+      </header>
+    <main>
+      <!-- Login -->
+      <section id="fondo" >
+        <div class="container g-pt-100 g-pb-20">
+          <div class="row justify-content-between">
+            <div class="col-md-6 col-lg-5 flex-md-unordered align-self-center g-mb-80">
+              
+            </div>
+            <div class="col-md-6 flex-md-first g-mb-80">
+            <div class="g-bg-black rounded g-pa-50" style="opacity: 0.6;">
+                <header class="text-center mb-4">
+                  <img src="{% static 'img/logoBa.png' %}" align="center" width="70%" style="top: 0;">
+                   <h2 style="text-align: center; color: white; ">Registro</h2>
+                  {% if error %}
+                    <h2 class="h5 g-color-red g-font-weight-200">{{ error }}</h2>
+                  {% endif %}
+                </header>
+                <!-- Form -->
+                <form class="g-py-15" method="POST" id="form_registro" action="{% url 'registro' %}">
+                  {% csrf_token %}
+                  <div class="row">
+                    <div class="col-xs-12 col-sm-6 mb-4">
+                      <label class=" g-font-weight-600 g-font-size-13" style="color: white;">Nombres:</label>
+                      <input  name="nombre" class="form-control g-color-black  g-brd-gray-light-v4 g-brd-black--hover rounded g-py-15 g-px-15" type="text" placeholder="Ingrese Nombres" required="" style="background-color: #a09f9f;">
+                    </div>
+                    <div class="col-xs-12 col-sm-6 mb-4">
+                      <label class="g-font-weight-600 g-font-size-13" style="color: white;">Apellidos:</label>
+                      <input name="apellido" class="form-control g-color-black g-brd-gray-light-v4 g-brd-black--hover rounded g-py-15 g-px-15" type="text" placeholder="Ingrese Apellidos" required="" style="background-color: #a09f9f;">
+                    </div>
+                  </div>
+                  <div class="mb-4">
+                    <label class=" g-font-weight-600 g-font-size-13" style="color: white;">Correo Electrónico:</label>
+                    <input id="correo" name="correo" class="form-control g-color-black g-brd-gray-light-v4 g-brd-black--hover rounded g-py-15 g-px-15" type="email" placeholder="correo@electrónico.com"  pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" required style="background-color: #a09f9f;">
+                  </div>
+                  <div  class="mb-4">
+                      <label class=" g-font-weight-600 g-font-size-13" style="color: white;">Contraseña:</label>
+                      <input id="clave" name="password" class="form-control g-color-black g-brd-gray-light-v4 g-brd-black--hover rounded g-py-15 g-px-15" type="password" placeholder="Contraseña" required="" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Debe contener un número , una letra mayuscula y al menos 8 caracteres" style="background-color: #a09f9f;">
+                  </div>
+                  <div class="mb-4">
+                    
+                  <button style="margin-top:0px;" id="registrarse" class="btn btn-md u-btn-primary rounded g-py-13 g-px-25">REGISTRATE</button>
+                  </div>
+                </form>
+                
+                <br><br>
+                <!-- End Form -->
+                <footer class="text-center">
+                  <p class="g-color-gray-dark-v5 g-font-size-13 mb-0">¿Ya tienes una cuenta? <a class="g-font-weight-600" href="{% url 'login' %}">Inicia Sesión</a></p>
+                </footer>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- End Login -->
+      <div class="modal fade" id="susbribete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Suscríbete y recibe nuestras ofertas de trabajo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <form method="POST" accept-charset="utf-8" action="{% url 'suscribirse' %}" id="form_suscribirse">
+                    {% csrf_token %}
+                      <div class="modal-body">
+                  
+                    <div class="row">
+                      <div class="col-xs-12 col-sm-6 mb-4">
+                        <label>Correo electrónico:</label>
+                        <input type="email" name="correo" required="" placeholder="ejemplo@mail.com"  id="id_correo" class="form-control">
+                      </div>
+                      
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12 col-sm-12 mb-12">
+                        <span  id="id__error" style="color: red;">SELECCIONE LAS AREAS DE SUS INTERES</span>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12 col-sm-12 mb-12">
+                        <span  id="id_email" style="color: red;">INGRESE UN CORREO ELECTRÓNICO VÁLIDO</span>
+                      </div>
+                    </div>
+                    <h4 class="h6 g-font-weight-500 g-mb-20">Selecciona las areas de tu interes:</h4>
+                    <div class="row">
+                      {% for ar in areas %}
+                       <!-- Left Column -->
+                      <div class="col-md-4">
+                        <div class="form-group g-mb-10">
+                          <label class="u-check g-pl-25">
+                            <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" name="area[]" value="{{ar.Cod_area}}">
+                            <div class="u-check-icon-checkbox-v4 g-absolute-centered--y g-left-0">
+                              <i class="fa" data-check-icon=""></i>
+                            </div>
+                            {{ar.Descripcion_area}}
+                          </label>
+                        </div>
+                      </div>
+                      <!-- End Left Column -->
+                      {% endfor %}
+                    </div>
+                    
+                      </div>
+                </form>
+                <div class="modal-footer">
+                  <small class="form-text g-font-size-default g-color-primary " >Recibiras un correo de confirmación cuando tu suscripción sea activada</small>
+                          <button type="button" name="guardar" id="id_suscribirse"  class="btn btn-primary "><span>Suscribirse</span>
+                          </button>
+
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+              </div>
+
+            </div>
+      </div>
+      <!-- Footer -->
+      <div class="g-py-30" style="background-color:#007a33;color:white;">
+        <div class="container-fluid">
+          <div class="row">
+            <!-- Footer Content -->
+            <div class="col-lg-4 col-md-6 g-mb-40 g-mb-0--lg text-center">
+              <div class="u-heading-v2-3--bottom g-brd-white-opacity-0_8 g-mb-20">
+                <h2 class="u-heading-v2__title h6 text-uppercase mb-0">Copyright</h2>
+              </div>
+              <p>Derechos Reservados 2017 &copy; Banrural Honduras</p>
+            </div>
+            <!-- End Footer Content -->
+            <!-- Footer Content -->
+            <div class="col-lg-4 col-md-6 g-mb-40 g-mb-0--lg text-center">
+              <div class="u-heading-v2-3--bottom g-brd-white-opacity-0_8 g-mb-20">
+                <h2 class="u-heading-v2__title h6 text-uppercase mb-0">Redes Sociales</h2>
+              </div>
+              <div class="row">
+                <div class="text-center col-md-12">
+                  <ul class="list-inline">
+                    <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title="Facebook">
+                      <a href="https://es-la.facebook.com/BanruralHonduras/" target="_blank" class="g-color-white-opacity-0_5 g-color-white--hover">
+                        <i class="fa fa-2x fa-facebook"></i>
+                      </a>
+                    </li>
+                    <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title="Twitter">
+                      <a href="https://twitter.com/banruralhn" target="_blank" class="g-color-white-opacity-0_5 g-color-white--hover">
+                        <i class="fa fa-2x fa-twitter"></i>
+                      </a>
+                    </li>
+                    <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title="Instagram">
+                      <a href="https://www.instagram.com/banruralhn/" target="_blank" class="g-color-white-opacity-0_5 g-color-white--hover">
+                        <i class="fa fa-2x fa-instagram"></i>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <!-- End Footer Content -->
+            <!-- Footer Content -->
+            <div class="col-lg-4 col-md-6 g-mb-40 g-mb-0--lg text-center">
+              <div class="u-heading-v2-3--bottom g-brd-white-opacity-0_8 g-mb-20">
+                <h2 class="u-heading-v2__title h6 text-uppercase mb-0">Ubicación</h2>
+              </div>
+              <p>Banrural Honduras, Centro de Servicios Florencia</p>
+              <p>Blvd. Suyapa, Col. Florencia Norte, 3730</p>
+              <p>Tegucigalpa, Honduras</p>
+            </div>
+            <!-- End Footer Content -->
+          </div>
+        </div>
+      </div>
+    </main>
+    <div class="modal fade" id="modal_activacion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Activación de Usuario</h4>
+          </div>
+          <div class="modal-body">
+            <p id="mensaje"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- JS Global Compulsory -->
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/jquery-migrate/jquery-migrate.min.js' %}"></script>
+    <script src="{% static 'vendor/tether.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/bootstrap.min.js' %}"></script>
+    <!-- JS Implementing Plugins -->
+    <script src="{% static 'vendor/hs-megamenu/src/hs.megamenu.js' %}"></script>
+    <script src="{% static 'vendor/dzsparallaxer/dzsparallaxer.js' %}"></script>
+    <script src="{% static 'vendor/dzsparallaxer/dzsscroller/scroller.js' %}"></script>
+    <script src="{% static 'vendor/dzsparallaxer/advancedscroller/plugin.js' %}"></script>
+    <!-- JS Unify -->
+    <script src="{% static 'js/hs.core.js' %}"></script>
+    <script src="{% static 'js/components/hs.header.js' %}"></script>
+    <script src="{% static 'js/helpers/hs.hamburgers.js' %}"></script>
+    <script src="{% static 'js/components/hs.tabs.js' %}"></script>
+    <!-- JS Customization -->
+    <script src="{% static 'js/custom.js' %}"></script>
+    <!-- JS Plugins Init. -->
+    <script>
+      $(document).ready(function(){
+        function isEmail(email) {
+          var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+          return regex.test(email);
+        }
+      $('#id__error').hide();
+        $('#id_email').hide();
+        $('#id_suscribirse').click(function(){
+            var x = false;
+            $('input[name="area[]"]').each(function(index , elem){
+              if ($(elem).prop('checked') != ''){
+                x = true;
+              }
+            });
+            if (x == false) {
+              $('#id__error').show();
+            }
+            else{
+              if ( isEmail($('#id_correo').val() )) {
+                $('#form_suscribirse').submit();
+                
+              }
+              else{
+                $('#id_email').show();
+
+              }
+            }
+        });
+
+        if ('{{ mensaje }}' == 'activacion') {
+          $('#mensaje').html('Se le ha enviado un correo electrónico a su cuenta de correo para que pueda activar su usuario.');
+          $('#modal_activacion').modal('show');
+        }else if ('{{ mensaje }}' == 'existe') {
+          $('#mensaje').html('La cuenta de correo que desea ingresar ya existe.');
+          $('#modal_activacion').modal('show');
+        }
+      });
+
+      $(document).on('ready', function () {
+        // initialization of tabs
+        $.HSCore.components.HSTabs.init('[role="tablist"]');
+        // initialization of video on background
+        
+      });
+      $(window).on('load', function () {
+        // initialization of header
+        $.HSCore.components.HSHeader.init($('#js-header'));
+        $.HSCore.helpers.HSHamburgers.init('.hamburger');
+        // initialization of HSMegaMenu component
+        $('.js-mega-menu').HSMegaMenu({
+          event: 'hover',
+          pageContainer: $('.container'),
+          breakpoint: 991
+        });
+      });
+      $(window).on('resize', function () {
+        setTimeout(function () {
+          $.HSCore.components.HSTabs.init('[role="tablist"]');
+        }, 200);
+      });
+    </script>
+  </body>
+</html>

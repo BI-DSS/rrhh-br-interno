@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+<div class="col-lg-9">
+	<form  method="POST" accept-charset="utf-8"  action="">
+	    {% csrf_token %}
+	    <div id="esta_trabajando">
+	        <label for="chck1" style="font-weight: 600;">¿Es tu empleo actual?</label><br>
+	        <label class="form-check-inline u-check g-mr-20 mx-0 mb-0" >
+	        <input class="hidden-xs-up g-pos-abs g-top-0 g-right-0 chck1" name="trabajoactual" type="checkbox" id="chck1" value="False" >
+	        <div class="u-check-icon-radio-v7">
+	          <i class="fa" data-check-icon="" data-uncheck-icon=""></i>
+	        </div>
+	      </label>
+	     <br><br>
+	        <div class="row">
+	          <div class="col-xs-12 col-sm-4 mb-4">
+	            <label style="font-weight: normal;">Nombre de empresa:</label>
+	            <input type="text" name="nombreempresa" id="id_nombreempresa" value="">
+	          </div>
+	          <div class="form-group col-xs-12 col-sm-4 mb-4">
+	            <label style="font-weight: normal;" for="id_fechaingreso">Fecha ingreso</label>
+	            <div class="input-group g-brd-primary--focus">
+	            	<input type="text" name="fechaingreso" id="id_fechaingreso" value="{{histo.fechaingreso}}">
+	              <div class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-dark-v5 rounded-0">
+	                <i class="icon-calendar"></i>
+	              </div>
+	            </div>
+	          </div>
+	          <div class="form-group col-xs-12 col-sm-4 mb-4 actual">
+	            <label style="font-weight: normal;" for="id_fechaegreso">Fecha egreso</label>
+	            <div class="input-group g-brd-primary--focus">
+	            	<input type="text" name="fechaegreso" id="id_fechaegreso" value="{{histo.fechaegreso}}">
+	              <div class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-dark-v5 rounded-0">
+	                <i class="icon-calendar"></i>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+
+	        <div class="row">
+	          <div class="col-xs-12 col-sm-4 mb-4">
+	            <label style="font-weight: normal;">Dirección:</label>
+	            <textarea name="direccionempresa" rows="3" id="id_direccionempresa"></textarea>
+	          </div>
+
+	          <div class="col-xs-12 col-sm-4 mb-4">
+	            <label style="font-weight: normal;">Nombre jefe inmediato:</label>
+	            <input type="text" name="nombrejefeinmediato" id="id_nombrejefeinmediato" value="">
+	          </div>
+	          <div class="col-xs-12 col-sm-4 mb-4 actual">
+	            <label style="font-weight: normal;">Motivo retiro:</label>
+	            {{historial.motivoretiro}}
+	          </div>
+	        </div>
+	    </div>
+	    <br><br>
+	    <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+
+	    <div class="col-12 align-self-center text-right">
+	      <a href="{% url 'informacion_laboral' %}" class="btn btn-md u-btn-indigo  rounded g-py-13 g-px-25" style="margin-right: 5px;">Cancelar</a>
+	      <button type="submit" class="btn btn-md u-btn-primary rounded g-py-13 g-px-25">Guardar cambios</button>
+	    </div>
+    </form>
+</div>
+
+{% endblock content %}
+{% block javascript %}
+<script>
+	$(document).ready(function() {
+    	$("#id_nombreempresa, #id_fechaingreso, #id_direccionempresa, #id_nombrejefeinmediato,#id_salariofinal, #id_puesto , #id_salarioinicial, #id_horario , #id_horainicio, #id_horasalida, #id_fucionespuesto").attr("required", true);
+
+
+		if($(".chck1").val() =="True"){
+			$('.actual').hide();
+			$("#id_fechaegreso").attr('value', '');
+		}
+		else{
+			$('.actual').show();
+
+		}
+
+
+		if($(".sabado").val() =="True"){
+			$('.sab').show();
+		}
+		else{
+			$('.sab').hide();
+			$("#id_horainiciosabado , #id_horasalidasabado").attr('value', '');
+		}
+
+
+	     $(' input[name="fechaingreso"], input[name="fechaegreso"] ' ).datepicker({
+	      autoclose: true,
+	      format: 'yyyy-mm-dd',
+	      language: 'es',
+	    });
+
+	 	$(".chck1").change(function(){
+	    	if ($(this).val() == "True") {
+		      	$(this).attr('value', 'False')
+		      	$('.actual').show();
+	    	}
+	    	else{
+	      	$(this).attr('value', 'True')
+
+	      		$('.actual').hide();
+		      	$("#id_fechaegreso").attr('value', '');
+
+		      	$("#id_motivoretiro option[value='0']").attr('selected','selected');
+		      	$('#id_motivoretiro').select2({
+		          theme:'bootstrap',
+		          width: '100%'
+		        });
+	    	}
+	 	});
+
+	 	$(".sabado").change(function(){
+	    	if ($(this).val() == "True") {
+	      	$(this).attr('value', 'False')
+	      	$('.sab').hide();
+	      	$("#id_horainiciosabado , #id_horasalidasabado").attr('value', '');
+
+
+	    	}
+	    	else{
+	      	$(this).attr('value', 'True')
+	      	$('.sab').show();
+	    	}
+	 	});
+
+	});
+	$(document).ready(function(){
+		$('#sidemenu a').each(function(){
+			$(this).removeClass();
+			$(this).addClass('list-group-item list-group-item-action justify-content-between');
+		});
+		$('#trabajo').addClass('list-group-item list-group-item-action justify-content-between active');
+	});
+</script>
+{% endblock javascript %}

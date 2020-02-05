@@ -1,0 +1,64 @@
+{% extends "otrabase.html" %}
+{% load staticfiles %}
+{% block content %}
+<div class="row">
+	<div class="container">
+  		<h2 class="h1 g-font-weight-300 g-color-black">Lista de candidatos ingresados al CC</h2>
+      <span class="h4 g-font-weight-300 g-color-black"> Total: {{total}}</span>
+  		<br><br>
+      <div>
+      	<div class="row">
+            <!--Basic Table-->
+            <table class="table table-responsive table-hover table-striped table-bordered" id="table">
+              <thead>
+                <tr>
+                  <th class="text-center">NOMBE CANDIDATO</th>
+                  <th class="text-center">FECHA APLICACION</th>
+                  <th class="text-center">NOMBE PLAZA | OFERTA</th>
+                  <th class="text-center">AREA DE PLAZA | OFERTA</th>
+                  <th class="text-center">FECHA PUBLICACION OFERTA</th>
+                </tr>
+              </thead>
+                <tbody>
+                {% for x in list_cc %}
+                  <tr>
+                    <td class="text-center">{{x.Cod_Solicitud.nombres}} {{x.Cod_Solicitud.primerapellido}} </td>
+                    <td class="text-center">{{x.Cod_Aplicacion.Fecha}}  </td>
+                    <td class="text-center">{{x.Cod_Oferta.Puesto_oferta}}</td>
+                    <td class="text-center">{{x.Cod_Oferta.Cod_area.Descripcion_area}}</td>
+                    <td class="text-center">{{x.Cod_Oferta.Fecha_publicacion}}</td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+      </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block javascript %}
+<script type="text/javascript">
+    $(document).ready(function() {
+      $("#table_filter").css("margin-left","250px");
+
+    var table = $('#table').DataTable({ 
+      "language": {
+        "lengthMenu": "_MENU_ registros",
+        "zeroRecords": "No se encontro ningún registro",
+        "info": "Pagina _PAGE_ de _PAGES_",
+        "infoEmpty": "No hay registros",
+        "infoFiltered": "(filtrado de _MAX_ registros)",
+        "search":"Buscar:",
+        "paginate": {
+          "first":"Primero",
+          "last":"Ultimo",
+          "next":"Siguiente",
+          "previous":"Anterior"
+         },
+      }
+    });
+  });
+
+</script>
+{% endblock %}

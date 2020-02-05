@@ -1,0 +1,783 @@
+{% extends "baseform.html" %}
+{% load staticfiles %}
+{% block content %}
+<section class="g-bg-gray-light-v5">
+  <div class="container g-py-2">
+    <div class="row justify-content-center">
+      <div class="col-sm-10 col-md-9 col-lg-12">
+        <br>
+        <div class="u-shadow-v21 g-bg-white rounded g-py-16 g-px-30">
+          <header class="text-center mb-4">
+            <h4 class="h4 g-color-black g-font-weight-600">INGRESO DE INFORMACIÓN</h4>
+          </header>
+          
+          <hr style="color:#C1D82F; background-color: #C1D82F; " class="g-mx-minus-30">
+          <!-- IDIOMAS -->
+          <div >  
+            <header class="text-center mb-4">
+                <h5 class="h5 g-color-black g-font-weight-600">IDIOMAS</h5>
+            </header>
+            <div class="row">
+              <div class="col-xs-12 col-md-3 mb-3">
+                <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13"> Selecciona Idioma:</label>
+                {{idioma.nombre}}
+              </div>
+              <div hidden>
+                <input type="text" id="porcentaje_lectura" value="75">
+                <input type="text" id="porcentaje_escritura" value="75">
+                <input type="text" id="porcentaje_expresion" value="75">
+              </div>
+              <div class="col-xs-12 col-md-3 mb-3">
+                  <div class="col-xs-12 col-md-12 mb-12">
+                    <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Nivel de Expresión:</label>
+                  </div>
+                  <div class="col-xs-12 col-md-12 mb-12">
+                    <ul class="js-rating u-rating-v1 g-font-size-17 g-color-gray-light-v3 mb-0 habla" data-hover-classes="g-color-primary" id="habla">
+                        <li class="g-color-primary click" value="0" id="1star">
+                          <i class="fa fa-star"></i>
+                        </li>
+                        <li class="g-color-primary click" value="25" id="2star">
+                          <i class="fa fa-star"></i>
+                        </li>
+                        <li class="g-color-primary click" value="50" id="3star">
+                          <i class="fa fa-star"></i>
+                        </li>
+                        <li class="g-color-primary click" value="75" id="4star">
+                          <i class="fa fa-star"></i>
+                        </li>
+                        <li value="100" id="5star">
+                          <i class="fa fa-star"></i>
+                        </li>
+                      </ul>
+                  </div>
+              </div>
+              <div class="col-xs-12 col-md-3 mb-3">
+                  <div class="col-xs-12 col-md-12 mb-12">
+                    <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13"> Nivel de Escritura:</label>
+                  </div>
+                  <div class="col-xs-12 col-md-12 mb-12">
+                    <ul class="js-rating u-rating-v1 g-font-size-17 g-color-gray-light-v3 mb-0 escribes" data-hover-classes="g-color-primary" id="escribes">
+                        <li class="g-color-primary click" value="0" id="1star">
+                          <i class="fa fa-star"></i>
+                        </li>
+                        <li class="g-color-primary click" value="25" id="2star">
+                          <i class="fa fa-star"></i>
+                        </li>
+                        <li class="g-color-primary click" value="50" id="3star">
+                          <i class="fa fa-star"></i>
+                        </li>
+                        <li class="g-color-primary click" value="75" id="4star">
+                          <i class="fa fa-star"></i>
+                        </li>
+                        <li value="100" id="5star">
+                          <i class="fa fa-star"></i>
+                        </li>
+                      </ul>
+                  </div>
+              </div>
+              <div class="col-xs-12 col-md-3 mb-3">
+                  <div class="col-xs-12 col-md-12 mb-12">
+                    <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Nivel de Lectura:</label>
+                  </div>
+                  <div class="col-xs-12 col-md-12 mb-12">
+                    <ul class="js-rating u-rating-v1 g-font-size-17 g-color-gray-light-v3 mb-0 lees" data-hover-classes="g-color-primary" id="lees">
+                        <li class="g-color-primary click" value="0" id="1star">
+                          <i class="fa fa-star"></i>
+                        </li>
+                        <li class="g-color-primary click" value="25" id="2star">
+                          <i class="fa fa-star"></i>
+                        </li>
+                        <li class="g-color-primary click" value="50" id="3star">
+                          <i class="fa fa-star"></i>
+                        </li>
+                        <li class="g-color-primary click" value="75" id="4star">
+                          <i class="fa fa-star"></i>
+                        </li>
+                        <li value="100" id="5star">
+                          <i class="fa fa-star"></i>
+                        </li>
+                      </ul>
+                  </div>
+              </div>
+              <div class="col-xs-12 col-md-12 mb-12 text-center">
+                <button class="btn btn-sm u-btn-primary rounded g-py-13 g-px-25" id="seleccionar_idioma">AGREGAR IDIOMA</button>
+                <br><br>
+              </div>
+            </div>
+            <div class="text-center mb-4">
+              <h5 class="h5 g-color-black g-font-weight-600">IDIOMAS INGRESADOS</h5>
+            </div>
+            <div class="row">
+              <!-- Basic Table -->
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>IDIOMA</th>
+                      <th>NIVEL LECTURA</th>
+                      <th>NIVEL ESCRITURA</th>
+                      <th>NIVEL EXPRESIÓN</th>
+                      <th>BORRAR IDIOMA</th>
+                    </tr>
+                  </thead>
+                  <tbody id="idiomas_seleccionados">
+
+                  </tbody>
+                </table>
+              </div>
+              <!-- End Basic Table -->
+            </div>
+          </div>
+
+          <br>
+          <hr style="color:#C1D82F; background-color: #C1D82F; " class="g-mx-minus-30">
+          <!-- HISTORIAL ACADEMICO -->
+          <div>
+            <header class="text-center mb-4">
+                <h5 class="h5 g-color-black g-font-weight-600">HISTORIAL ACADÉMICO</h5>
+            </header>
+            <div class="row">
+              <div class="col-xs-12 col-md-4 mb-2">
+                <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Nivel de Estudios:</label>
+                {{ formhistoaca.nivel_estudios }}
+              </div>
+              <div class="col-xs-12 col-md-4 mb-2" id="nombre_ins">
+                <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Nombre Institución:</label>
+                <select name="nombre_institucion" id="nombre_institucion">
+                  <option value="0">----------</option>
+                </select>
+              </div>
+
+              <div class="col-xs-12 col-md-4 mb-2" hidden="" id="nombre_cole">
+                  <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Nombre Institución:</label>
+                  <input type="text" id="nombre_es" name="nombre_es">
+              </div>
+
+              <div class="col-xs-12 col-md-4 mb-2">
+                <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Lugar de Estudios:</label>
+                <select name="lugar_estudios" id="lugar_estudios">
+                  <option value="0">----------</option>
+                </select>
+              </div>
+              <div class="col-xs-12 col-md-4 mb-2">
+                <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Título Obtenido:</label>
+                <div id="secundaria" hidden>
+                  <input type="text" id="titulo_secundaria">
+                </div>
+                <div id="universidad">
+                  <select name="titulo" id="titulo_universidad">
+                    <option value="0">----------</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-xs-12 col-md-4 mb-2">
+                <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Año Inicio:</label>
+                <select class="years" name="inicio" id="inicio">
+                    <option value="0">----------</option>
+                </select>
+              </div>
+              <div class="col-xs-12 col-md-4 mb-2">
+                <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Año de Finalización:</label>
+                <select class="years" name="fin" id="fin">
+                  <option value="0">----------</option>
+                </select>
+              </div>
+              <div class="col-xs-12 col-md-12 mb-12 text-center">
+                <button class="btn btn-sm u-btn-primary rounded g-py-13 g-px-25" id="agregar_estudio">AGREGAR ESTUDIO</button>
+                <br><br>
+              </div>
+            </div>
+            <div class="text-center mb-4">
+              <h5 class="h5 g-color-black g-font-weight-600">HISTORIAL ACADÉMICO SELECCIONADO</h5>
+            </div>
+            <div class="row">
+              <!-- Basic Table -->
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>INSTITUCIÓN</th>
+                      <th>NIVEL</th>
+                      <th>LUGAR</th>
+                      <th>TÍTULO</th>
+                      <th>INICIO</th>
+                      <th>FIN</th>
+                      <th>BORRAR</th>
+                    </tr>
+                  </thead>
+                  <tbody id="estudios_agregados">
+
+                  </tbody>
+                </table>
+              </div>
+              <!-- End Basic Table -->
+            </div>
+          </div>
+
+          <br>
+          <hr style="color:#C1D82F; background-color: #C1D82F; " class="g-mx-minus-30">
+          <!-- CURSOS RECIBIDOS -->
+          <div>
+            <header class="text-center mb-4">
+                <h5 class="h5 g-color-black g-font-weight-600">CURSOS RECIBIDOS</h5>
+            </header>
+            <div class="row">
+              <div class="col-xs-12 col-md-4 mb-4">
+                <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Tema del Curso:</label>
+                {{ formcurso.temacurso }}
+              </div>
+              <div class="col-xs-12 col-md-4 mb-4">
+                <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Nombre del Centro de Estudio:</label>
+                {{ formcurso.nombrecentroestudio }}
+              </div>
+              <div class="col-xs-12 col-md-4 mb-4">
+                <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Dirección del Centro de Estudio:</label>
+                {{ formcurso.direccioncentroestudio }}
+              </div>
+              <div class="col-xs-12 col-md-4 mb-4">
+                <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Duración del Curso:</label>
+                {{ formcurso.duracion }}
+              </div>
+              <div class="col-xs-12 col-md-8 mb-8">
+                <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Título Obtenido:</label>
+                {{ formcurso.titulo }}
+              </div>
+              <div class="col-xs-12 col-md-12 mb-12 text-center">
+                <button class="btn btn-sm u-btn-primary rounded g-py-13 g-px-25" id="agregar_curso">AGREGAR CURSO</button>
+                <br><br>
+              </div>
+            </div>
+            <div class="text-center mb-4">
+              <h5 class="h5 g-color-black g-font-weight-600">CURSOS RECIBIDOS INGRESADOS</h5>
+            </div>
+            <div class="row">
+              <!-- Basic Table -->
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>TEMA</th>
+                      <th>CENTRO</th>
+                      <th>DIRECCIÓN</th>
+                      <th>DURACIÓN</th>
+                      <th>TÍTULO</th>
+                      <th>BORRAR</th>
+                    </tr>
+                  </thead>
+                  <tbody id="cursos_agregados">
+
+                  </tbody>
+                </table>
+              </div>
+              <!-- End Basic Table -->
+            </div>
+          </div>
+
+          <br>
+          <hr style="color:#C1D82F; background-color: #C1D82F; " class="g-mx-minus-30">
+          <!-- HABILIDADES -->
+          <div>
+            <header class="text-center mb-4">
+                <h5 class="h5 g-color-black g-font-weight-600">HABILIDADES</h5>
+            </header>
+            <div class="row">
+              <div class="col-xs-12 col-md-6 mb-6">
+                <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Habilidad:</label>
+                {{ formhabilidad.nombre_habilidad }}
+              </div>
+              <div hidden>
+                <input type="text" id="porcentaje_habilidad" value="75">
+              </div>
+              <div class="col-xs-12 col-md-6 mb-6">
+                  <div class="col-xs-12 col-md-12 mb-12">
+                    <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Porcentaje:</label>
+                  </div>
+                  <div class="col-xs-12 col-md-12 mb-12">
+                    <ul class="js-rating u-rating-v1 g-font-size-17 g-color-gray-light-v3 mb-0" data-hover-classes="g-color-primary" id="habilidad">
+                        <li class="g-color-primary click" value="0" id="1star">
+                          <i class="fa fa-star"></i>
+                        </li>
+                        <li class="g-color-primary click" value="25" id="2star">
+                          <i class="fa fa-star"></i>
+                        </li>
+                        <li class="g-color-primary click" value="50" id="3star">
+                          <i class="fa fa-star"></i>
+                        </li>
+                        <li class="g-color-primary click" value="75" id="4star">
+                          <i class="fa fa-star"></i>
+                        </li>
+                        <li value="100" id="5star">
+                          <i class="fa fa-star"></i>
+                        </li>
+                      </ul>
+                  </div>
+                  <br><br>
+              </div>
+              <div class="col-xs-12 col-md-12 mb-12 text-center">
+                <button class="btn btn-sm u-btn-primary rounded g-py-13 g-px-25" id="seleccionar_habilidad">AGREGAR HABILIDAD</button>
+                <br><br>
+              </div>
+            </div>
+            <div class="text-center mb-4">
+              <h5 class="h5 g-color-black g-font-weight-600">HABILIDADES SELECCIONADOS</h5>
+            </div>
+            <div class="row">
+              <!-- Basic Table -->
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>HABILIDAD</th>
+                      <th>PORCENTAJE</th>
+                      <th>BORRAR</th>
+                    </tr>
+                  </thead>
+                  <tbody id="habilidades_agregadas">
+
+                  </tbody>
+                </table>
+              </div>
+              <!-- End Basic Table -->
+            </div>
+          </div>
+
+          <br>
+          <hr style="color:#C1D82F; background-color: #C1D82F; " class="g-mx-minus-30">
+          <!-- COMPETENCIAS -->
+          <div>
+            <header class="text-center mb-4">
+                <h5 class="h5 g-color-black g-font-weight-600">COMPETENCIAS</h5>
+            </header>
+            <form action="#!" id="form_solicitud_cinco" method="POST" id="form_solicitud5">
+                {% csrf_token %}
+                <input type="text" id="idiomas" name="idiomas" hidden>
+                <input type="text" id="estudios" name="estudios"  hidden>
+                <input type="text" id="cursos" name="cursos" hidden>
+                <input type="text" id="habilidades" name="habilidades" hidden>
+                <input type="text" id="competencias" name="competencias" hidden>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-4 mb-2">
+                        <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Trabajo en Equipo</label> <br>
+                        <label class="form-check-inline u-check g-mr-20 mx-0 mb-0" >
+                            <input class="hidden-xs-up g-pos-abs g-top-0 g-right-0 competencia" name="trabajoequipo" type="checkbox" value="1">
+                            <div class="u-check-icon-radio-v7">
+                                <i class="fa" data-check-icon="" data-uncheck-icon=""></i>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 mb-2">
+                        <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Puntualidad</label> <br>
+                        <label class="form-check-inline u-check g-mr-20 mx-0 mb-0" >
+                            <input class="hidden-xs-up g-pos-abs g-top-0 g-right-0 competencia" name="puntualidad" type="checkbox" value="2">
+                            <div class="u-check-icon-radio-v7">
+                                <i class="fa" data-check-icon="" data-uncheck-icon=""></i>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 mb-2">
+                        <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Liderazgo</label> <br>
+                        <label class="form-check-inline u-check g-mr-20 mx-0 mb-0" >
+                            <input class="hidden-xs-up g-pos-abs g-top-0 g-right-0 competencia" name="liderazgo" type="checkbox" value="3">
+                            <div class="u-check-icon-radio-v7">
+                                <i class="fa" data-check-icon="" data-uncheck-icon=""></i>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 mb-2">
+                        <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Innovación</label> <br>
+                        <label class="form-check-inline u-check g-mr-20 mx-0 mb-0" >
+                            <input class="hidden-xs-up g-pos-abs g-top-0 g-right-0 competencia" name="innovacion" type="checkbox" value="4">
+                            <div class="u-check-icon-radio-v7">
+                                <i class="fa" data-check-icon="" data-uncheck-icon=""></i>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 mb-2">
+                        <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Creatrividad</label> <br>
+                        <label class="form-check-inline u-check g-mr-20 mx-0 mb-0" >
+                            <input class="hidden-xs-up g-pos-abs g-top-0 g-right-0 competencia" name="creatividad" type="checkbox" value="5">
+                            <div class="u-check-icon-radio-v7">
+                                <i class="fa" data-check-icon="" data-uncheck-icon=""></i>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 mb-2">
+                        <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Iniciativa</label> <br>
+                        <label class="form-check-inline u-check g-mr-20 mx-0 mb-0" >
+                            <input class="hidden-xs-up g-pos-abs g-top-0 g-right-0 competencia" name="iniciativa" type="checkbox" value="6">
+                            <div class="u-check-icon-radio-v7">
+                                <i class="fa" data-check-icon="" data-uncheck-icon=""></i>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </form>
+          </div>
+
+          <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+          <div class="row" style="text-align: center; display: block;">
+            <label><b>5 de 6</b></label>
+          </div>
+          <div class="col-12 align-self-center text-right">
+            <a href="{% url 'perfil' %}" class="btn btn-md u-btn-indigo  rounded g-py-13 g-px-25" style="margin-right: 5px;">Salir</a>
+            <button class="btn btn-md u-btn-primary rounded g-py-13 g-px-25" id="finalizar">Siguiente</button>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+</section>
+{% endblock content %}
+{% block javascript %}
+<script>
+  $( document ).ready(function() {
+    for (i = new Date().getFullYear(); i > 1900; i--)
+    {
+      $('.years').append($('<option/>').val(i).html(i));
+    }
+  });
+  $('#select_niveles').change(function(){
+    var nivel = $('#select_niveles option:selected').val();
+    if (nivel == '0') {
+      alert("Seleccione un nivel válido");
+    }else {
+      switch (nivel) {
+        case '1':
+          $('#nombre_ins').hide();
+          $('#nombre_cole').attr('hidden', false);
+          // $('#nombre_institucion').empty();
+          // $('#nombre_institucion').append("<option value=''>-----------</option>");
+          $('#lugar_estudios').empty();
+          $('#lugar_estudios').append("<option value=''>-----------</option>");
+
+
+          $.ajax({
+            type: "GET",
+            data: {codpais: 1},
+            url: "{% url 'ajax_municipios_pais' %}",
+            success: function(response){
+             $.each(response, function(key, val){
+              $('#lugar_estudios').append("<option value="+val.codmunicipio+">" + val.descripcionmunicipio + "</option>");
+             });
+             $('#lugar_estudios').trigger("chosen:updated");
+            }
+          });
+          $('#titulo_universidad').prop('disabled', true);
+          $('#titulo_secundaria').prop('disabled', true);
+          break;
+        case '2':
+          $('#titulo_secundaria').prop('disabled', false);
+          // $('#nombre_institucion').empty();
+          // $('#nombre_institucion').append("<option value=''>-----------</option>");
+          $('#nombre_ins').hide();
+          $('#nombre_cole').attr('hidden', false);
+          $('#lugar_estudios').empty();
+          $('#lugar_estudios').append("<option value=''>-----------</option>");
+
+          $.ajax({
+            type: "GET",
+            data: {codpais: 1},
+            url: "{% url 'ajax_municipios_pais' %}",
+            success: function(response){
+             $.each(response, function(key, val){
+              $('#lugar_estudios').append("<option value="+val.codmunicipio+">" + val.descripcionmunicipio + "</option>");
+             });
+             $('#lugar_estudios').trigger("chosen:updated");
+            }
+          });
+          $('#universidad').hide();
+          $('#secundaria').attr('hidden', false);
+          $('#secundaria').show();
+          break;
+        case '3': case '4': case '5':
+          $('#nombre_ins').show();
+          $('#nombre_cole').attr('hidden', true);
+          $('#titulo_universidad').prop('disabled', false);
+          $('#nombre_institucion').empty();
+          $('#nombre_institucion').append("<option value=''>-----------</option>");
+          $('#lugar_estudios').empty();
+          $('#lugar_estudios').append("<option value=''>-----------</option>");
+          $.ajax({
+            type: "GET",
+            url: "{% url 'ajax_universidades' %}",
+            success: function(response){
+             $.each(response, function(key, val){
+              $('#nombre_institucion').append("<option value="+val.cod_univesidad+">" + val.nombre + "</option>");
+             });
+             $('#nombre_institucion').trigger("chosen:updated");
+            }
+          });
+          $('#secundaria').attr('hidden', true);
+          $('#secundaria').hide();
+          $('#universidad').show();
+          break;
+        default:
+      }
+    }
+  });
+  $('#nombre_institucion').change(function(){
+    var nivel = $('#select_niveles option:selected').val();
+    if (nivel == 0) {
+      alert("Favor seleccione una opción válida");
+    } else if (nivel == 1) {
+      $('#lugar_estudios').empty();
+      $('#lugar_estudios').append("<option value=''>-----------</option>");
+      $.ajax({
+        type: "GET",
+        data: {codpais: 1},
+        url: "{% url 'ajax_municipios_pais' %}",
+        success: function(response){
+         $.each(response, function(key, val){
+          $('#lugar_estudios').append("<option value="+val.codmunicipio+">" + val.descripcionmunicipio + "</option>");
+         });
+         $('#lugar_estudios').trigger("chosen:updated");
+        }
+      });
+      $('#universidad').hide();
+      $('#secundaria').attr('hidden', false);
+      $('#secundaria').show();
+    } else if (nivel == 2) {
+      $('#lugar_estudios').empty();
+      $('#lugar_estudios').append("<option value=''>-----------</option>");
+      $.ajax({
+        type: "GET",
+        data: {codpais: 1},
+        url: "{% url 'ajax_municipios_pais' %}",
+        success: function(response){
+         $.each(response, function(key, val){
+          $('#lugar_estudios').append("<option value="+val.codmunicipio+">" + val.descripcionmunicipio + "</option>");
+         });
+         $('#lugar_estudios').trigger("chosen:updated");
+        }
+      });
+      $('#universidad').hide();
+      $('#secundaria').attr('hidden', false);
+      $('#secundaria').show();
+    } else {
+      $('#lugar_estudios').empty();
+      $('#lugar_estudios').append("<option value=''>-----------</option>");
+      var id_universidad = $('#nombre_institucion option:selected').val();
+      $.ajax({
+       type: "GET",
+       data: { id_universidad: id_universidad },
+       url: "{% url 'ajax_campus' %}",
+       success: function(response){
+        $.each(response, function(key, val){
+         $('#lugar_estudios').append("<option value="+val.cod_campus+">" + val.nombre + "</option>");
+        });
+        $('#lugar_estudios').trigger("chosen:updated");
+       }
+      });
+       var nivel = $('select_niveles option:selected').val();
+      if (nivel == 0) {
+        alert("Favor seleccione una opción válida");
+      } else if (nivel != 1 || nivel != 2) {
+        $('#titulo_universidad').empty();
+        $('#titulo_universidad').append("<option value=''>-----------</option>");
+
+        $.ajax({
+         type: "GET",
+         data: { id_universidad: id_universidad },
+         url: "{% url 'ajax_carreras' %}",
+         success: function(response){
+          $.each(response, function(key, val){
+           $('#titulo_universidad').append("<option value="+val.cod_carreras+">" + val.nombre_carrera + "</option>");
+          });
+          $('#titulo_universidad').trigger("chosen:updated");
+         }
+        });
+      }
+    }
+  });
+
+  // #################### AGREGANDO NUEVO IDIOMA #############################
+  $(".lees li").click(function(){
+    var leer = $(this).val();
+    $("#porcentaje_lectura").attr('value', leer);
+    console.log("Lectura: " + $("#porcentaje_lectura").val());
+  });
+  $(".escribes li").click(function(){
+    var escribe = $(this).val();
+    $("#porcentaje_escritura").attr('value', escribe);
+    console.log("Escritura: " + $("#porcentaje_escritura").val());
+  });
+  $(".habla li").click(function(){
+    var habla = $(this).val();
+    $("#porcentaje_expresion").attr('value', habla);
+    console.log("Expresión: " + $("#porcentaje_expresion").val());
+  });
+  $(document).on('click', '.borrar', function(){
+    $(this).closest('tr').remove();
+    return false;
+  });
+  $('#seleccionar_idioma').click(function(){
+    var nombre_idioma = $('#select_idioma option:selected').text();
+    var escritura = $('#porcentaje_escritura').val();
+    var lectura = $('#porcentaje_lectura').val();
+    var expresion = $('#porcentaje_expresion').val();
+    if ($('#select_idioma option:selected').val() == 0) {
+      alert("Seleccione un idioma antes de agregar");
+    } else {
+      $('#idiomas_seleccionados').append('<tr><td>'+ nombre_idioma +'</td><td>'+ lectura +' %</td><td>' + escritura + ' %</td><td>' + expresion + ' %</td><td><a href="#!"><span class="u-label u-label-danger g-color-white borrar">BORRAR</span></a></td></tr>');
+    }
+  });
+
+  // #################### AGREGANDO NUEVO ESTUDIO #############################
+  $('#agregar_estudio').click(function(){
+    var institucion = "";
+    var nivel_estudio = $('#select_niveles option:selected').text();
+    var lugar_estudio = $('#lugar_estudios option:selected').text();
+    var titulo = $('#titulo_universidad option:selected').text();
+    var nombre_escolar = $('#nombre_es').val();
+    var titulo_estudio = "";
+
+    if ($('#select_niveles option:selected').val() > 2) {
+      titulo_estudio = titulo;
+      institucion = $('#nombre_institucion option:selected').text();
+    }
+
+    if ($('#select_niveles option:selected').val() == '1') {
+      titulo_estudio= "Ninguno";
+      institucion = nombre_escolar;
+    }
+
+    if ($('#select_niveles option:selected').val() == '2') {
+      titulo_estudio = $('#titulo_secundaria').val();
+      institucion = nombre_escolar;
+    }
+
+    var inicio_estudio = $('#inicio option:selected').text();
+    var fin_estudio = $('#fin option:selected').text();
+    if (institucion == '' || nivel_estudio == 0 || lugar_estudio == 0 || inicio_estudio == '----------' || inicio_estudio == '----------') {
+      alert("Favor llene los campos antes de agregar");
+    } else {
+      $('#estudios_agregados').append('<tr><td>'+ institucion +'</td><td>'+ nivel_estudio +'</td><td>'+ lugar_estudio +'</td><td>'+ titulo_estudio +'</td><td>'+ inicio_estudio +'</td><td>'+ fin_estudio +'</td><td><a href="#!"><span class="u-label u-label-danger g-color-white borrar">BORRAR</span></a></td></tr>');
+      $('#id_nombreinstitucion').val("");
+      $('#id_tituloobtenido').val("");
+    }
+  });
+  // #################### AGREGANDO NUEVO CURSO #############################
+  $('#agregar_curso').click(function(){
+    var tema = $('#id_temacurso').val();
+    var centro = $('#id_nombrecentroestudio').val();
+    var direccion = $('#id_direccioncentroestudio').val();
+    var duracion = $('#id_duracion').val();
+    var titulo = $('#id_titulo').val();
+    if (tema == '' || centro == '' || direccion == '' || duracion == '' || titulo == '') {
+      alert("Favor llene los campos antes de agregar");
+    } else {
+      $('#cursos_agregados').append('<tr><td>'+ tema +'</td><td>'+ centro +'</td><td>'+ direccion +'</td><td>'+ duracion +'</td><td>'+ titulo +'</td><td><a href="#!"><span class="u-label u-label-danger g-color-white borrar">BORRAR</span></a></td></tr>');
+      $('#id_temacurso').val("");
+      $('#id_nombrecentroestudio').val("");
+      $('#id_direccioncentroestudio').val("");
+      $('#id_duracion').val("");
+      $('#id_titulo').val("");
+    }
+  });
+  // #################### AGREGANDO NUEVA HABILIDAD #############################
+  $("#habilidad li").click(function(){
+    var habilidad = $(this).val();
+    $("#porcentaje_habilidad").attr('value', habilidad);
+    console.log("Habilidad: " + $("#porcentaje_habilidad").val());
+  });
+  $('#seleccionar_habilidad').click(function(){
+    var habilidad = $('#select_habilidades option:selected').text();
+    var porcentaje = $("#porcentaje_habilidad").val();
+    if (porcentaje == 0) {
+      alert("Favor seleccione una habilidad antes de agregar");
+    } else {
+      $('#habilidades_agregadas').append('<tr><td>'+ habilidad +'</td><td>'+ porcentaje +' %</td><td><a href="#!"><span class="u-label u-label-danger g-color-white borrar">BORRAR</span></a></td></tr>');
+    }
+  });
+  // ################### AGREGANDO COMPETENCIAS ###############################
+  var lista_competencias = []
+  $('.competencia').change(function(){
+    var competencia = $(this).prop('checked');
+    if (competencia == true) {
+      lista_competencias.push($(this).val());
+    } else if (competencia == false){
+      lista_competencias.pop($(this).val());
+    }
+  });
+  // --------- FINALIZAR -----------
+  $('#finalizar').click(function(){
+    //Recorriendo Idiomas
+    var lista_idiomas = ""
+    var registro_idioma = ""
+    $("#idiomas_seleccionados tr").each(function(index){
+      $(this).children("td").each(function(index2){
+          registro_idioma +=  $(this).text() + '/';
+      });
+      lista_idiomas += registro_idioma + '_'
+      registro_idioma = ""
+    });
+    $('#idiomas').attr('value', lista_idiomas);
+    //Recorriendo estudios
+    var lista_estudios = ""
+    var registro_estudio = ""
+    $("#estudios_agregados tr").each(function(index){
+      $(this).children("td").each(function(index2){
+          registro_estudio +=  $(this).text() + '/';
+      });
+      lista_estudios += registro_estudio + '_'
+      registro_estudio = ""
+    });
+    $('#estudios').attr('value', lista_estudios);
+    //Recorriendo cursos
+    var lista_cursos = ""
+    var registro_curso = ""
+    $("#cursos_agregados tr").each(function(index){
+      $(this).children("td").each(function(index2){
+          registro_curso +=  $(this).text() + '/';
+      });
+      lista_cursos += registro_curso + '_'
+      registro_curso = ""
+    });
+    $('#cursos').attr('value', lista_cursos);
+    //Recorriendo habilidades
+    var lista_habilidades = ""
+    var registro_habilidad = ""
+    $("#habilidades_agregadas tr").each(function(index){
+      $(this).children("td").each(function(index2){
+          registro_habilidad +=  $(this).text() + '/';
+      });
+      lista_habilidades += registro_habilidad + '_'
+      registro_habilidad = ""
+    });
+    $('#habilidades').attr('value', lista_habilidades);
+    //Recorriendo competencias
+    var registro_competencias = "";
+    lista_competencias.forEach(function(element) {
+      registro_competencias += element + '/';
+    }, this);
+    $('#competencias').attr('value', registro_competencias);
+    var tamano= $("#estudios_agregados tr").length;
+    if(tamano > 0)
+    {
+       $('#form_solicitud_cinco').submit();
+    }
+    else
+    {
+      alert("Debe agregar estudios realizados");
+    }
+  });
+  $(window).on('load', function() {
+    // initialization of header
+    $.HSCore.components.HSHeader.init($('#js-header'));
+    $.HSCore.helpers.HSHamburgers.init('.hamburger');
+    // initialization of HSMegaMenu component
+    $('.js-mega-menu').HSMegaMenu({
+      event: 'hover',
+      pageContainer: $('.container'),
+      breakpoint: 991
+    });
+  });
+  $(window).on('resize', function () {
+    setTimeout(function () {
+      $.HSCore.components.HSTabs.init('[role="tablist"]');
+    }, 200);
+  });
+</script>
+{% endblock javascript %}

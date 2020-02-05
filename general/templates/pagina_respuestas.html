@@ -1,0 +1,27 @@
+{% extends "base_blog.html" %}
+{% load staticfiles %}
+{% block content %}
+	<body>
+	    <main class="g-min-height-100vh g-flex-centered g-pa-15">
+	      <div class="text-center g-flex-centered-item g-position-rel g-pb-15">
+
+	        <div class="g-absolute-centered">
+	        	{% if mens == 'Éxito'%}
+	          	<h1 class="g-color-black g-mt-minus-8 mb-0">Registro&nbsp;Con&nbsp;Éxito</h1>
+	          	{% else %}
+	          	<h1 class="g-color-black g-mt-minus-8 mb-0">Ya&nbsp;Aplicaste&nbsp;Anteriormente&nbsp;o&nbsp;No&nbsp;Has&nbsp;Completo&nbsp;Tu&nbsp;Perfil</h1>
+		        <hr class="g-brd-gray-light-v3 g-my-15">
+		        {% endif %}
+	          	<p class="g-font-size-18 mb-0"><a href="{% url 'blog_internas' %}" class="g-color-black g-color-primary--hover g-text-no-underline--hover">← Página Inicio</a></p>
+	        </div>
+	      </div>
+	    </main>
+	</body>
+{% endblock content %}
+{% block javascript %}
+<script>
+  $(document).ready(function(){
+  });
+ 
+</script>
+{% endblock javascript %}

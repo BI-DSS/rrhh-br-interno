@@ -1,0 +1,309 @@
+{% extends "baseform.html" %}
+{% load staticfiles %}
+{% block content %}
+<section class="g-bg-gray-light-v5">
+  <div class="container g-py-30">
+    <div class="row justify-content-center">
+      <div class="col-sm-10 col-md-9 col-lg-12">
+        <div class="u-shadow-v25 g-bg-white rounded g-py-30 g-px-25">
+          <header class="text-center mb-4">
+            <h4 class="h4 g-color-black g-font-weight-600">INGRESO DE INFORMACIÓN</h4>
+          </header>
+          <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+          
+          <label> <b style="font-weight: bold;"> IV. HISTORIAL LABORAL <b> </label>
+            <div class="row">
+            <div class="col-xs-12 col-sm-6 mb-6" >
+              <label style="font-weight: 600;" for="">No tengo historial laboral:</label>
+              <a href="{% url 'historial_laboral' oferta ingreso.codsolicitud %}" class="btn btn-sm u-btn-indigo rounded "> Saltar este paso</a>
+            </div>
+          </div> <br>
+        <div id="laboral_copia" style="display: none;">
+          <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+          <div  id="esta_trabajando">
+              <div class="row">
+                <div style="margin-top: 3px !important; margin-left:12px; ">
+                   <label for="chck1" style="font-weight: 600;">Seleciona si es tu empleo actual</label>
+                </div>
+                <div class="col-xs-12 col-sm-6 mb-6">
+                  <label class="form-check-inline u-check g-mr-20 mx-0 mb-0" >
+                  <input class="hidden-xs-up g-pos-abs g-top-0 g-right-0 chck1" name="trabajoactual" type="checkbox" id="chck1" value="False">
+                  <div class="u-check-icon-radio-v7">
+                    <i class="fa" data-check-icon="" data-uncheck-icon=""></i>
+                  </div>
+                  </label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Nombre de empresa: <b style="color:red;">*</b></label>
+                  {{histo.nombreempresa}}
+                </div>
+                <div class="form-group col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;" >Fecha de ingreso: <b style="color:red;">*</b></label>
+                  <div class="input-group g-brd-primary--focus">
+                    {{histo.fechaingreso}}
+                    <div class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-dark-v5 rounded-0">
+                      <i class="icon-calendar"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-xs-12 col-sm-4 mb-4 esta">
+                    <label style="font-weight: normal;" >Fecha egreso: <b style="color:red;">*</b></label>
+                    <div class="input-group g-brd-primary--focus casi">
+                      {{histo.fechaegreso}}
+                      <div class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-dark-v5 rounded-0">
+                        <i class="icon-calendar"></i>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            <div class="row">
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Dirección: <b style="color:red;">*</b></label>
+                {{histo.direccionempresa}}
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Nombre jefe inmediato: <b style="color:red;">*</b></label>
+                {{histo.nombrejefeinmediato}}
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4 motivopor esta">
+                <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Motivo retiro: <b style="color:red;">*</b></label>
+                {{histo.motivoretiro}}
+              </div>
+            </div>
+          </div>
+          <div class="row" style="text-align: left;">
+            <div class="col-12 align-self-center text-right">
+              <button  type="button" class="btn btn-outline-danger u-btn-info rounded g-py-13 g-px-25 eliminar_laboral" id="eliminar_laboral">Eliminar</button>
+            </div>
+          </div>
+        </div>
+          <!-- Form -->
+         <form  class="g-py-30" method="POST" accept-charset="utf-8" id="form_solicitud4">
+            {% csrf_token %}
+            <div id="esta_trabajando">
+              
+              <div class="row">
+                <div  style="margin-top: 3px !important; margin-left:12px; ">
+                  <label for="chck1" style="font-weight: 600;">Selecciona si es tu empleo actual:</label>
+                </div>
+                <div class="col-xs-12 col-sm-6 mb-6">
+                  <label class="form-check-inline u-check g-mr-20 mx-0 mb-0" style="">
+                    <input class="hidden-xs-up g-pos-abs g-top-0 g-right-0 chck1" name="trabajoactual" type="checkbox" id="chck1" value="False">
+                    <div class="u-check-icon-radio-v7">
+                      <i class="fa" data-check-icon="" data-uncheck-icon=""></i>
+                    </div>
+                  </label>
+                </div>
+              </div> <br><br>
+
+                <div class="row">
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;">Nombre de empresa: <b style="color:red;">*</b></label>
+                    {{histo.nombreempresa}}
+                  </div>
+                  <div class="form-group col-xs-12 col-sm-4 mb-4 casi">
+                    <label style="font-weight: normal;" for="id_fechanacimiento" id="fechaca">Fecha ingreso: <b style="color:red;">*</b></label>
+                    <div class="input-group g-brd-primary--focus">
+                      {{histo.fechaingreso}}
+                      <div class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-dark-v5 rounded-0">
+                        <i class="icon-calendar"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-xs-12 col-sm-4 mb-4 esta">
+                    <label style="font-weight: normal;" for="id_fechanacimiento">Fecha egreso: <b style="color:red;">*</b></label>
+                    <div class="input-group g-brd-primary--focus">
+                      {{histo.fechaegreso}}
+                      <div class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-dark-v5 rounded-0">
+                        <i class="icon-calendar"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;">Dirección: <b style="color:red;">*</b></label>
+                    {{histo.direccionempresa}}
+                  </div>
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;">Nombre jefe inmediato: <b style="color:red;">*</b></label>
+                    {{histo.nombrejefeinmediato}}
+                  </div>
+                  <div class="col-xs-12 col-sm-4 mb-4 motivopor esta">
+                    <label style="font-weight: normal;">Motivo retiro: <b style="color:red;">*</b></label>
+                    {{histo.motivoretiro}}
+                  </div>
+                </div>
+            </div>
+
+
+            
+            
+            <div class="row" style="text-align: left;">
+              <div class="col-12 align-self-center text-right">
+                <button  type="button" class="btn btn-outline-info u-btn-info rounded g-py-13 g-px-25" id="agregar_laboral">Nuevo historial laboral</button>
+              </div>
+            </div>
+
+            <div class="nueva_laboral">
+            </div>
+            <br><br>
+            <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+            <div class="row" style="text-align: center; display: block;">
+              <label><b>4 de 6</b></label>
+            </div>
+            <div class="col-12 align-self-center text-right">
+              <a href="{% url 'perfil' %}" class="btn btn-md u-btn-indigo  rounded g-py-13 g-px-25" style="margin-right: 5px;">Salir</a>
+              <button type="submit" class="btn btn-md u-btn-primary rounded g-py-13 g-px-25">Siguiente</button>
+            </div>
+          </form>
+          <!-- End Form -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}
+{% block javascript %}
+<script>
+  $(document).on('ready', function () {
+    // initialization of tabs
+    $.HSCore.components.HSTabs.init('[role="tablist"]');
+    $.HSCore.helpers.HSFocusState.init();
+    $.HSCore.components.HSCountQty.init('.js-quantity');
+    $.HSCore.helpers.HSNotEmptyState.init();
+  });
+  $(document).ready(function() {
+    $("#form_solicitud4").validate();
+    $("#id_nombreempresa, #id_fechaingreso, #id_direccionempresa, #id_nombrejefeinmediato").attr("required", true);
+
+
+
+    $( "input" ).addClass( "form-control rounded-0 u-form-control " );
+    $( "textarea" ).addClass( "form-control rounded-0 u-form-control g-resize-none" );
+    $("#id_fechaingreso , #id_fechaegreso, input[name=fechaingreso] ").addClass("form-control form-control-md u-datepicker-v1 g-brd-right-none rounded-0");
+    $('#id_horario').attr('placeholder', 'Ejem. Lunes-Viernes');
+
+    $(".chck1").change(function(){
+      if ($(this).val() == "False") {
+        $(this).attr('value', 'True')
+        $(this).closest('div#esta_trabajando').find('div.esta').hide()
+        $(this).closest('div#esta_trabajando').find('input[name="fechaegreso[]"]').val('')
+      }
+      else{
+        $(this).attr('value', 'False')
+
+        $(this).closest('div#esta_trabajando').find('div.esta').show()
+        $(this).closest('.esta').show();
+        //$('.sabados').hide();
+      }
+    });
+    //################################################################
+    $(".id_sabado").change(function(){
+      if ($(this).val() == "False") {
+        $(this).attr('value', 'True')
+        $(this).closest('div#trabaja_sabados').find('div.sabados').show()
+        $(this).closest('.sabados').show();
+      }
+      else{
+        $(this).attr('value', 'False')
+        $(this).closest('div#trabaja_sabados').find('div.sabados').hide()
+        //$('.sabados').hide();
+      }
+    });
+    $('.sabados').hide();
+    // ############################################ FIN ####################################################
+    $('select').select2({
+      theme:'bootstrap',
+          width: '100%'
+    });
+    // ##################### AGREGAR NUEVO HISTORIAL #########################
+    $('#agregar_laboral').click(function(){
+      $('select').select2('destroy');
+      $('#laboral_copia').clone().removeAttr('style').appendTo( '.nueva_laboral' );
+      $('.eliminar_laboral').click(function(){
+          var id = $(this).closest("div#laboral_copia").remove();
+    });
+    $(' input[name="fechaingreso[]"], input[name="fechaegreso[]"] ' ).datepicker({
+      autoclose: true,
+      format: 'yyyy-mm-dd',
+      language: 'es',
+    });
+    $('select[name=motivoretiro]').attr('name', 'motivoretiro[]')
+    $('select').select2({
+      theme:'bootstrap',
+          width: '100%'
+    });
+
+    $(".id_sabado").change(function(){
+        if ($(this).val() == "False") {
+          $(this).attr('value', 'True')
+          $(this).closest('div#trabaja_sabados').find('div.sabados').show()
+          $(this).closest('.sabados').show();
+        }
+        else{
+          $(this).attr('value', 'False')
+          $(this).closest('div#trabaja_sabados').find('div.sabados').hide()
+          $(this).closest('div#trabaja_sabados').find('div.sabados').attr('value', '')
+        }
+
+      });
+
+
+      //checkbox es tu empleo actual
+      $(".chck1").change(function(){
+        if ($(this).val() == "False") {
+          $(this).attr('value', 'True')
+          $(this).closest('div#esta_trabajando').find('div.esta').hide()
+          $(this).closest('div#esta_trabajando').find('input[name="fechaegreso[]"]').val('');
+        }
+        else{
+          $(this).attr('value', 'False');
+          $(this).closest('div#esta_trabajando').find('div.esta').show();
+          $(this).closest('.esta').show();
+          //$('.sabados').hide();
+        }
+      });
+    });
+  });
+   //##################################### convirtiendo a arreglo inputs #################################################
+  $('input[name=nombreempresa]').attr('name', 'nombreempresa[]')
+  $('input[name=fechaingreso]').attr('name', 'fechaingreso[]')
+  $('input[name=fechaegreso]').attr('name', 'fechaegreso[]')
+  $('textarea[name=direccionempresa]').attr('name', 'direccionempresa[]')
+  $('select[name=motivoretiro]').attr('name', 'motivoretiro[]')
+  $('input[name=salarioinicial]').attr('name', 'salarioinicial[]')
+  $('input[name=salariofinal]').attr('name', 'salariofinal[]')
+  $('input[name=puesto]').attr('name', 'puesto[]')
+  $('textarea[name=fucionespuesto]').attr('name', 'fucionespuesto[]')
+  $('input[name=horario]').attr('name', 'horario[]')
+  $('input[name=horainicio]').attr('name', 'horainicio[]')
+  $('input[name=horasalida]').attr('name', 'horasalida[]')
+  $('input[name=horainiciosabado]').attr('name', 'horainiciosabado[]')
+  $('input[name=horasalidasabado]').attr('name', 'horasalidasabado[]')
+  $('input[name=nombrejefeinmediato]').attr('name', 'nombrejefeinmediato[]')
+  $(' input[name="fechaingreso[]"], input[name="fechaegreso[]"] ' ).datepicker({
+  autoclose: true,
+  format: 'yyyy-mm-dd',
+  language: 'es',
+  });
+  $(window).on('load', function () {
+    // initialization of header
+    $.HSCore.components.HSHeader.init($('#js-header'));
+    $.HSCore.helpers.HSHamburgers.init('.hamburger');
+    // initialization of HSMegaMenu component
+    $('.js-mega-menu').HSMegaMenu({
+      event: 'hover',
+      pageContainer: $('.container'),
+      breakpoint: 991
+    });
+  });
+  $(window).on('resize', function () {
+    setTimeout(function () {
+      $.HSCore.components.HSTabs.init('[role="tablist"]');
+    }, 200);
+  });
+</script>
+{% endblock javascript %}

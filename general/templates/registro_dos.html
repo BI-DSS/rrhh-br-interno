@@ -1,0 +1,425 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Registrate</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static '/vendor/bootstrap/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static '/vendor/icon-awesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static '/vendor/icon-line/css/simple-line-icons.css' %}">
+    <link rel="stylesheet" href="{% static '/vendor/icon-hs/style.css' %}">
+    <link rel="stylesheet" href="{% static '/vendor/animate.css' %}">
+    <link rel="stylesheet" href="{% static '/vendor/hs-megamenu/src/hs.megamenu.css' %}">
+    <link rel="stylesheet" href="{% static '/vendor/hamburgers/hamburgers.min.css' %}">
+    <link rel="stylesheet" href="{% static '/css/unify.css' %}">
+    <link rel="stylesheet" href="{% static '/css/custom.css' %}">
+    <link rel="stylesheet" href="{% static 'js/components/croppie/croppie.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/pace/select2/select2.min.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/pace/select2/select2-bootstrap.min.css' %}">
+    <link rel="icon" type="image/png" href=" {% static 'img/logo.png' %}">
+  </head>
+  <body>
+    <main>
+      <!-- Header -->
+      <header id="js-header" class="u-header u-header--static">
+        <div class="u-header__section u-header__section--light g-bg-white g-transition-0_3 g-py-10">
+          <nav class="js-mega-menu navbar navbar-toggleable-md">
+            <div class="container">
+              <!-- Responsive Toggle Button -->
+              <button class="navbar-toggler navbar-toggler-right btn g-line-height-1 g-brd-none g-pa-0 g-pos-abs g-right-0" type="button"
+                      aria-label="Toggle navigation"
+                      aria-expanded="false"
+                      aria-controls="navBar"
+                      data-toggle="collapse"
+                      data-target="#navBar">
+                <span class="hamburger hamburger--slider">
+                  <span class="hamburger-box">
+                    <span class="hamburger-inner"></span>
+                  </span>
+                </span>
+              </button>
+              <!-- Navigation -->
+              <div class="collapse navbar-collapse align-items-center flex-sm-row g-pt-10 g-pt-5--lg g-mr-40--lg" id="navBar">
+
+                <ul class="navbar-nav text-uppercase g-pos-rel g-font-weight-600 ml-auto">
+                  <!-- Intro -->
+                  <li class="nav-item g-mx-10--lg g-mx-15--xl">
+                    <a href="{% url 'cerrar_sesion' %}" class="nav-link g-py-7 g-px-0">Cerrar Sesión</a>
+                  </li>
+                  <!-- End Intro -->
+                </ul>
+              </div>
+              <!-- End Navigation -->
+
+              <div class="d-inline-block hidden-xs-down g-pos-rel g-valign-middle g-pl-30 g-pl-0--lg">
+              </div>
+            </div>
+          </nav>
+        </div>
+      </header>
+      <!-- End Header -->
+      <!-- Signup -->
+      <section class="g-bg-gray-light-v5">
+        <div class="container g-py-25">
+          <div class="row justify-content-center">
+            <div class="col-sm-10 col-md-9 col-lg-6">
+              <div class="u-shadow-v21 g-bg-white rounded g-py-25 g-px-30">
+                <header class="text-center mb-4">
+                  <h4 class="h4 g-color-black g-font-weight-600">Bienvenido, {{solicitud.nombres}}</h4>
+                </header>
+
+                <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+
+                <label> <b style="font-weight: bold;"> Estamos preparando tu perfil <b> </label>
+                <!-- Form -->
+                <form class="g-py-15" method="POST" action="{% url 'registro_dos' %}" id="form_dos" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  {% if not solicitud.nombres %}
+                  <div class="row">
+                    <div class="col-xs-12 col-sm-6 mb-6">
+                      <label>Nombres:</label>
+                      <input type="text" name="nombres" required="" maxlength="100" placeholder="Nombre completo" value="">
+                    </div>
+                    <div class="col-xs-12 col-sm-6 mb-6">
+                      <label>Apellidos</label>
+                      <input type="text" name="apellidos" required="" maxlength="100" placeholder="Apellidos completo">
+                    </div>
+                  </div>
+                  {% else %}
+                  <div class="row" hidden="">
+                    <div class="col-xs-12 col-sm-6 mb-6">
+                      <label>Nombres:</label>
+                      <input type="text" name="nombres" required="" maxlength="100" placeholder="Nombre completo" value="{{solicitud.nombres}}">
+                    </div>
+                    <div class="col-xs-12 col-sm-6 mb-6">
+                      <label>Apellidos</label>
+                      <input type="text" name="apellidos" required="" maxlength="100" placeholder="Apellidos completo" value="{{solicitud.primerapellido}}">
+                    </div>
+                  </div>
+                  {% endif %}
+                  <div class="mb-4">
+                    <div class="form-group mb-0">
+                       <p>Fotografía</p>
+                       <label class="u-file-attach-v2 g-color-gray-dark-v5 mb-0">
+                         <input id="upload" name="foto_usuario" type="file" required="" accept="image/*" >
+                         <i class="icon-cloud-upload g-font-size-16 g-pos-rel g-top-2 g-mr-5"></i>
+                         <span class="js-value">Elija una fotografía y seleccione su rostro</span>
+                       </label>
+                     </div>
+                  </div>
+                  <div class="mb-4">
+                    <div id="upload-demo" hidden="hidden"></div>
+                    <input type="text" name="datos_imagen" value="" id="datos_imagen" hidden="hidden">
+                  </div>
+                  <div class="row justify-content-between mb-5">
+                    <div class="col-8 align-self-center">
+                      <label class="form-check-inline u-check g-color-gray-dark-v5 g-font-size-13 g-pl-25">
+                        <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" id="terminos">
+                        <div class="u-check-icon-checkbox-v6 g-absolute-centered--y g-left-0">
+                          <i class="fa" data-check-icon="&#xf00c"></i>
+                        </div>
+                        Acepto los <a href="#!" data-toggle="modal" data-target="#myModal">Terminos y Condiciones</a>
+                      </label>
+                    </div>
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Términos y Condiciones</h4>
+                          </div>
+                          <div class="modal-body">
+                            <p class="text-center" ><b style="font-weight: bold;">CONDICIONES DE USO</b></p>
+                            <p>
+                            Banco de Desarrollo Rural Honduras, S.A. (BANRURAL), con el propósito de realizar una gestión administrativa moderna, desea implementar en el ámbito de los recursos humanos un sistema ágil y eficaz que facilite la cobertura de las necesidades que, en los distintos centros de servicios distribuidos a nivel nacional, puedan originarse, bien por la existencia de plazas vacantes permanentes o no permanentes reguladas por la legislación laboral de Honduras.
+                            </p>
+                            <p>
+                            El presente documento establece las condiciones específicas de uso exclusivo del servicio de Bolsa de Trabajo (en adelante, denominado EmpleateyCrececonNosotros), prestado por Banco de Desarrollo Rural Honduras, S.A. (BANRURAL) (en adelante, denominado BANRURAL), a través de la dirección <b style="text-decoration: underline;">www.EmpleateyCrececonNosotros.banrural.com.hn</b>
+                            </p>
+                            <p>
+                            La utilización del SERVICIO supone la expresa aceptación por parte del postulante, tanto de las condiciones generales, como de las específicas mencionadas, publicadas en el Portal. Por ello ES NECESARIO que el postulante, antes de utilizar el SERVICIO lea atentamente LAS CONDICIONES.
+                            BANRURAL, se reserva el derecho de modificar y actualizar periódicamente LAS CONDICIONES, entendiéndose que el postulante acepta las modificaciones introducidas si utiliza el SERVICIO.
+
+
+                            </p>
+                            <p>
+                            BANRURAL se reserva el derecho a efectuar los cambios que estime oportunos, pudiendo modificar, suprimir e incluir, nuevos contenidos y/o servicios en el sitio web <b style="text-decoration: underline;">www.EmpleateyCrececonNosotros.banrural.com.hn</b> Asimismo, podrá modificar la forma en que éstos aparezcan presentados y localizados. Salvo que se establezca lo contrario, la introducción de cualquier característica que modifique los actuales servicios y/o la introducción de nuevos servicios quedará sujeta a LAS CONDICIONES.
+                            </p>
+
+                            <p><b style="font-weight: bold;">Responsabilidad sobre enlaces:</b></p>
+
+                            <p>
+                             BANRURAL no controla previamente, aprueba ni hace propios los servicios, información, datos, archivos, productos y cualquier clase de información y contenido en sitios web ajenos a los proporcionados en el sitio web <b style="text-decoration: underline;">www.EmpleateyCrececonNosotros.banrural.com.hn</b>, a los que el postulante puede acceder a través de otros sitios web. En consecuencia, BANRURAL, no será responsable de los daños y perjuicios causados por la falta de veracidad, inexactitud, amoralidad, ilegalidad de los contenidos y/o servicios y bienes a los que el postulante acceda a través de otros sitios web, ajenos al sitio <b style="text-decoration: underline;">www.EmpleateyCrececonNosotros.banrural.com.hn</b>, en el que BANRURAL, no tenga alcance ni acceso. Asimismo, Banrural, no se hace responsable de la solicitud de regalías o pagos requeridos por terceras personas no vinculadas con la institución.  
+                            </p>
+
+                            <p><b style="font-weight: bold;">Utilización del contenido del sitio web:</b></p>
+                            <p>
+                              Salvo que medie autorización escrita, previa y expresa por parte de BANRURAL, queda absolutamente prohibida la utilización del contenido del sitio web, para la prestación de cualquier servicio, ya sean análogos o no, y con independencia de su carácter gratuito o remunerado. 
+                            </p>
+
+                            <p><b style="font-weight: bold;">Funcionamiento del servicio:</b></p>
+                            <p>
+                            BANRURAL pone a disposición de los postulantes una cuenta de entrada, así como un menú desde el cual pueden gestionar tanto sus hojas de vida y documentación complementaria del mismo. 
+                            </p>
+
+                            <p><b style="font-weight: bold;">Reglas generales de utilización del servicio:</b></p>
+                            <p>
+                              - El Acceso a los Contenidos y/o Servicios que se ofrecen en el Sitio son de carácter gratuito para los Usuarios <br>
+                              - El registro y proporción de información y documentación de parte del postulante, no crea en ningún momento una relación laboral, que responsabilice de alguna forma a BANRURAL con el postulante. <br>
+                              - La información y documentación de parte del postulante, está será sometida al análisis y verificación del personal autorizado por BANRURAL para tal efecto, en caso de reunir los requisitos solicitados por la institución, ésta se pondrá en comunicación con el postulante para el inicio del proceso de reclutamiento. <br>
+                              - El postulante acepta los términos y condiciones bajo las cuales se suscribe y accede a los servicios proporcionados por el sitio web, por lo que autoriza a Banrural a realizar las investigaciones bajo el imperio de la legalidad, sobre la veracidad y validez de la información proporcionada.
+
+                            </p>
+
+                            <p class="text-center"><b style="font-weight: bold;">Acerca de los contenidos</b></p>
+
+                            <p><b style="font-weight: bold;">Responsabilidad de los postulantes </b></p>
+                            <p>
+                              BANRURAL no garantiza que los postulantes del Portal utilicen sus contenidos y/o servicios de conformidad con la ley, la moral, el orden público, ni LAS CONDICIONES. Por lo que, no garantiza la veracidad y exactitud, exhaustividad y/o autenticidad de los datos proporcionados por los postulantes.
+                              En consecuencia, BANRURAL no será responsable de los daños y perjuicios que puedan sufrir terceros como consecuencias del comportamiento de los postulantes de EL SERVICIO.
+
+                            </p>
+
+                            <p><b style="font-weight: bold;">Datos de carácter personal.</b></p>
+                            <p>
+                              BANRURAL garantiza que todos los datos de carácter personal que el postulante le proporcione serán tratados conforme a la legislación vigente y garantiza plena confidencialidad, quedando garantizada la seguridad para el postulante, estarán sujetos para el uso exclusivo de Banco de Desarrollo Rural Honduras, S.A. y los fines que para los cuales fueron requeridos en las determinadas ofertas de empleo.
+                              En relación a los datos de carácter personal que el postulante proporcione a terceras personas, tales como anunciantes en el website, BANRURAL, no garantiza el cumplimiento por parte de éstos de la legislación vigente sobre tratamiento automatizado de datos de carácter personal. En consecuencia, BANRURAL, no será responsable de los daños y perjuicios que pueda sufrir el postulante o cualquier tercero como consecuencia de proporcionar sus datos a estas terceras personas. 
+
+
+                            </p>
+
+                            <p><b style="font-weight: bold;">Participación en estudios, y recibo de e-mails comerciales</b></p>
+                            <p>
+                              Los postulantes acuerdan al momento de su inscripción y como parte de la participación en este sitio web, que serán sujetos de estudios realizados por parte de BANRURAL para fines de investigaciones de mercado. También aceptan formar parte de nuestra base de datos de envío de información periódica sobre nuestro sitio y de envíos comerciales de correo electrónico.
+
+                            </p>
+
+                            <p><b style="font-weight: bold;">Acceso, contraseña y confidencialidad.</b></p>
+                            <p>
+                              Para acceder a los servicios del sitio web, los postulantes deberán crear suscribirse y crear un perfil, que incluya datos personales y demás información y documentos requeridos, por el que se otorgará una clave de acceso (USUARIO Y CONTRASEÑA), sin la cual no podrá acceder a sus cuentas. El postulante será responsable de mantener la confidencialidad de su contraseña en resguardo del uso indebido de terceros.
+                              Usted reconoce que el acceso a EL SERVICIO, es realizado a través de la red de Internet, por lo cual para disfrutar del mismo deberá usted contar con los medios para acceso a Internet y efectuar los pagos y cargos correspondientes que le sean facturados (como, por ejemplo, pago al proveedor de la conexión a Internet, o pagos por uso de tiempo de aire). 
+ 
+                              Terminación.
+                              Estos términos y condiciones entran en vigencia cuando usted acepta los mismos y deben continuar, sujeto a los términos de este párrafo, hasta que sea finalizado por cualquiera de las partes, como esté permitido por estos términos y condiciones.
+                              Nosotros podremos suspender o cancelar el acceso al SERVICIO en caso de violación a una cualquiera de las normas contenidas en este documento o a los términos y condiciones que rigen los servicios de datos provistos por nosotros que haya usted utilizado para acceder al SERVICIO.
+                            </p>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+                <div class="col-8 align-self-center text-right">
+                  <a href="#!" class="btn btn-md u-btn-primary rounded g-py-13 g-px-25" id="guardar_datos">Guardar datos</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- End Signup -->
+      <!-- Footer -->
+      <div class="g-py-30" style="background-color:#007a33;color:white;">
+        <div class="container-fluid">
+          <div class="row">
+            <!-- Footer Content -->
+            <div class="col-lg-4 col-md-6 g-mb-40 g-mb-0--lg text-center">
+              <div class="u-heading-v2-3--bottom g-brd-white-opacity-0_8 g-mb-20">
+                <h2 class="u-heading-v2__title h6 text-uppercase mb-0">Copyright</h2>
+              </div>
+              <p>Derechos Reservados 2017 &copy; Banrural Honduras</p>
+            </div>
+            <!-- End Footer Content -->
+            <!-- Footer Content -->
+            <div class="col-lg-4 col-md-6 g-mb-40 g-mb-0--lg text-center">
+              <div class="u-heading-v2-3--bottom g-brd-white-opacity-0_8 g-mb-20">
+                <h2 class="u-heading-v2__title h6 text-uppercase mb-0">Redes Sociales</h2>
+              </div>
+              <div class="row">
+                <div class="text-center col-md-12">
+                  <ul class="list-inline">
+                    <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title="Facebook">
+                      <a href="https://es-la.facebook.com/BanruralHonduras/" target="_blank" class="g-color-white-opacity-0_5 g-color-white--hover">
+                        <i class="fa fa-2x fa-facebook"></i>
+                      </a>
+                    </li>
+                    <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title="Twitter">
+                      <a href="https://twitter.com/banruralhn" target="_blank" class="g-color-white-opacity-0_5 g-color-white--hover">
+                        <i class="fa fa-2x fa-twitter"></i>
+                      </a>
+                    </li>
+                    <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title="Instagram">
+                      <a href="https://www.instagram.com/banruralhn/" target="_blank" class="g-color-white-opacity-0_5 g-color-white--hover">
+                        <i class="fa fa-2x fa-instagram"></i>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <!-- End Footer Content -->
+            <!-- Footer Content -->
+            <div class="col-lg-4 col-md-6 g-mb-40 g-mb-0--lg text-center">
+              <div class="u-heading-v2-3--bottom g-brd-white-opacity-0_8 g-mb-20">
+                <h2 class="u-heading-v2__title h6 text-uppercase mb-0">Ubicación</h2>
+              </div>
+              <p>Banrural Honduras, Centro de Servicios Florencia</p>
+              <p>Blvd. Suyapa, Col. Florencia Norte, 3730</p>
+              <p>Tegucigalpa, Honduras</p>
+            </div>
+            <!-- End Footer Content -->
+          </div>
+        </div>
+      </div>
+    </main>
+    <div class="modal fade" id="modal_error" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">ERROR</h4>
+          </div>
+          <div class="modal-body">
+            <p id="mensaje"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- JS Global Compulsory -->
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/jquery-migrate/jquery-migrate.min.js' %}"></script>
+    <script src="{% static 'vendor/tether.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/bootstrap.min.js' %}"></script>
+
+    <!-- JS Implementing vendor -->
+    <script src="{% static 'vendor/hs-megamenu/src/hs.megamenu.js' %}"></script>
+
+    <!-- JS Unify -->
+    <script src="{% static 'js/hs.core.js' %}"></script>
+    <script src="{% static 'js/components/hs.header.js' %}"></script>
+    <script src="{% static 'js/helpers/hs.hamburgers.js' %}"></script>
+    <script src="{% static 'js/components/hs.tabs.js' %}"></script>
+    <script src="{% static 'js/components/croppie/croppie.min.js' %}"></script>
+    <script src="{% static 'plugins/pace/select2/select2.min.js' %}"></script>
+    <script src="{% static '/vendor/jquery.maskedinput/src/jquery.maskedinput.js' %}"></script>
+    <script src="{% static '/js/components/hs.masked-input.js' %}"></script>
+
+    <!-- JS Customization -->
+    <script src="{% static 'js/custom.js' %}"></script>
+    <!-- JS vendor Init. -->
+    <script>
+    $(document).on('ready', function () {
+      // initialization of tabs
+      $.HSCore.components.HSTabs.init('[role="tablist"]');
+      $.HSCore.components.HSMaskedInput.init('[data-mask]');
+    });
+
+    $(document).ready(function(){
+      $( "input" ).addClass( "form-control rounded-0 u-form-control " );
+      $( "textarea" ).addClass( "form-control rounded-0 u-form-control g-resize-none" );
+      if ('{{ error }}' == 'error') {
+        $('#mensaje').html('{{ mensaje }}');
+        $('#modal_error').modal('show');
+      }
+
+    });
+    
+      $(window).on('load', function () {
+        // initialization of header
+        $.HSCore.components.HSHeader.init($('#js-header'));
+        $.HSCore.helpers.HSHamburgers.init('.hamburger');
+
+        // initialization of HSMegaMenu component
+        $('.js-mega-menu').HSMegaMenu({
+          event: 'hover',
+          pageContainer: $('.container'),
+          breakpoint: 991
+        });
+      });
+
+      $(window).on('resize', function () {
+        setTimeout(function () {
+          $.HSCore.components.HSTabs.init('[role="tablist"]');
+        }, 200);
+      });
+
+      /*$('select').select2({
+        theme : 'bootstrap',
+        width : '100%'
+      });*/
+      $uploadCrop = $('#upload-demo').croppie({
+        enableExif: true,
+        viewport: {
+            width: 96,
+            height: 96,
+            type: 'square'
+        },
+        boundary: {
+            width: 300,
+            height: 300
+        }
+      });
+  		function readFile(input) {
+   			if (input.files && input.files[0]) {
+  	            var reader = new FileReader();
+  	            reader.onload = function (e) {
+  					$('.upload-demo').addClass('ready');
+  	            	$uploadCrop.croppie('bind', {
+  	            		url: e.target.result
+  	            	}).then(function(){
+  	            		console.log('jQuery bind complete');
+  	            	});
+  	            }
+  	            reader.readAsDataURL(input.files[0]);
+  	        }
+  	        else {
+  		        swal("Sorry - you're browser doesn't support the FileReader API");
+  		    }
+  		}
+
+  		$('#upload').on('change', function () {
+        $('#upload-demo').attr('hidden', false);
+        readFile(this);
+      });
+      $('#guardar_datos').click(function(){
+        var archivo = $("#upload").val();
+        if (archivo != '') {
+          if ($('#terminos').prop('checked') == false) {
+              $('#mensaje').html('Lea y acepte nuestros terminos y condiciones.');
+              $('#modal_error').modal('show');
+            }else{ 
+              var size_image = $('#upload')[0].files[0].size;
+              var sizekiloByte = parseInt(size_image / 1024);
+              var extension = archivo.substring(archivo.lastIndexOf("."));
+              if (sizekiloByte > 1024) {
+                $('#mensaje').html('El peso de la imagen está por encima de lo permitido (1MB).');
+                $('#modal_error').modal('show');
+              } else if ($('#terminos').prop('checked') == false) {
+                $('#mensaje').html('Lea y acepte nuestros terminos y condiciones.');
+                $('#modal_error').modal('show');
+              } else {
+                var valores = $('#upload-demo').croppie('get').points;
+                var zoom = $('#upload-demo').croppie('get').zoom;
+                var data = $('#datos_imagen').val(valores+","+zoom);
+                $('#form_dos').submit();
+              }
+            }
+          
+        } else {
+          $('#mensaje').html('Agregue una fotografía personal.');
+            $('#modal_error').modal('show');
+        }
+         
+      });
+    </script>
+  </body>
+</html>

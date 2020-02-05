@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block titulo %}
+{% endblock %}
+
+{% block contenido %}
+<style type="text/css" media="screen">
+    .logo-login{
+      margin: 10% auto;
+    }
+</style>
+
+
+
+<div class="text-center logo-login">
+   <img src="{% static 'img/logo.png' %}">
+</div>
+{% endblock %}

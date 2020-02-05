@@ -1,0 +1,124 @@
+{% load staticfiles %}
+{% load humanize %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>CITAS RECLUTAMIENTO {{ date|date:'Y-m-d' }}</title>
+	<style type="text/css">
+		@page {
+            margin: 0.25in 0.25in 0.5in 0.25in;
+            padding: 0;
+        } 
+                .table-bordered {
+            border: 1px solid #ddd;
+            width: auto;
+        }
+        .table-bordered {
+            border: 1px solid #ddd;
+            width: auto;
+        }
+        .cc{
+        	width: 250px;
+
+        }
+        .center{
+        	text-align: center;
+
+        }
+        td, th{
+        	padding-top: 3px;
+        }
+        td{
+        	background-color: #eeffe8;
+        }
+        th{
+        	background-color: #808080;
+        }
+        .ligero{
+        	font-weight: 400;
+        }
+        .row{
+        	width: 100%;
+        }
+        .col-6{
+        	text-align: left;
+        }
+        .titulo{
+        	font-size: 1.5em;
+
+        }
+        b{
+        	font-weight: bold;
+        }
+        .info{
+        	background-color: #f5f5f5;
+        }
+        .des{
+        	padding-left: 5px;
+        	background-color: white;
+        }
+	</style>
+</head>
+<body>
+	<div>
+		<div class="row center titulo">CITAS RECLUTAMIENTO {{ date|date:'Y-m-d' }}</div>
+		<div class="col-6" >
+			<table >
+				<tr>
+					<td class="info col-6" ><b>CANDIDATOS PRIMERA ENTREVISTA: </b></td>
+				</tr>
+				<br>
+			</table>
+			<br>
+		</div>
+		<table class="table-bordered">
+			<thead>
+				<tr>
+					<th class="center">NOMBRE CANDIDATO</th>
+					<th class="center">PLAZA APLICA</th>
+					<th class="center">FECHA ENTREVISTA</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for x in primera_cita %}
+				<tr>
+					<td class="center ligero">{{x.Cod_Solicitud.nombres}} {{x.Cod_Solicitud.primerapellido}}</td>
+					<td class="center ligero">{{x.Cod_Oferta.Puesto_oferta}}</td>
+					<td class="center ligero">{{x.Hor_Pr_Entrevista}}</td>
+				</tr>
+				{% endfor%}
+			</tbody>
+		</table>
+
+		<div class="col-6" >
+			<table >
+				<tr>
+					<td class="info col-6" ><b>CANDIDATOS ENTREVISTA JEFE INMEDIATO: </b></td>
+				</tr>
+				<br>
+			</table>
+			<br>
+		</div>
+		<table class="table-bordered">
+			<thead>
+				<tr>
+					<th class="center">NOMBRE CANDIDATO</th>
+					<th class="center">PLAZA APLICA</th>
+					<th class="center">FECHA ENTREVISTA</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for y in entre_jefe %}
+				<tr>
+					<td class="center ligero">{{y.Cod_Solicitud.nombres}} {{y.Cod_Solicitud.primerapellido}}</td>
+					<td class="center ligero">{{y.Cod_Oferta.Puesto_oferta}}</td>
+					<td class="center ligero">{{y.Hor_Jefe}}</td>
+				</tr>
+				{% endfor%}
+			</tbody>
+		</table>
+		
+	</div>
+
+</body>
+</html>

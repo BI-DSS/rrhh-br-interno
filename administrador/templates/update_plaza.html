@@ -1,0 +1,309 @@
+{% extends "otrabase.html" %}
+{% load staticfiles %}
+{% block content %}
+<main> 
+  <!-- Signup -->
+  <section class="g-bg-gray-light-v5">
+    <div class="container g-py-30">
+      <div class="row justify-content-center">
+        <div class="col-sm-10 col-md-9 col-lg-12">
+          <div class="u-shadow-v25 g-bg-white rounded g-py-30 g-px-25">
+            <header class="text-center mb-4">
+              <h4 class="h4 g-color-black g-font-weight-600">EDITAR OFERTA LABORAL</h4>
+            </header>
+            <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+
+            <div id="pregunta_copia" style="display: none;">
+              <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+              <div class="row">
+                <div class="col-xs-12 col-sm-6 mb-6">
+                  <label style="font-weight: normal;">Pregunta:</label>
+                  <textarea name="preguntas" id="preguntas"  rows="3"></textarea>
+                </div>
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <button style="position: absolute; bottom: 0;" type="button" name="eliminar" id="eliminar"  class="btn u-btn-outline-lightred g-font-size-13 text-uppercase g-py-10 g-px-15 eliminar"><span><i class="icon-close g-pos-rel g-top-1 g-mr-8"></i>ELIMINAR PREGUNTA</span></button>
+                </div>
+                
+              </div>
+            </div>
+              <!-- Form -->
+            <form class="g-py-30" method="POST" accept-charset="utf-8" id="form_nueva_oferta" action="{% url 'update_oferta' ofer.Cod_oferta %}">
+                {% csrf_token %}
+                <div class="row">
+                  <span   id='error' style="display:none; color: red;" >Error. ¡No se guardó el usuario!</span>
+                <span   id='exito' style="display:none; color: green;" >Éxito. ¡Usuario ingresado correctamente!</span>
+
+                </div>
+                <div class="row">
+                   <div class="col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;">Plaza a ofertar:</label>
+                    <input type="text" name="Puesto_oferta" id="Puesto_oferta" placeholder="Ingrese plaza a ofertar." required="" maxlength="256" value="{{ofer.Puesto_oferta}}">
+                  </div>
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;">Departamento:</label>
+                    <select name="Departamento" id="Departamento" required="">
+                      <option value="{{ofer.Cod_departamento.coddepartamento}}">{{ofer.Cod_departamento.descripciondepartamento}}</option>
+                      {% for depto in lista_departamentos %}
+                      <option value="{{depto.coddepartamento}}">{{depto.descripciondepartamento}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;" >Municipio:</label>
+                    <select class="" name="Municipio" id="Municipio" required="">
+                      <option value="{{ofer.Cod_municipio.codmunicipio}}">{{ofer.Municipio}}</option>
+                    </select>
+                  </div>
+        
+                </div>
+
+
+                <div class="row">
+                   <div class="col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;">Descripción de plaza:</label>
+                    <textarea name="Descripcion_oferta" id="Descripcion_oferta"  rows="3" required="" placeholder="Exigencias del puesto">{{ofer.Descripcion_oferta}}</textarea>
+                    
+                  </div>
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;">Perfil del candidato:</label>
+                    <textarea name="Perfil_candidato" id="Perfil_candidato"  rows="3" required="" placeholder="Perfil esperado del candidato al puesto.">{{ofer.Perfil_candidato}}</textarea>
+                  </div>
+
+                  <div class="form-group col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;">Area o Departamento:</label>
+                    <select name="area" id="area" required="">
+                      <option value="{{ofer.Cod_area}}">{{ofer.Descripcion_area}}</option>
+                      {% for a in area%}
+                        <option value="{{a.Cod_area}}">{{a.Descripcion_area}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+        
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-4 mb-4">
+                      <label  style="font-weight: normal;">Vehículo: </label> <br>
+                        <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600 g-font-size-13" style="font-weight: normal;">
+                            <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="Vehiculo" type="radio"  value="False" id="f" {% if not ofer.Vehiculo == True %} checked="" {% endif %}>
+                            <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18" >
+                              <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                            </div>
+                          Opcional
+                        </label>
+                        <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600  g-font-size-13" style="font-weight: normal;">
+                            <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="Vehiculo" type="radio" value="True" id="t" {% if  ofer.Vehiculo == True %} checked="" {% endif %} >
+                            <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                              <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                            </div>
+                          Obligatorio
+                        </label>
+                  </div>
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                      <label  style="font-weight: normal;">Disponibilidad para trabajo de campo: </label> <br>
+                        <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600 g-font-size-13" style="font-weight: normal;">
+                            <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="Trabajo_campo" type="radio"  value="False" id="f" {% if not ofer.Trabajo_campo == True %} checked="" {% endif %} >
+                            <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18" >
+                              <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                            </div>
+                          Opcional
+                        </label>
+                        <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600  g-font-size-13" style="font-weight: normal;">
+                            <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="Trabajo_campo" type="radio" value="True" id="t" {% if ofer.Trabajo_campo == True %} checked="" {% endif %}  >
+                            <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                              <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                            </div>
+                          Obligatorio
+                        </label>
+                  </div>
+ 
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;" >Diponibilidad:</label>
+                    <select class="" name="Disponibilidad" id="Disponibilidad" required="">
+                      <option value="{{ofer.Disponibilidad}}">{{ofer.Disponibilidad}}</option>
+                      <option value="Inmediata">Inmediata</option>
+                      <option value="15 Dias">15 Dias</option>
+                      <option value="Un mes">Un mes</option>
+                      <option value="Dos meses">Dos meses</option>
+                    </select>
+                  </div>
+                </div>
+
+              <div class="row">
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;">Edad mínima:</label>
+                    <input name="Edad_minima" id="Edad_minima" required="" type="number" value="{{ofer.Edad_minima}}" >
+                    
+                  </div>
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;">Edad máxima:</label>
+                    <input name="Edad_maxima" id="Edad_maxima" required="" type="number" value="{{ofer.Edad_maxima}}" >
+                    
+                  </div>
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;">Tipo contrato:</label>
+                    <select name="Tipo_contratacion" id="Tipo_contratacion" required="" >
+                      <option value="{{ofer.Tipo_contratacion}}">{{ofer.Tipo_contratacion}}</option>
+                      <option value="Permanente">Permanente</option>
+                      <option value="Proyecto">Proyecto</option>
+                      <option value="Temporal">Temporal</option>
+                    </select>
+                    
+                  </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;">Experiencia laboral:</label>
+                    <textarea name="Experiencia_laboral" id="Experiencia_laboral"  rows="3" required="" placeholder="Experiencia laboral requerida.">{{ofer.Experiencia_laboral}}</textarea>
+                  </div>
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <label  style="font-weight: normal;">Seleccione el tipo de plaza que esta ofertando: </label> <br>
+                      <div class="g-mb-20 ">
+                        <label class="form-check-inline u-check g-pl-25">
+                          <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox"  hidden="" name="publica"  {% if ofer.Publica%} value="True" checked="" {% else %} value="False" {% endif %}>
+                          <div class="u-check-icon-checkbox-v6 g-absolute-centered--y g-left-0">
+                            <i class="fa" data-check-icon=""></i>
+                          </div>
+                          Pública
+                        </label>
+
+                        <label class="form-check-inline u-check g-pl-25">
+                          <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" hidden="" name="interna"  {% if ofer.Interna%} value="True"  checked="" {% else %} value="False" {% endif %}>
+                          <div class="u-check-icon-checkbox-v6 g-absolute-centered--y g-left-0">
+                            <i class="fa" data-check-icon=""></i>
+                          </div>
+                          Interna
+                        </label>
+
+                        <label class="form-check-inline u-check g-pl-25">
+                          <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" hidden="" name="anonima"  {% if ofer.Anonima%} checked="" value="True" {% else %}  value="False" {% endif %}>
+                          <div class="u-check-icon-checkbox-v6 g-absolute-centered--y g-left-0">
+                            <i class="fa" data-check-icon=""></i>
+                          </div>
+                          Anónima
+                        </label>
+                      </div>
+                  </div>
+              </div> 
+
+
+              <hr class="g-brd-gray-light-v4 g-mx-minus-30"><br>
+              <div class="row">
+                <div class="col-xs-12 col-sm-4 mb-4">
+                    <button style="position: absolute; bottom: 0;" {% if res == 1 %} disabled="" {% endif %} type="button" name="agregar" id="agregar"  class="btn u-btn-outline-indigo g-font-size-13 text-uppercase g-py-10 g-px-15"><span><i class="icon-plus g-pos-rel g-top-1 g-mr-8"></i>AGREGAR NUEVA PREGUNTA</span></button>
+                </div>
+              </div>
+              <div class="preguntas" id="preguntas">
+                
+                {% for x in pregun %}
+                <div class="row" id="cargar_preguntas">
+                  <div class="col-xs-12 col-sm-6 mb-6">
+                    <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+                    <label style="font-weight: normal;">Pregunta:</label>
+                    <textarea {% if res == 1 %} readonly="" {% endif %} name="preguntas" id="preguntas"  rows="3">{{x.Descripcion_pregunta}}</textarea>
+                  </div>
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <button style="position: absolute; bottom: 0;" {% if res == 1 %} disabled="" {% endif %}  type="button" name="eliminar" id="eliminar"  class="btn u-btn-outline-lightred g-font-size-13 text-uppercase g-py-10 g-px-15 eliminar"><span><i class="icon-close g-pos-rel g-top-1 g-mr-8"></i>ELIMINAR PREGUNTA</span></button>
+                  </div>
+                </div>
+                {% endfor %}
+
+
+                <div class="nueva_pregunta" id="nueva_pregunta"> </div>
+              </div> <br><br>
+              
+        
+                <div class="row">
+                  <div  class="col-xs-12 col-sm-12 mb-12" >
+                    <button type="submit" name="guardar" id="guardar"  class="btn u-btn-outline-blue g-font-size-13 text-uppercase g-py-10 g-px-15"><span><i class="icon-check g-pos-rel g-top-1 g-mr-8"></i>Guardar</span></button>
+                  </div>
+                </div>
+              
+            </form>
+              <!-- End Form -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End Signup -->
+  </main>
+{% endblock content %}
+{% block javascript %}
+<script>
+  $(document).ready(function(){
+    $("input[name=publica]").change(function(){
+      var livi= $('input[name=publica]:checked').val();
+      if(livi =='False'){
+        $("input[name=publica]").attr('value', 'True');
+      }
+      else{
+       $("input[name=publica]").attr('value', 'False');
+      }
+    });
+
+    $("input[name=interna]").change(function(){
+      var pesa= $('input[name=interna]:checked').val();
+      if(pesa =='False'){
+        $("input[name=interna]").attr('value', 'True');
+      }
+      else{
+       $("input[name=interna]").attr('value', 'False');
+      }
+    });
+
+    $("input[name=anonima]").change(function(){
+      var moto= $('input[name=anonima]:checked').val();
+      if(moto =='False'){
+        $("input[name=anonima]").attr('value', 'True');
+      }
+      else{
+       $("input[name=anonima]").attr('value', 'False');
+      }
+    });
+
+
+
+    //#######################################################################
+    $('textarea[name=preguntas]').attr('name', 'preguntas[]');
+
+    //################## CLick nueva pregunta#####################
+    $('#agregar').click(function(){
+      $('#pregunta_copia').clone().removeAttr('style').appendTo( '#nueva_pregunta' );
+      $('.eliminar').click(function(){
+          var id = $(this).closest("div#pregunta_copia").remove();
+    });
+    });
+    $('.eliminar').click(function(){
+          var id = $(this).closest("div#cargar_preguntas").remove();
+    });
+    
+    $('#Fecha_publicacion, #Fecha_cierre ' ).datepicker({
+      autoclose: true,
+      format: 'yyyy-mm-dd',
+      language: 'es',
+    });
+
+    $('#Departamento').change(function(){
+      $('#Municipio').empty();
+      $('#Municipio').append("<option value=''>-----------</option>");
+        $.ajax({
+         url: "{% url 'update_oferta' ofer.Cod_oferta %}",
+         data: {
+            opcion: 'busqueda_municipio',
+            depto: $('#Departamento').val()
+         }
+      })
+      .done(function( data ) {
+        $.each(data, function(key, val){
+        $('#Municipio').append("<option value="+val.codmunicipio+">" + val.descripcionmunicipio + "</option>");
+        });
+        $('#Municipio').trigger("chosen:updated");
+      });
+    });
+  });
+ 
+</script>
+{% endblock javascript %}
+

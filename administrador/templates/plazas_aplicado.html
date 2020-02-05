@@ -1,0 +1,71 @@
+{% extends "baseperfil.html" %}
+{% load staticfiles %}
+{% block content %}
+
+  <div class="col-lg-9"> 
+  
+  <div class="d-flex align-items-center justify-content-sm-between g-mb-5">
+    <h2 class="g-font-weight-300 g-mr-10">{{ solicitud.nombres }} {{ solicitud.primerapellido }}</h2>
+  </div>
+  <ul class="list-inline g-font-weight-300">
+    <li class="list-inline-item g-mr-20">
+      <i class="icon-location-pin g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> {{ solicitud.codmunicipiodomicilio.descripcionmunicipio }}, {{ solicitud.coddepartamentodomicilio.descripciondepartamento }}
+    </li> 
+    {% if solicitud.anonima %}
+      <li class="list-inline-item g-mr-20">
+        <i class="icon-check g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> Solicitante a plaza Anonima
+      </li>
+    {% endif %}
+  </ul>
+  <div class="row">
+    <div class="col-xs-12 col-sm-4 mb-4">
+      <button type="button" class="btn btn-md u-btn-primary rounded " id="show_modal">Seleccionar para plaza</button>
+    </div>
+  </div>
+    <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+      <h2 class="h4 g-font-weight-300">Ofertas que ha Aplicado</h2>
+      {% if lista_plazas %}
+           <div class="table-responsive" style="max-width: ">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Nombre Plaza | Oferta</th>
+                    <th>Area de Oferta</th>
+                    <th>Fecha de Aplicación</th>
+                  </tr>
+                </thead>
+                <tbody id="body_organizaciones">
+                  {% for plaza in lista_plazas %}
+                  <tr>
+                    <td>{{plaza.Cod_oferta.Puesto_oferta}}</td>
+                    <td>{{plaza.Cod_oferta.Cod_area.Descripcion_area}}</td>
+                    <td>{{plaza.Fecha}}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+      {%endif%}
+      <br><br>
+  </div>
+  </div>
+  {% include 'modales/modal_promover.html' with listaOfertas=lista_ofertas %}
+  {% endblock content %}
+  {% block javascript%}
+    <script>
+      $( document ).ready(function() {
+        $('#show_modal').click(function(){
+          $('#modal_promover').modal('show');
+        });
+
+
+
+        $.HSCore.components.HSMaskedInput.init('[data-mask]');
+        $('#sidemenu a').each(function(){
+          $(this).removeClass();
+          $(this).addClass('list-group-item list-group-item-action justify-content-between');
+        });
+        $('#aplicaciones').addClass('list-group-item list-group-item-action justify-content-between active');
+      });
+    </script>
+  {% endblock javascript %}

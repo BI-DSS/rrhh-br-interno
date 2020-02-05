@@ -1,0 +1,499 @@
+{% extends "basesolicitud.html" %}
+{% load staticfiles %}
+{% block content %}
+<section class="g-bg-gray-light-v5">
+  <div class="container g-py-30">
+    <div class="row justify-content-center">
+      <div class="col-sm-10 col-md-9 col-lg-12">
+        <div class="u-shadow-v25 g-bg-white rounded g-py-30 g-px-25">
+          <header class="text-center mb-4">
+            <h4 class="h4 g-color-black g-font-weight-400">INGRESO DE INFORMACIÓN</h4>
+          </header>
+          <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+            {% if error %}
+              {% include 'error_alert.html' %}
+            {% endif %}
+          <label> <b style="font-weight: bold;"> II. DATOS FAMILIARES <b> </label> <br>
+          <label>Todos los campos con <b style="color:red;">*</b> son requeridos</label>
+          {% include 'div_copias.html' %}
+          <!-- Form -->
+          <form class="g-py-30" method="POST" accept-charset="utf-8" id="form_solicitud2">
+            {% csrf_token %}
+            <label > <b style="font-weight: bold;"> Datos de padre: <b> </label>
+            <div class="row">
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Nombres:</label>
+                <input type="text" name="nombrespadre" id="id_nombrespadre" title="Solo letras" class="soloLetras" maxlength="100"> 
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Apellidos:</label>
+                <input type="text" name="apellidospadre" id="id_apellidospadre"  title="Solo letras" class="soloLetras" maxlength="100">
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Edad:</label>
+                {{form.edadpadre}}
+              </div>
+            </div> <br>
+            <div class="row">
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Celular:</label>
+                {{form.celularpadre}}
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Teléfono:</label>
+                {{form.telefonopadre}}
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4" >
+                <label style="font-weight: normal;">Profesión u Oficio:</label>
+                {{form.profesionpadre}}
+              </div>
+            </div>
+            <div class="row"  >
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Domicilio:</label>
+                {{form.domiciliopadre}}
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4" id="direccion_trabajo">
+                <label style="font-weight: normal;">Dirección laboral:</label>
+                {{form.direccionlaboralpadre}}
+              </div>
+            </div>
+            <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+            <label > <b style="font-weight: bold;"> Datos de madre: <b> </label>
+            <div class="row">
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Nombres:</label>
+                <input type="text" name="nombresmadre" id="id_nombresmadre" class="soloLetras" maxlength="100">
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Apellidos:</label>
+                <input type="text" name="apellidosmadre" id="id_apellidosmadre" class="soloLetras" maxlength="100">
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Edad:</label>
+                {{form.edadmadre}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Celular:</label>
+                {{form.celularmadre}}
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Teléfono:</label>
+                {{form.telefonomadre}}
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Profesión u Oficio:</label>
+                {{form.profesionmadre}}
+              </div>
+            </div>
+            <div class="row" >
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Domicilio:</label>
+                {{form.domiciliomadre}}
+              </div>
+
+              <div class="col-xs-12 col-sm-4 mb-4" id="direccion_madre">
+                <label style="font-weight: normal;">Dirección laboral:</label>
+                {{form.direccionlaboralmadre}}
+              </div>
+            </div>
+            <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+            <div class="row">
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">¿Tiene hermanos? <b style="color:red;">*</b></label> <br>
+                <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600 g-font-size-13">
+                  <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="hermanos" type="radio"  value="True" id="si_hermanos" >
+                  <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                    <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                  </div>
+                  SI
+                </label>
+                <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600  g-font-size-13" ;">
+                  <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="hermanos" type="radio" value="False" id="no_hermanos" checked="">
+                  <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                    <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                  </div>
+                  NO
+                </label>
+                <input type="" name="hermano" id="hermanos" hidden="" value="False">
+              </div>
+            </div>
+            <div id="global_hermanos">
+              <label > <b style="font-weight: bold;"> Datos de hermanos: <b> </label>
+              <div class="row">
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">Nombre completo: <b style="color:red;">*</b> </label>
+                  <input type="text" name="nombrecompleto[]" id="id_nombrecompleto" class="soloLetras" maxlength="100">
+                </div>
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">Edad:</label> 
+                  <input type="number" name="edad[]" id="id_edad">
+                </div>
+
+                <div class="col-xs-12 col-sm-4 mb-4" id="clonar">
+                  <label style="font-weight: normal;">Profesión u Oficio:</label>
+                  <input type="text" name="ocupacion[]" maxlength="100" id="id_ocupacion">
+                </div>
+
+              </div>
+              <div class="row">
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">Celular:</label>
+                  <input type="text" name="telefono[]" id="id_telefono" maxlength="10">
+                </div>
+                
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">Domicilio:</label>
+                  <textarea name="domicilio[]" id="id_domicilio" maxlength="200" rows="3"></textarea>
+                </div>
+
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <div class="col-12 align-self-center text-right">
+                    <br>
+                    <button  type="button" class="btn btn-outline-info u-btn-info" id="agregar">Agregar nuevo hermano</button>
+                  </div>
+                </div>
+              </div>
+              <div id="nuevo_hermano">
+              </div> 
+            </div>
+            {% if ingreso.estadocivil == 'C' %}
+                <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+                <label > <b style="font-weight: bold;"> Datos de cónyuge: <b> </label>
+                <div class="row">
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;">Nombre Completo: <b style="color:red;">*</b></label>
+                    <input type="text" name="nombreconyugue" id="id_nombreconyugue" class="soloLetras">
+                  </div>
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;">Edad: <b style="color:red;">*</b></label>
+                    {{form.edadconyugue}}
+                  </div>
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;">Domicilio: <b style="color:red;">*</b></label>
+                    {{form.domicilioconyugue}}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;">Teléfono: <b style="color:red;">*</b></label>
+                    {{form.telefonoconyugue}}
+                  </div>
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;">Profesión u Oficio: <b style="color:red;">*</b></label>
+                    {{form.profesionconyugue}}
+                  </div>
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;">Dirección laboral: <b style="color:red;">*</b></label>
+                    {{form.direccionlaboralconyugue}}
+                  </div>
+                </div>
+            {% endif %}
+            <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+            <div class="row">
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">¿Tiene hijos? <b style="color:red;">*</b></label> <br>
+                <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600 g-font-size-13">
+                  <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="hijos" type="radio"  value="True" id="si_hijos">
+                  <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                    <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                  </div>
+                  SI
+                </label>
+                <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600  g-font-size-13">
+                  <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="hijos" type="radio" value="False" id="no_hijos" checked="">
+                  <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                    <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                  </div> 
+                  NO
+                </label>
+                <input type="" name="hayhijos" id="hayhijos" hidden="" value="False">
+              </div>
+            </div>
+            <div id="contendor_hijos">
+              <label > <b style="font-weight: bold;"> Datos de hijos:<b> </label>
+              <div class="row">
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">Nombres: <b style="color:red;">*</b> </label>
+                  <input type="text" name="nombreshijo[]" id="id_nombreshijo" class="soloLetras" maxlength="100">
+                </div>
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">Apellidos: <b style="color:red;">*</b> </label>
+                  <input type="text" name="apellidoshijo[]" id="id_apellidoshijo" class="soloLetras" maxlength="100">
+                </div>
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">Edad:</label>
+                  <input type="number" name="edadhijo[]" id="id_edadhijo">
+                </div>
+              </div>
+              <div class="row" >
+                <div class="col-12 align-self-center text-right">
+                  <button type="button" class="btn btn-outline-info u-btn-info" id="agregar_hijo">Agregar nuevo hijo</button>
+                </div>
+              </div>
+              <div id="hijo_nuevo">
+              </div>
+            </div>
+            <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+            <div class="row">
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">¿Personas dependen de su salario? <b style="color:red;">*</b></label> <br>
+                <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600 g-font-size-13">
+                  <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="dependen" type="radio"  value="True" id="si_dependen">
+                  <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                    <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                  </div>
+                  SI
+                </label>
+                <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600  g-font-size-13">
+                  <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="dependen" type="radio" value="False" id="no_dependen" checked="">
+                  <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                    <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                  </div>
+                  NO
+                </label>
+                <input type="" name="dependiendo" id="dependiendo" hidden="" value="False">
+              </div>
+            </div>
+            <div id="contendor_pedendientes">
+              <div class="row">
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">Nombre dependiente:</label>
+                  <input type="text" name="nombredependiente" id="id_nombredependiente" class="soloLetras" maxlength="100">
+                </div>
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">Tipo de dependencia:</label>
+                  {{depen.tipodependencia}}
+                </div>
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <div class="col-12 align-self-center text-right">
+                  <br>
+                    <button  type="button" class="btn btn-outline-info u-btn-info" id="agregar_dependiente">Agregar nuevo dependiente</button>
+                  </div>
+                </div>
+              </div>
+              <div id="dependiente_nuevo">
+              </div>
+            </div><br>
+            <div class="row" style="text-align: center; display: block;">
+              <label><b>2 de 6</b></label>
+            </div>
+            <div class="col-12 align-self-center text-right">
+              <a href="{% url 'perfil' %}" class="btn btn-secondary" style="margin-right: 5px;">Salir</a>
+              <button type="submit" id="siguiente" class="btn btn-primary">Siguiente</button>
+            </div>
+          </form>
+          <!-- End Form -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}
+{% block javascript %}
+
+  <!-- SCRIPT PARA ASIGNAR MASCARAS Y PLACEHOLDER A INPUTS -->
+    <script>
+      $(document).on('ready', function(){
+        $( "input" ).addClass( "form-control rounded-0 u-form-control " );
+        $( "textarea" ).addClass( "form-control rounded-0 u-form-control g-resize-none" );
+        $("#id_telefonopadre , #id_telefonomadre , #id_telefono, #id_telefonoconyugue, #id_celularmadre, #id_celularpadre ").attr("placeholder", "0000-0000");
+        $("#id_telefonopadre , #id_telefonomadre,  #id_telefono, #id_telefonoconyugue, #id_celularmadre, #id_celularpadre ").attr("data-mask", "9999-9999");
+        $('input[name=nombredependiente]').attr('name', 'nombredependiente[]')
+        $('select[name=tipodependencia]').attr('name', 'tipodependencia[]')
+        if('{{ingreso.estadocivil}}'=='C'){
+          $("#id_nombreconyugue , #id_edadconyugue , #id_domicilioconyugue, #id_telefonoconyugue, #id_profesionconyugue").attr("required", true);
+        }
+      });
+    </script>
+  <!-- ++++++++++++++++++++++ FIN ++++++++++++++++++++++++ -->
+
+  <!--    SCRIPT PARA INICIAR PLUGINS DE  LA PLANTILLA     -->
+    <script>
+      $(document).on('ready', function(){
+        $.HSCore.components.HSTabs.init('[role="tablist"]');
+        $.HSCore.components.HSMaskedInput.init('[data-mask]');
+        $(window).on('load', function () {
+          // initialization of header
+          $.HSCore.components.HSHeader.init($('#js-header'));
+          $.HSCore.helpers.HSHamburgers.init('.hamburger');
+          // initialization of HSMegaMenu component
+          $('.js-mega-menu').HSMegaMenu({
+            event: 'hover',
+            pageContainer: $('.container'),
+            breakpoint: 991
+          });
+        });
+
+        $(window).on('resize', function () {
+          setTimeout(function () {
+            $.HSCore.components.HSTabs.init('[role="tablist"]');
+          }, 200);
+        });
+        
+      });
+    </script>
+  <!-- ++++++++++++++++++++++ FIN ++++++++++++++++++++++++ -->
+
+  <!--        SCRIPT PARA INICIAR PLUGINS EXTERNOS         -->
+    <script>
+      $(document).on('ready', function(){
+        $('select').select2({
+          theme:'bootstrap',
+          width: '100%'
+        });
+        $("#form_solicitud2").validate();
+      });
+    </script>
+  <!-- ++++++++++++++++++++++ FIN ++++++++++++++++++++++++ -->
+
+  <!--    VALIDAR EL SOLO INGRESO  DE LETRAS EN INPUTS     -->
+    <script>
+      $(document).on('ready', function(){
+        $(".soloLetras").keypress(function(event){
+          var inputValue = event.charCode;
+          if(!(inputValue >= 65 && inputValue <= 122) && (inputValue != 32 && inputValue != 0) && (inputValue != 241) ){
+              event.preventDefault();
+          }
+        });
+      });
+    </script>
+  <!-- ++++++++++++++++++++++ FIN ++++++++++++++++++++++++ -->
+
+  <!--         MANEJO DE FORMULARIO DE HERMANOS            -->
+    <script>
+      $(document).on('ready', function(){
+        $('#global_hermanos').hide();
+        
+        $('#si_hermanos').change(function(){
+          if($(this).val() == "True") {
+            $('#global_hermanos').show();
+            $("#id_nombrecompleto ").attr("required", true);
+            $('#hermanos').val('True');
+          }else{
+            $("#id_nombrecompleto ").removeAttr("required");
+            $("#id_nombrecompleto , #id_edad , #id_domicilio, #id_ocupacion , #id_telefono").val("");
+            $('#hermanos').val('False');
+           
+          }
+        });
+
+        $('#no_hermanos').change(function(){
+          if($(this).val() == "False") {
+            $('#global_hermanos').hide();
+            $("#id_nombrecompleto , #id_edad , #id_domicilio, #id_ocupacion").removeAttr("required");
+            $("#id_nombrecompleto , #id_edad , #id_domicilio, #id_ocupacion, #id_telefono").val("");
+            $('#hermanos').val('False');
+            
+          }else{
+            $('#global_hermanos').show();
+            $("#id_nombrecompleto , #id_edad , #id_domicilio, #id_ocupacion").attr("required", true);
+            $('#hermanos').val('True');
+          }
+        });
+
+        $('#agregar').click(function(){
+          $('#hermano_copia').clone().removeAttr('style').appendTo( '#nuevo_hermano' )
+          $('.eliminar').click(function(){
+              var id = $(this).closest("div#hermano_copia").remove();
+          });
+        });
+
+
+      });
+    </script>
+  <!-- ++++++++++++++++++++++ FIN ++++++++++++++++++++++++ -->
+
+  <!--          MANEJO DE FORMULARIO DE HIJOS              -->
+    <script>
+      $(document).on('ready', function(){
+        $('#contendor_hijos').hide();
+
+        $('#si_hijos').change(function(){
+          if($(this).val() == "True") {
+            $('#contendor_hijos').show();
+            $("#id_nombreshijo , #id_apellidoshijo ").attr("required", true);
+            $('#hayhijos').val('True');
+            
+          }else{
+            $('#contendor_hijos').hide();
+            $("#id_nombreshijo , #id_apellidoshijo , #id_edadhijo").removeAttr("required");
+            $("#id_nombreshijo , #id_apellidoshijo , #id_edadhijo").val("");
+             $('#hayhijos').val('False');
+            }
+        });
+
+        $('#no_hijos').change(function(){
+          if($(this).val() == "False") {
+            $('#contendor_hijos').hide();
+            $("#id_nombreshijo , #id_apellidoshijo , #id_edadhijo").removeAttr("required");
+            $("#id_nombreshijo , #id_apellidoshijo , #id_edadhijo").val("");
+            $('#hayhijos').val('False');
+          }else{
+            $('#contendor_hijos').show();
+            $("#id_nombreshijo , #id_apellidoshijo , #id_edadhijo").attr("required", true);
+            $('#hayhijos').val('True');
+          }
+        });
+
+        $('#agregar_hijo').click(function(){
+          $('#hijo_copia').clone().removeAttr('style').appendTo( '#hijo_nuevo' );
+          $('.eliminar_hijo').click(function(){ 
+            var id = $(this).closest("div#hijo_copia").remove();
+          });
+        });
+
+      });
+    </script>
+  <!-- ++++++++++++++++++++++ FIN ++++++++++++++++++++++++ -->
+
+  <!--         MANEJO DE FORMULARIO DE DEPENDIENTES        -->
+    <script>
+      $(document).on('ready', function(){
+        $('#contendor_pedendientes').hide();
+        
+        $('#si_dependen').change(function(){
+          if($(this).val() == "True") {
+            $('#contendor_pedendientes').show();
+            $("#id_nombredependiente, #id_tipodependencia").attr("required", true);
+            $('#dependiendo').val('True');
+          }else{
+            $('#contendor_pedendientes').hide();
+            $("#id_nombredependiente, #id_tipodependencia").removeAttr("required", true);
+            $("#id_nombredependiente, #id_tipodependencia").val("");
+            $('#dependiendo').val('False');
+          }
+        });
+
+        $('#no_dependen').change(function(){
+          if ($(this).val() == "False") {
+            $('#contendor_pedendientes').hide();
+            $("#id_nombredependiente, #id_tipodependencia").removeAttr("required", true);
+            $("#id_nombredependiente, #id_tipodependencia").val("");
+            $('#dependiendo').val('False');
+          }else{
+            $('#contendor_pedendientes').show();
+            $("#id_nombredependiente, #id_tipodependencia").attr("required", true);
+            $('#dependiendo').val('True');
+          }
+        });
+        $('#agregar_dependiente').click(function(){
+          $('select').select2('destroy');
+          $('#dependiente_copia').clone().removeAttr('style').appendTo( '#dependiente_nuevo' );
+          $('.eliminar_dependiente').click(function(){
+            var id = $(this).closest("div#dependiente_copia").remove();
+          });
+
+          $('select[name=tipodependencia]').attr('name', 'tipodependencia[]')
+          $('select').select2({
+            theme:'bootstrap',
+                width: '100%'
+          });
+        });
+
+      });
+    </script>
+  <!-- ++++++++++++++++++++++ FIN ++++++++++++++++++++++++ -->
+{% endblock javascript %}

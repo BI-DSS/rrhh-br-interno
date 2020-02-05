@@ -1,0 +1,322 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+
+            <!-- Profile Content -->
+  <div class="col-lg-9">
+    <div class="d-flex align-items-center justify-content-sm-between g-mb-5">
+      <h2 class="g-font-weight-300 g-mr-10">{{ request.user.first_name }} {{ request.user.last_name }}</h2>
+    </div>
+
+    <ul class="list-inline g-font-weight-300">
+      <li class="list-inline-item g-mr-20">
+      <i class="icon-location-pin g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> {{ perfil.codmunicipiodomicilio.descripcionmunicipio }} {{ perfil.coddepartamentodomicilio.descripciondepartamento }}
+    </li>
+      {% if request.user.is_active %}
+      <li class="list-inline-item g-mr-20">
+        {% if perfil.empleado %}
+        <i class="icon-check g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> Empleado Banrural
+        {% else %}
+        <i class="icon-check g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> Usuario Verificado
+        {% endif %}
+      </li>
+      {% endif %}
+    </ul>
+    <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+
+    {% if perfil.vista > 6 %}
+      <h2 class="h4 g-font-weight-300">Referencias personales
+            <span>
+              <i class="p icon-plus g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1" data-toggle="modal" data-target="#nuevo-personal"></i>
+            </span>
+      </h2>
+      <div class="modal fade" id="nuevo-personal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="exampleModalLabel">Nueva referencia personal</h4>
+            </div>
+            <div class="modal-body">
+              <form method="POST" action="{% url 'create_referencia_personal' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label for="recipient-name" class="control-label">Nombre:</label>
+                  <input type="text" class="form-control"  value="" name="nombre_personal" required="">
+                </div>
+                <div class="form-group">
+                  <label for="message-text" class="control-label">Profesión:</label>
+                  <input type="text" class="form-control"  value="" name="profesion_personal" required="">
+                </div>
+                <div class="form-group">
+                  <label for="message-text" class="control-label">Dirección:</label>
+                  <textarea type="text" class="form-control" rows="3"  value="" name="direccion_personal" required=""></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="message-text" class="control-label">Telefono:</label>
+                  <input type="text" class="form-control"  value="" name="telefono_personal" required="" placeholder="0000-0000" data-mask= "9999-9999" required="">
+                </div>
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                  <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+      {% if personal %}
+           <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Profesión</th>
+                    <th>Domicilio</th>
+                    <th>Telefono</th>
+                    <th>Acción</th>
+                  </tr>
+                </thead>
+                <tbody id="body_organizaciones">
+                  {% for her in personal %}
+                  <tr>
+                    <td>{{her.nombre_personal}}</td>
+                    <td>{{her.profesion_personal}}</td>
+                    <td>{{her.direccion_personal}}</td>
+                    <td>{{her.telefono_personal}}</td>
+                    <td>
+
+                      <i class="p icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1" data-toggle="modal" data-target="#personal-{{her.codreferenciapersonal}}" "></i> &nbsp;
+
+                      <div class="modal fade" id="personal-{{her.codreferenciapersonal}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                              <h4 class="modal-title" id="exampleModalLabel">Editar referencia personal</h4>
+                            </div>
+                            <div class="modal-body">
+                              <form method="POST" action="{% url 'update_referencia_personal' her.codreferenciapersonal  %}">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                  <label for="recipient-name" class="control-label">Nombre:</label>
+                                  <input type="text" class="form-control"  value="{{her.nombre_personal}}" name="nombre_personal" required="">
+                                </div>
+                                <div class="form-group">
+                                  <label for="message-text" class="control-label">Profesión:</label>
+                                  <input type="text" class="form-control"  value="{{her.profesion_personal}}" name="profesion_personal" required="">
+                                </div>
+                                <div class="form-group">
+                                  <label for="message-text" class="control-label">Dirección:</label>
+                                  <textarea type="text" class="form-control" name="direccion_personal" rows="3" required="">{{her.direccion_personal}}</textarea>
+                                </div>
+                                <div class="form-group">
+                                  <label for="message-text" class="control-label">Telefono:</label>
+                                  <input type="text" class="form-control"  value="{{her.telefono_personal}}" name="telefono_personal" placeholder="0000-0000" data-mask= "9999-9999" required="">
+                                </div>
+
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                  <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                                </div>
+
+                              </form>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+
+                      <i class="p icon-trash g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1"  data-toggle="modal" data-target="#Eliminar_refe_personal-{{her.codreferenciapersonal}}"></i>
+
+                      <div class="modal fade" id="Eliminar_refe_personal-{{her.codreferenciapersonal}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                              <h4 class="modal-title" id="exampleModalLabel">Eliminar</h4>
+                            </div>
+                            <div class="modal-body">
+
+                                <h5>¿Desea eliminar a:  {{her.nombre_personal}}?</h5>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                  <a href="{% url 'delete_referencia_personal' her.codreferenciapersonal %}" class="btn btn-primary">Borrar</a>
+                                </div>
+
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+      {%endif%}
+      <br><br>
+
+
+      <h2 class="h4 g-font-weight-300">Referencias laborales
+            <span>
+              <i class="p icon-plus g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1" data-toggle="modal" data-target="#nueva-laboral"></i>
+            </span>
+      </h2>
+      <div class="modal fade" id="nueva-laboral" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="exampleModalLabel">Nueva referencia laboral</h4>
+            </div>
+            <div class="modal-body">
+              <form method="POST" action="{% url 'create_referencia_laboral' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label for="recipient-name" class="control-label">Nombre:</label>
+                  <input type="text" class="form-control"  value="" name="nombrecompleto" required="">
+                </div>
+                <div class="form-group">
+                  <label for="message-text" class="control-label">Profesión:</label>
+                  <input type="text" class="form-control"  value="" name="profesion" required="">
+                </div>
+                <div class="form-group">
+                  <label for="message-text" class="control-label">Dirección:</label>
+                  <textarea type="text" class="form-control" rows="3"  value="" name="direccion" required=""></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="message-text" class="control-label">Telefono:</label>
+                  <input type="text" class="form-control"  value="" name="telefono" required="" placeholder="0000-0000" data-mask= "9999-9999" >
+                </div>
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                  <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      {% if laboral %}
+           <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Profesión</th>
+                    <th>Dirección</th>
+                    <th>Telefono</th>
+                    <th>Acción</th>
+                  </tr>
+                </thead>
+                <tbody >
+                  {% for her in laboral %}
+                  <tr>
+                    <td>{{her.nombrecompleto}}</td>
+                    <td>{{her.profesion}}</td>
+                    <td>{{her.direccion}}</td>
+                    <td>{{her.telefono}}</td>
+                    <td>
+                      <i class="p icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1" data-toggle="modal" data-target="#laboral-{{her.codreferencia}}" "></i> &nbsp;
+
+                      <div class="modal fade" id="laboral-{{her.codreferencia}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                              <h4 class="modal-title" id="exampleModalLabel">Editar referencia laboral</h4>
+                            </div>
+                            <div class="modal-body">
+                              <form method="POST" action="{% url 'update_referencia_laboral' her.codreferencia  %}">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                  <label for="recipient-name" class="control-label">Nombre:</label>
+                                  <input type="text" class="form-control"  value="{{her.nombrecompleto}}" name="nombrecompleto" required="">
+                                </div>
+                                <div class="form-group">
+                                  <label for="message-text" class="control-label">Profesión:</label>
+                                  <input type="text" class="form-control"  value="{{her.profesion}}" name="profesion"v required="">
+                                </div>
+                                <div class="form-group">
+                                  <label for="message-text" class="control-label">Dirección:</label>
+                                  <textarea type="text" class="form-control" name="direccion" rows="3" required="">{{her.direccion}}</textarea >
+                                </div>
+                                <div class="form-group">
+                                  <label for="message-text" class="control-label">Telefono:</label>
+                                  <input type="text" class="form-control"  value="{{her.telefono}}" name="telefono" placeholder="0000-0000" data-mask= "9999-9999" required="">
+                                </div>
+
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                  <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                                </div>
+
+                              </form>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+
+                      <i class="p icon-trash g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1"  data-toggle="modal" data-target="#Eliminar_refe_laboral-{{her.codreferencia}}"></i>
+
+                      <div class="modal fade" id="Eliminar_refe_laboral-{{her.codreferencia}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                              <h4 class="modal-title" id="exampleModalLabel">Eliminar</h4>
+                            </div>
+                            <div class="modal-body">
+
+                                <h5>¿Desea eliminar a:  {{her.nombrecompleto}}?</h5>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                  <a href="{% url 'delete_referencia_laboral' her.codreferencia %}" class="btn btn-primary">Borrar</a>
+                                </div>
+
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+      {%endif%}
+      <br><br>
+    {% endif %}
+
+  </div>
+
+  {% endblock content %}
+
+  {% block javascript%}
+    <script>
+      $( document ).ready(function() {
+        //$.HSCore.components.HSMaskedInput.init('[data-mask]');
+      });
+      $(document).ready(function(){
+      	$('#sidemenu a').each(function(){
+      		$(this).removeClass();
+      		$(this).addClass('list-group-item list-group-item-action justify-content-between');
+      	});
+      	$('#referencias').addClass('list-group-item list-group-item-action justify-content-between active');
+      });
+    </script>
+  {% endblock javascript %}

@@ -1,0 +1,304 @@
+{% extends "base_blog.html" %}
+{% load staticfiles %}
+{% block content %}
+	<section class="g-bg-secondary g-py-20">
+    <div class="container">
+      <div class="d-sm-flex text-center">
+        <div class="align-self-center">
+          <h1 class=" g-color-gray-dark-v1 g-font-weight-300  g-mb-10 g-mb-0--md">Detalle de oferta.</h1>
+        </div>
+
+      </div>
+    </div>
+  </section>
+    <div class="modal fade" id="susbribete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Suscríbete y recibe nuestras ofertas de trabajo</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form method="POST" accept-charset="utf-8" action="{% url 'suscribirse' %}" id="form_suscribirse">
+              {% csrf_token %}
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-xs-12 col-sm-6 mb-4">
+                    <label>Correo electrónico:</label>
+                    <input type="email" name="correo" required="" placeholder="ejemplo@mail.com" pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" id="correo">
+                  </div>
+
+                </div>
+                <div class="row">
+                  <div class="col-xs-12 col-sm-12 mb-12">
+                    <span  id="id__error" style="color: red;">SELECCIONE LAS AREAS DE SUS INTERES</span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-12 col-sm-12 mb-12">
+                    <span  id="id_email" style="color: red;">INGRESE UN CORREO ELECTRÓNICO VÁLIDO</span>
+                  </div>
+                </div>
+                <h4 class="h6 g-font-weight-500 g-mb-20">Selecciona las areas de tu interes:</h4>
+                  <div class="row">
+                    {% for ar in areas %}
+                     <!-- Left Column -->
+                    <div class="col-md-4">
+                      <div class="form-group g-mb-10">
+                        <label class="u-check g-pl-25">
+                          <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" name="area[]" value="{{ar.Cod_area}}">
+                          <div class="u-check-icon-checkbox-v4 g-absolute-centered--y g-left-0">
+                            <i class="fa" data-check-icon=""></i>
+                          </div>
+                          {{ar.Descripcion_area}}
+                        </label>
+                      </div>
+                    </div>
+                    <!-- End Left Column -->
+                    {% endfor %}
+                  </div>
+              </div>
+
+          </form>
+          <div class="modal-footer">
+            <small class="form-text g-font-size-default g-color-primary " >Recibiras un correo de confirmación cuando tu suscripción sea activada</small>
+            <button type="submit" name="guardar" id="id_suscribirse"  class="btn btn-primary "><span>Suscribirse</span>
+            </button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+          <!-- Jobs Description -->
+    <section class="g-py-70">
+        <div class="container">
+          <div class="row">
+            <!-- Content -->
+            <div class="col-lg-8 g-mb-30 g-mb-0--lg" style="padding-right: 20px;">
+              <article class="u-shadow-v11 rounded g-pa-30">
+                <!-- Content Header
+
+                 -->
+                <div class="row">
+                  <div class="col-md-8 g-mb-30 g-mb-0--md">
+                    <div class="media">
+                      <div class="media-body">
+                        <span class="d-block g-mb-3">
+                        	<strong class="u-link-v5 g-font-size-20 g-color-gray-dark-v1 g-color-primary--hover">{{oferta.Puesto_oferta}}</strong>
+                        </span>
+                        <span class="g-font-size-13 g-color-gray-dark-v4 g-mr-15">
+                          <i class="icon-location-pin g-pos-rel g-top-1 mr-1"></i>{{oferta.Municipio}}, {{oferta.Departamento}}
+                        </span>
+                        <span class="g-font-size-13 g-color-gray-dark-v4 g-mr-15">
+                          <i class="icon-bag g-pos-rel g-top-1 mr-1"></i>{{oferta.Descripcion_area}}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 align-self-center text-md-right">
+                  	<span class="u-tags-v1 g-font-size-12 g-color-main g-brd-around g-brd-gray-light-v3  g-color-primary--hover rounded g-py-3 g-px-8">Fecha Inicio: {{oferta.Fecha_publicacion}} (un mes activa)</span>
+                  </div>
+                </div>
+                <!-- End Content Header -->
+
+                <hr class="g-brd-gray-light-v4">
+
+                <!-- Jobs Description -->
+                <h3 class="h5 g-color-gray-dark-v1 g-mb-10">Descipción del Trabajo</h3>
+                <p>{{oferta.Descripcion_oferta}}</p>
+                <!-- End Jobs Description -->
+
+                <hr class="g-brd-gray-light-v4">
+                <h3 class="h5 g-color-gray-dark-v1 g-mb-10">Perfíl del Cantidato</h3>
+                <div class="g-mb-20">
+                  <p>{{oferta.Perfil_candidato}}</p>
+                </div>
+                <!-- Your Tasks -->
+                <hr class="g-brd-gray-light-v4">
+                <h3 class="h5 g-color-gray-dark-v1 g-mb-10">Experiencia Requerida</h3>
+                <div class="g-mb-20">
+                  <p>{{oferta.Experiencia_laboral}}</p>
+                </div>
+
+                <hr class="g-brd-gray-light-v4">
+                <!-- Offer Details & Skills -->
+                <div class="row">
+                  <!-- Offer Details -->
+                  <div class="col-lg-12 g-mb-30 g-mb-0--lg">
+                    <h3 class="h5 g-color-gray-dark-v1 g-mb-10">Otros Detalles</h3>
+                    <ul class="list-unstyled mb-12">
+                      <li class="media g-mb-12">
+                        <span class="d-block g-color-gray-dark-v5 g-width-150">
+                          <i class="icon-calendar g-pos-rel g-top-1 g-mr-5"></i> Edad:
+                        </span>
+                        <span class="media-body">{{oferta.Edad_minima}} - {{oferta.Edad_maxima}} Años</span>
+                      </li>
+                      <li class="media g-mb-12">
+                        <span class="d-block g-color-gray-dark-v5 g-width-150">
+                          <i class="icon-target g-pos-rel g-top-1 g-mr-5"></i>Disponibilidad:
+                        </span>
+                        <span class="media-body">{{oferta.Disponibilidad}}</span>
+                      </li>
+                      <li class="media g-mb-12">
+                        <span class="d-block g-color-gray-dark-v5 g-width-150">
+                          <i class="icon-directions g-pos-rel g-top-1 g-mr-5"></i>Trabajo de Campo:
+                        </span>
+                        {% if oferta.Trabajo_campo %}
+                        <span class="media-body">Obligatorio</span>
+                        {% else %}
+                        <span class="media-body">Opcional</span>
+                        {% endif %}
+                      </li>
+                      <li class="media g-mb-12">
+                        <span class="d-block g-color-gray-dark-v5 g-width-150">
+                          <i class="icon-disc g-pos-rel g-top-1 g-mr-5"></i>Vehículo:
+                        </span>
+                        {% if oferta.Vehiculo %}
+                        <span class="media-body">Obligatorio</span>
+                        {% else %}
+                        <span class="media-body">Opcional</span>
+                        {% endif %}
+                      </li>
+
+                    </ul>
+                    <hr class="g-brd-gray-light-v4">
+                      <li class="media g-mb-12">
+                        {% if request.user.id %}
+                            {% if pregunta %}
+                            <button type="button" class="btn u-btn-outline-indigo g-font-size-13 text-uppercase g-py-10 g-px-15" id="aplicar">APLICAR</button>
+                            {% else %}
+                              <form accept-charset="utf-8" action="{% url 'aplicar_oferta' oferta.Cod_oferta %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="btn u-btn-outline-indigo g-font-size-13 text-uppercase g-py-10 g-px-15" id="aplicar">APLICAR</button>
+                              </form>
+                            {% endif%}
+                        {% else %}
+                          <button type="button" class="btn u-btn-outline-indigo g-font-size-13 text-uppercase g-py-10 g-px-15" id="loggear">APLICAR</button>
+
+                        {% endif %}
+                      </li>
+                      <div class="loggear" id="log" hidden="">
+                        <br>
+                        <label class="h5 g-color-gray-dark-v1 g-mb-10" for=""> Debes <a class=" g-color-primary g-text-no-underline--hover" href="{% url 'login' %}">inicar sesión</a> para aplicar. </label>
+                      </div>
+                      <div class="preguntas" hidden="" id="preguntas">
+                        {% if pregunta %}
+                        <br>
+                        <label class="h5 g-color-gray-dark-v1 g-mb-10" for=""> Responda las siguientes preguntas. </label>
+                        <form accept-charset="utf-8" action="{% url 'aplicar_oferta' oferta.Cod_oferta %}" method="POST">
+                          {% csrf_token %}
+                          {% for pre in pregunta%}
+                            <hr class="g-brd-gray-light-v4">
+                            <div class="row">
+                              <div class="col-xs-12 col-sm-12 mb-12">
+                                <label class="h5 g-color-gray-dark-v1 g-mb-10" for="">{{pre.Descripcion_pregunta}}</label>
+                                <textarea name="{{pre.Cod_pregunta}}" id="{{pre.Cod_pregunta}}"  rows="3" required="" placeholder="Responde de manera clara y objetiva"></textarea>
+                              </div>
+                            </div>
+                          {% endfor %}
+                          <br>
+                          <div class="row">
+                            <div class="col-xs-12 col-sm-12 mb-12">
+                              <button type="submit" class="btn u-btn-outline-primary g-font-size-13 text-uppercase g-py-10 g-px-15" id="enviar">ENVIAR</button>
+                            </div>
+                            
+                          </div>
+                        </form>
+                        {% endif %}
+                      </div>
+                      
+                  </div>
+                  <!-- End Offer Details -->
+
+                  <!-- End Skills -->
+                </div>
+                <!-- End Offer Details & Skills -->
+              </article>
+            </div>
+            <!-- End Content -->
+            {% if ofertas %}
+            <div class="col-lg-4 g-brd-left--lg g-brd-gray-light-v4 g-mb-80" style="padding-left: 10px;"> <br>
+                <h2 class="h4 g-color-gray-dark-v1 g-font-weight-300">Te Podría Interesar:</h2> <br>
+                <div class="row g-mb-30 ">
+                    {% for ofer in ofertas %}
+                    <div class="col-lg-12 g-mb-40 g-mb-0--lg" style="padding-bottom: 20px;" >
+                      <ul class="list-unstyled mb-0">
+                          <li class="media u-shadow-v11 rounded g-pa-20 g-mb-10">
+                            <div class="media-body">
+                              <strong class="h5 d-block u-link-v5  g-color-primary g-font-weight-600 g-mb-5">{{ofer.Puesto_oferta}}</strong>
+                              <span class="g-font-size-13 g-color-gray-dark-v4 g-mr-15">
+                                <i class="icon-calendar g-pos-rel g-top-1 mr-1"></i>Fecha Inicio: {{oferta.Fecha_publicacion}} (un mes activa)
+                              </span> <br>
+                              <span class="g-font-size-13 g-color-gray-dark-v4 g-mr-15">
+                                <i class="icon-location-pin g-pos-rel g-top-1 mr-1"></i>{{ofer.Municipio}}, {{ofer.Departamento}}
+                              </span>
+                              <span class="g-font-size-13 g-color-gray-dark-v4 g-mr-15">
+                                <i class="icon-bag g-pos-rel g-top-1 mr-1"></i> {{ofer.Descripcion_area}}
+                              </span> <br> <br> 
+                              <span class="g-font-size-13 g-color-gray-dark-v4 g-mr-15" style="overflow: hidden;  text-overflow: ellipsis; display: -webkit-box;  line-height:16px; max-height: 32px; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+                                  <b style="font-weight: bold;">Perfil Cantidato: </b>{{ofer.Perfil_candidato}}
+                              </span>
+                              <span class="g-font-size-13 g-color-gray-dark-v4 g-mr-15">
+                                  <a class="g-color-blue" href="{% url 'aplicar_oferta' ofer.Cod_oferta %}">Ver mas detalles</a>
+                              </span> <br>
+
+
+                            </div>
+                          </li>
+                      </ul>
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+            {% endif %} 
+          </div>
+        </div>
+    </section>
+      <!-- End Jobs Description -->
+{% endblock content %}
+{% block javascript %}
+<script>
+  $(document).ready(function(){
+    function isEmail(email) {
+      var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+      return regex.test(email);
+    }
+
+
+  	$("#aplicar").click(function(){
+  		$("#preguntas").removeAttr('hidden');
+  	});
+
+    $("#loggear").click(function(){
+      $("#log").removeAttr('hidden');
+    });
+
+    $('#id__error').hide();
+      $('#id_email').hide();
+      $('#id_suscribirse').click(function(){
+        var x = false;
+        $('input[name="area[]"]').each(function(index , elem){
+          if ($(elem).prop('checked') != ''){
+            x = true;
+          }
+        });
+        if (x == false) {
+          $('#id__error').show();
+        }
+        else{
+          if ( isEmail($('#correo').val() )) {
+            $('#form_suscribirse').submit();
+            
+          }
+          else{
+            $('#id_email').show();
+
+          }
+        }
+      });
+  });
+</script>
+{% endblock javascript %}

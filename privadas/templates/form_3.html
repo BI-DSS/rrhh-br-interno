@@ -1,0 +1,475 @@
+{% extends "baseform.html" %}
+{% load staticfiles %}
+{% block content %}
+<section class="g-bg-gray-light-v5">
+  <div class="container g-py-30">
+    <div class="row justify-content-center">
+      <div class="col-sm-10 col-md-9 col-lg-12">
+        <div class="u-shadow-v25 g-bg-white rounded g-py-30 g-px-25">
+          <header class="text-center mb-4">
+            <h4 class="h4 g-color-black g-font-weight-600">INGRESO DE INFORMACIÓN</h4>
+          </header>
+          <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+          <div id="cuenta_copia" style="display: none;">
+            <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+            <div class="row">
+              <div class="col-xs-12 col-sm-4 mb-4" >
+                <label style="font-weight: normal;">Tipo de cuenta: <b style="color:red;">*</b></label>
+                {{cuenta.tipo_cuenta}}
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4" >
+                <label style="font-weight: normal;">Que cantidad:</label>
+                {{cuenta.cantidad}}
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4" >
+                <label style="font-weight: normal;">En que institución:</label>
+                {{cuenta.institucion}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">N° de cuenta:</label>
+                {{cuenta.numero_cuenta}}
+              </div>
+              <div class="col-xs-12 col-sm-8 mb-4" style="text-align: left;">
+                <div class="col-12 align-self-center text-right">
+                  <button  type="button" class="btn btn-outline-danger u-btn-info rounded g-py-13 g-px-25 eliminar_cuenta" id="eliminar_cuenta">Eliminar -</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <label><b style="font-weight: bold;"> III. DATOS ECONÓMICOS <b> </label><br>
+            <label>Todos los campos con <b style="color:red;">*</b> son requeridos</label>
+            <!-- Form -->
+            <form class="g-py-30" method="POST" accept-charset="utf-8" id="form_solicitud3">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">Vivienda: <b style="color:red;">*</b></label>
+                  {{form.tipovivienda}}
+                </div>
+                <div class="col-xs-12 col-sm-4 mb-4" id="a">
+                  <label style="font-weight: normal;">Total amortización: <sup style="color: red">*Si aún esta pagando su casa</sup></label>
+                  {{form.totalamortizacion}}
+                </div>
+                <div class="col-xs-12 col-sm-4 mb-4" id="i">
+                  <label style="font-weight: normal;">Total alquiler: <b style="color:red;">*</b></label>
+                  {{form.totalinquilino}}
+                </div>
+                <div class="col-xs-12 col-sm-4 mb-4" id="p">
+                  <label style="font-weight: normal;">Total Pensión: <b style="color:red;">*</b></label>
+                  {{form.totalpensionista}}
+                </div>
+              </div>
+              <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+              <div class="row">
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">¿Tiene cuentas bancarias? <b style="color:red;">*</b> </label> <br>
+                  <label style="font-weight: normal;" class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600 g-font-size-13">
+                    <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="cuentas" type="radio"  value="True" id="si_cuentas">
+                    <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                      <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                    </div>
+                    SI
+                  </label>
+                  <label style="font-weight: normal;" class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600  g-font-size-13">
+                    <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="cuentas" type="radio" value="False" id="no_cuentas" checked="">
+                    <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                      <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                    </div>
+                    NO
+                  </label>
+                </div>
+              </div>
+              <div id="contenedor_cuentas">
+                <div class="row">
+                  <div class="col-xs-12 col-sm-4 mb-4" >
+                    <label style="font-weight: normal;">Tipo de cuenta: <b style="color:red;">*</b></label>
+                    {{cuenta.tipo_cuenta}}
+                  </div>
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;">Que cantidad: <b style="color:red;">*</b></label>
+                    {{cuenta.cantidad}}
+                  </div>
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;">En que institución: <b style="color:red;">*</b></label>
+                    {{cuenta.institucion}}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;">N° de cuenta:</label>
+                    {{cuenta.numero_cuenta}}
+                  </div>
+                  <div class="col-xs-12 col-sm-8 mb-4" style="text-align: left;">
+                    <div class="col-12 align-self-center text-right">
+                      <button  type="button" class="btn btn-outline-info u-btn-info rounded g-py-13 g-px-25" id="agregar_cuenta">Agregar +</button>
+                    </div>
+                  </div>
+                </div>
+                <div id="cuenta_nueva">
+                </div>
+              </div>
+              <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+              <div class="row">
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">¿Tiene deudas pedientes? <b style="color:red;">*</b>  </label> <br>
+                  <label style="font-weight: normal;" class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600 g-font-size-13">
+                    <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="deudas" type="radio"  value="True" id="si_deudas">
+                    <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                      <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                    </div>
+                    SI
+                  </label>
+                  <label style="font-weight: normal;" class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600  g-font-size-13">
+                    <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="deudas" type="radio" value="False" id="no_deudas" checked="">
+                    <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                      <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                    </div>
+                    NO
+                  </label>
+                </div>
+              </div>
+              <div class="row" id="contenedor_deudas">
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">¿Quien es su acreedor? <b style="color:red;">*</b></label>
+                  {{form.nombreacreedor}}
+                </div>
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">A cuanto asciende (L): <b style="color:red;">*</b></label>
+                  {{form.montodeuda}}
+                </div>
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">Cuota mensual (L): <b style="color:red;">*</b></label>
+                  {{form.cuotamensual}}
+                </div>
+              </div>
+              <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+              <div class="row">
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label  style="font-weight: normal;" >¿Ha sido embargado alguna vez su salario? <b style="color:red;">*</b></label> <br>
+                  <label style="font-weight: normal;" class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600 g-font-size-13">
+                    <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="embargado" type="radio"  value="True" id="si_embargo">
+                    <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                      <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                    </div>
+                    SI
+                  </label>
+                  <label style="font-weight: normal;" class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600  g-font-size-13">
+                    <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="embargado" type="radio" value="False" id="no_embargo" checked="">
+                    <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                      <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                    </div>
+                    NO
+                  </label>
+                </div>
+              </div>
+              <div class="row" id="contenedor_embargo">
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">¿Por quien? <b style="color:red;">*</b></label>
+                  {{form.nombrequienembargo}}
+                </div>
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">Motivo de embargo: <b style="color:red;">*</b></label>
+                  {{form.motivoembargo}}
+                </div>
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">Cantidad (L): <b style="color:red;">*</b></label>
+                  {{form.montoembargo}}
+                </div>
+              </div>
+              <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+              <div class="row">
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;" >¿Ha manejado valores en efectivo? <b style="color:red;">*</b></label> <br>
+                  <label style="font-weight: normal;" class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600 g-font-size-13">
+                    <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="valoresefectivo" type="radio"  value="True" id="si_valores">
+                    <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                      <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                    </div>
+                    SI
+                  </label>
+                  <label style="font-weight: normal;" class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600  g-font-size-13">
+                    <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="valoresefectivo" type="radio" value="False" id="no_valores" checked="">
+                    <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                      <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                    </div>
+                    NO
+                  </label>
+                </div>
+                <div class="col-xs-12 col-sm-4 mb-4" id="monto_valores">
+                  <label style="font-weight: normal;">Cantidad (L): <b style="color:red;">*</b></label>
+                  {{form.montoefectivo}}
+                </div>
+              </div>
+              <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+<!--               <div class="row">
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;" >¿Tiene algún familiar en esta institución? <b style="color:red;">*</b> </label> <br>
+                  <label style="font-weight: normal;" class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600 g-font-size-13">
+                    <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="familiaresinstitucion" type="radio"  value="True" id="si_familiares">
+                    <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                      <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                    </div>
+                    SI
+                  </label>
+                  <label style="font-weight: normal;" class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600  g-font-size-13">
+                    <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="familiaresinstitucion" type="radio" value="False" id="no_familiares" checked="">
+                    <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                      <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                    </div>
+                    NO
+                  </label>
+                </div>
+              </div> -->
+<!--               <div class="row" id= "familiares">
+                <div class="col-xs-12 col-sm-4 mb-4" >
+                  <label style="font-weight: normal;">Nombre de familiar: <b style="color:red;">*</b></label>
+                  {{form.nombrefamiliar}}
+                </div>
+                <div class="col-xs-12 col-sm-4 mb-4" >
+                  <label style="font-weight: normal;">Parentesco: <b style="color:red;">*</b></label>
+                  {{form.parentesco}}
+                </div>
+                <div class="col-xs-12 col-sm-4 mb-4" >
+                  <label style="font-weight: normal;">Puesto que ocupa: <b style="color:red;">*</b></label>
+                  {{form.puestofamiliar}}
+                </div>
+              </div> -->
+              <!-- <hr class="g-brd-gray-light-v4 g-mx-minus-30"> -->
+              <div class="row">
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">¿Esta dispuesto a trabajar en cualquier lugar del país? <b style="color:red;">*</b> </label> <br>
+                  <label style="font-weight: normal;" class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600 g-font-size-13">
+                    <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="trabajarcualquierlugar" type="radio"  value="True" id="si_cualquier">
+                    <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                      <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                    </div>
+                    SI
+                  </label>
+                  <label style="font-weight: normal;" class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600  g-font-size-13">
+                    <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="trabajarcualquierlugar" type="radio" value="False" id="no_cualquier" checked="">
+                    <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                      <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                    </div>
+                    NO
+                  </label>
+                </div>
+                <div class="col-xs-12 col-sm-4 mb-4" >
+                  <label style="font-weight: normal;">Puesto que solicita: <b style="color:red;">*</b></label>
+                  {{form.puestoquesolicita}}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12 col-sm-4 mb-4" >
+                  <label style="font-weight: normal;">¿Que sueldo pretende ganar? <b style="color:red;">*</b> </label>
+                  {{form.sueldopretende}}
+                </div>
+                <div class="form-group col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">Fecha en que puede iniciar a laborar <b style="color:red;">*</b></label>
+                  <div class="input-group g-brd-primary--focus">
+                    {{form.fechainicio}}
+                    <div class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-dark-v5 rounded-0">
+                      <i class="icon-calendar"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+              <div class="row" style="text-align: center; display: block;">
+                <label><b>3 de 6</b></label>
+              </div>
+              <div class="col-12 align-self-center text-right">
+                <a href="{% url 'perfil' %}" class="btn btn-md u-btn-indigo  rounded g-py-13 g-px-25" style="margin-right: 5px;">Salir</a>
+                <button type="submit" class="btn btn-md u-btn-primary rounded g-py-13 g-px-25">Siguiente</button>
+              </div>
+            </form>
+            <!-- End Form -->
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+{% endblock content %}
+{% block javascript %}
+<script>
+  $(document).on('ready', function () {
+    // initialization of tabs
+    $.HSCore.components.HSTabs.init('[role="tablist"]');
+  });
+  $( document ).ready(function() {
+  $('*').bind("cut copy paste",function(e) {
+    e.preventDefault();
+    });
+  $("#form_solicitud3").validate();
+  $("#id_tipovivienda,  #id_puestoquesolicita, #id_sueldopretende , #id_fechainicio").attr("required", true);
+  $( "input" ).addClass( "form-control rounded-0 u-form-control " );
+  $( "textarea" ).addClass( "form-control rounded-0 u-form-control g-resize-none" );
+  $("#id_fechainicio").addClass("form-control form-control-md u-datepicker-v1 g-brd-right-none rounded-0 u-form-control");
+  
+  //###########Fecha de inicio de trabajo ########################
+  $('#id_fechainicio' ).datepicker({
+    autoclose: true,
+    format: 'yyyy-mm-dd',
+    language: 'es',
+  });
+  //#################### SI tiene tiene deudas############
+ $('#si_cuentas').change(function(){
+  if ($(this).val() == "True") {
+       $('#contenedor_cuentas').show();
+        $("#id_tipo_cuenta , #id_cantidad, #id_institucion").attr("required", true);
+    }else{
+      $('#contenedor_cuentas').hide();
+       $("#id_tipo_cuenta , #id_cantidad, #id_institucion , #id_numero_cuenta").removeAttr("required");
+       }
+});
+$('#contenedor_cuentas').hide();
+$('#no_cuentas').change(function(){
+  if ($(this).val() == "False") {
+       $('#contenedor_cuentas').hide();
+        $("#id_tipo_cuenta , #id_cantidad, #id_institucion , #id_numero_cuenta").removeAttr("required");
+    }else{
+      $('#contenedor_cuentas').show();
+       $("#id_tipo_cuenta , #id_cantidad, #id_institucion , #id_numero_cuenta").attr("required", true);
+       }
+ });
+//#################### SI tiene tiene deudas############
+ $('#si_deudas').change(function(){
+  if ($(this).val() == "True") {
+       $('#contenedor_deudas').show();
+       $("#id_nombreacreedor ,#id_montodeuda, #id_cuotamensual ").attr("required", true);
+    }else{
+      $('#contenedor_deudas').hide();
+       $("#id_nombreacreedor ,#id_montodeuda, #id_cuotamensual ").removeAttr("required");
+       }
+ });
+$('#contenedor_deudas').hide();
+$('#no_deudas').change(function(){
+  if ($(this).val() == "False") {
+       $('#contenedor_deudas').hide();
+        $("#id_nombreacreedor ,#id_montodeuda, #id_cuotamensual ").removeAttr("required");
+    }else{
+      $('#contenedor_deudas').show();
+      $("#id_nombreacreedor ,#id_montodeuda, #id_cuotamensual").attr("required", true);
+       }
+ });
+//#################### SI ha sido embargado############
+   $('#si_embargo').change(function(){
+    if ($(this).val() == "True") {
+         $('#contenedor_embargo').show();
+         $("#id_nombrequienembargo ,#id_motivoembargo, #id_montoembargo").attr("required", true);
+      }else{
+        $('#contenedor_embargo').hide();
+        $("#id_nombrequienembargo ,#id_motivoembargo, #id_montoembargo").removeAttr("required");
+         }
+   });
+    $('#contenedor_embargo').hide();
+  $('#no_embargo').change(function(){
+    if ($(this).val() == "False") {
+         $('#contenedor_embargo').hide();
+         $("#id_nombrequienembargo ,#id_motivoembargo, #id_montoembargo").removeAttr("required");
+      }else{
+        $('#contenedor_embargo').show();
+        $("#id_nombrequienembargo ,#id_motivoembargo, #id_montoembargo").attr("required", true);
+         }
+   });
+//#################### Si valores############
+   $('#si_valores').change(function(){
+    if ($(this).val() == "True") {
+         $('#monto_valores').show();
+         $("#id_montoefectivo").attr("required", true);
+      }else{
+        $('#monto_valores').hide();
+        $("#id_montoefectivo").removeAttr("required");
+         }
+   });
+    $('#monto_valores').hide();
+  $('#no_valores').change(function(){
+    if ($(this).val() == "False") {
+         $('#monto_valores').hide();
+         $("#id_montoefectivo").removeAttr("required");
+      }else{
+        $('#monto_valores').show();
+
+        $("#id_montoefectivo").attr("required", true);
+         }
+   });
+//#################### Si familiares############
+   $('#si_familiares').change(function(){
+    if ($(this).val() == "True") {
+         $('#familiares').show();
+          $("#id_nombrefamiliar , #id_parentesco , #id_puestofamiliar").attr("required", true);
+      }else{
+        $('#familiares').hide();
+        $("#id_nombrefamiliar , #id_parentesco , #id_puestofamiliar").removeAttr("required");
+         }
+   });
+    $('#familiares').hide();
+  $('#no_familiares').change(function(){
+    if ($(this).val() == "False") {
+         $('#familiares').hide();
+         $("#id_nombrefamiliar , #id_parentesco , #id_puestofamiliar").removeAttr("required");
+      }else{
+        $('#familiares').show();
+        $("#id_nombrefamiliar , #id_parentesco , #id_puestofamiliar").attr("required", true);
+         }
+   });
+  // ####################click nueva cuenta #################################
+   $('#agregar_cuenta').click(function(){
+    $('select').select2('destroy');
+        $('#cuenta_copia').clone().removeAttr('style').appendTo( '#cuenta_nueva' );
+        $('.eliminar_cuenta').click(function(){
+            var id = $(this).closest("div#cuenta_copia").remove();
+        });
+    $('select[name=tipo_cuenta]').attr('name', 'tipo_cuenta[]')
+    $('select').select2({
+      theme:'bootstrap',
+          width: '100%'
+    })
+    });
+// ############################## convertiendo en arreglo inputs #######################
+$('select[name=tipo_cuenta]').attr('name', 'tipo_cuenta[]')
+$('input[name=cantidad]').attr('name', 'cantidad[]')
+$('input[name=institucion]').attr('name', 'institucion[]')
+$('input[name=numero_cuenta]').attr('name', 'numero_cuenta[]')
+// ######################## mostrando según tipo vivienda########################
+$('#id_tipovivienda').change(function(){
+    if ($(this).val() == "P") {
+         $('#a').show();
+         $(' #i , #p').hide();
+      }else if($(this).val() == "I"){
+        $('#i').show();
+        $('#a, #p').hide();
+      }else if($(this).val() == "E"){
+        $('#p').show();
+        $('#a, #i').hide();
+         }
+         else{
+          $('#a, #i , #p').hide();
+         }
+   });
+  $('#a, #i , #p').hide();
+$('select').select2({
+  theme:'bootstrap',
+      width: '100%'
+});
+});
+  $(window).on('load', function () {
+    // initialization of header
+    $.HSCore.components.HSHeader.init($('#js-header'));
+    $.HSCore.helpers.HSHamburgers.init('.hamburger');
+    // initialization of HSMegaMenu component
+    $('.js-mega-menu').HSMegaMenu({
+      event: 'hover',
+      pageContainer: $('.container'),
+      breakpoint: 991
+    });
+  });
+  $(window).on('resize', function () {
+    setTimeout(function () {
+      $.HSCore.components.HSTabs.init('[role="tablist"]');
+    }, 200);
+  });
+</script>
+{% endblock javascript %}

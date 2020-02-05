@@ -1,0 +1,91 @@
+{% extends "otrabase.html" %}
+{% load staticfiles %}
+{% block content %}
+
+<div class="container" style="min-height: 350px;">
+	<hr>
+	<div class="row">
+
+		<div class="col-md-4">
+			<div class="card card-inverse card-success text-white rounded-0">
+				<h3 class="card-header h5">
+					<a style="text-decoration: none; color: white;" href="{% url 'ofertas_publicadas' %}"><i class="fa fa-tasks g-font-size-default g-mr-5"></i>OFERTAS PUBLICADAS</a>
+					 
+				</h3>
+				<div class="card-block g-pa-15">
+					<h4 class="h5">{{ofertas}}</h4>
+					
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="card card-inverse card-info text-white rounded-0">
+				<h3 class="card-header h5">
+					<a style="text-decoration: none; color: white;" href="{% url 'ofertas_activas' %}"><i class="fa fa-tasks g-font-size-default g-mr-5"></i>OFERTAS PUBLICADAS ACTIVAS</a>
+				</h3>
+				<div class="card-block g-pa-15">
+					<h4 class="h5">{{ofertasA}}</h4>
+					
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="card card-inverse g-bg-teal g-brd-teal text-white rounded-0">
+				<h3 class="card-header h5">
+					<a style="text-decoration: none; color: white;" href="{% url 'ofertas_inactivas' %}"><i class="fa fa-tasks g-font-size-default g-mr-5"></i>OFERTAS PUBLICADAS INACTIVAS</a>
+				</h3>
+				<div class="card-block g-pa-15">
+					<h4 class="h5">{{ofertasD}}</h4>
+					
+				</div>
+			</div>
+		</div>	
+	</div>
+	<hr>
+	<div class="row">
+		
+		<div class="col-md-4">
+			<div class="card card-inverse g-bg-blue g-brd-blue text-white rounded-0">
+				<h3 class="card-header h5">
+					<a href="{% url 'lista_registrados' %}" style="text-decoration: none; color: white;"><i class="fa fa-tasks g-font-size-default g-mr-5"></i> PERSONAS REGISTRADAS</a>
+				</h3>
+				<div class="card-block g-pa-15">
+					<h4 class="h5">{{registrados}}</h4>
+					
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="card card-inverse g-bg-lightred g-brd-lightred text-white rounded-0">
+				<h3 class="card-header h5">
+					<a href="{% url 'ingresados_cc' %}" style="text-decoration: none; color: white;"><i class="fa fa-tasks g-font-size-default g-mr-5"></i> CANDIDATOS INGRESADOS AL CC</a>
+				</h3>
+				<div class="card-block g-pa-15">
+					<h4 class="h5">{{cc}}</h4>
+					 
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="card card-inverse card-info  text-white rounded-0">
+				<h3 class="card-header h5">
+					<a href="{% url 'aplicaciones_hoy' %}" style="text-decoration: none; color: white;"><i class="fa fa-tasks g-font-size-default g-mr-5"></i> LISTADO DE APLICACION DE CANDIDATOS EN EL DIA</a>
+				</h3>
+
+				<div class="card-block g-pa-15">
+					<h4 class="h5">{{candidatos}}</h4>
+					
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+{% endblock content %}
+{% block javascript %}
+  <script type="text/javascript">
+    $(document).ready(function(){
+
+    });
+  </script>
+{% endblock javascript %}

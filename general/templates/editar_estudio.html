@@ -1,0 +1,264 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+<div class="col-lg-9">
+    <div class="d-flex align-items-center justify-content-sm-between g-mb-5">
+      <h2 class="g-font-weight-300 g-mr-10">{{ request.user.first_name }} {{ request.user.last_name }}</h2>
+    </div>
+    <ul class="list-inline g-font-weight-300">
+      <li class="list-inline-item g-mr-20">
+        <i class="icon-location-pin g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> {{ perfil.cod_municipio.descripcionmunicipio }}, {{ perfil.cod_departamento.descripciondepartamento }}
+      </li>
+      {% if request.user.is_active %}
+        <li class="list-inline-item g-mr-20">
+          <i class="icon-check g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> Usuario Verificado
+        </li>
+      {% endif %}
+    </ul>
+    <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+    <h2 class="h3 g-font-weight-300">EDITAR {{ estudio.nivelestudios }} EN {{ estudio.nombreinstitucion }}</h2><br>
+    <form method="POST" action="{% url 'editar_estudio' estudio.codinstitucion %}" id="form_estudio">
+      {% csrf_token %}
+      <div class="row">
+        <div class="form-group col-xs-12 col-md-6">
+          <label for="cantidad" class="control-label">Nivel Estudios: <b class="g-font-weight-900">{{ estudio.nivelestudios }}</b></label>
+          {{ formestudios.nivel_estudios }}
+        </div>
+        <div class="form-group col-xs-12 col-md-6">
+          <label for="nombre_institucion" class="control-label">Nombre de la Institución: <b class="g-font-weight-900">{{ estudio.nombreinstitucion }}</b></label>
+          <div id="primaria_secundaria" hidden>
+            <input type="text" id="institucion_primaria_secundaria" name="institucion_primaria_secundaria">
+          </div>
+          <div id="superior">
+            <select name="nombre_institucion" id="nombre_institucion">
+              <option value="0">----------</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group col-xs-12 col-md-6">
+          <label for="lugar_estudio" class="control-label">Lugar de Estudio: <b class="g-font-weight-900">{{ estudio.lugarestudio }}</b></label>
+          <select name="lugar_estudio" id="lugar_estudio">
+            <option value="0">----------</option>
+          </select>
+        </div>
+        <div class="form-group col-xs-12 col-md-6">
+          <label for="renta" class="control-label">Título Obtenido: <b class="g-font-weight-900">{{ estudio.tituloobtenido }}</b></label>
+          <div id="secundaria" hidden>
+            <input type="text" id="titulo_secundaria" name="titulo_secundaria">
+          </div>
+          <div id="universidad">
+            <select name="titulo_universidad" id="titulo_universidad">
+              <option value="0">----------</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group col-xs-12 col-md-6">
+          <label for="renta" class="control-label">Año de Inicio: <b class="g-font-weight-900">{{ estudio.inicio }}</b></label>
+          <select class="years" name="inicio" id="inicio">
+              <option value="0">----------</option>
+          </select>
+        </div>
+        <div class="form-group col-xs-12 col-md-6">
+          <label for="renta" class="control-label">Año de Finalización: <b class="g-font-weight-900">{{ estudio.fin }}</b></label>
+          <select class="years" name="fin" id="fin">
+            <option value="0">----------</option>
+          </select>
+        </div>
+      </div>
+    </form>
+    <div class="modal-footer">
+      <a href="{% url 'informacion_academica' %}" class="btn btn-default btn-lg">Cancelar</a>
+      <button type="button" class="btn btn-primary btn-lg" id="guardar_cambios">Guardar Cambios</button>
+    </div>
+</div>
+{% endblock content %}
+{% block javascript %}
+<script type="text/javascript">
+  $( document ).ready(function() {
+    for (i = new Date().getFullYear(); i > 1900; i--)
+    {
+      $('.years').append($('<option/>').val(i).html(i));
+    }
+  });
+  $('#select_niveles').change(function(){
+    var nivel = $('#select_niveles option:selected').val();
+    if (nivel == '0') {
+      alert("Seleccione un nivel válido");
+    }else {
+      switch (nivel) {
+        case '1':
+          $('#superior').hide();
+          $('#primaria_secundaria').attr('hidden', false);
+          $('#primaria_secundaria').show();
+          $('#lugar_estudio').empty();
+          $('#lugar_estudio').append("<option value='0'>-----------</option>");
+          $.ajax({
+            type: "GET",
+            data: {codpais: 1},
+            url: "{% url 'ajax_departamento' %}",
+            success: function(response){
+             $.each(response, function(key, val){
+              $('#lugar_estudio').append("<option value="+val.coddepartamento+">" + val.descripciondepartamento + "</option>");
+             });
+             $('#lugar_estudio').trigger("chosen:updated");
+            }
+          });
+          $('#titulo_universidad').prop('disabled', true);
+          $('#titulo_secundaria').prop('disabled', true);
+          break;
+        case '2':
+          $('#superior').hide();
+          $('#primaria_secundaria').attr('hidden', false);
+          $('#primaria_secundaria').show();
+          $('#lugar_estudio').empty();
+          $('#lugar_estudio').append("<option value='0'>-----------</option>");
+          $.ajax({
+            type: "GET",
+            data: {codpais: 1},
+            url: "{% url 'ajax_departamento' %}",
+            success: function(response){
+             $.each(response, function(key, val){
+              $('#lugar_estudio').append("<option value="+val.coddepartamento+">" + val.descripciondepartamento + "</option>");
+             });
+             $('#lugar_estudio').trigger("chosen:updated");
+            }
+          });
+          $('#universidad').hide();
+          $('#secundaria').attr('hidden', false);
+          $('#secundaria').show();
+          break;
+        case '3': case '4': case '5':
+          $('#primaria_secundaria').attr('hidden', true);
+          $('#primaria_secundaria').hide();
+          $('#superior').show();
+          $('#titulo_universidad').prop('disabled', false);
+          $('#nombre_institucion').empty();
+          $('#nombre_institucion').append("<option value='0'>-----------</option>");
+          $('#lugar_estudio').empty();
+          $('#lugar_estudio').append("<option value='0'>-----------</option>");
+          $.ajax({
+            type: "GET",
+            url: "{% url 'ajax_universidades' %}",
+            success: function(response){
+             $.each(response, function(key, val){
+              $('#nombre_institucion').append("<option value="+val.cod_univesidad+">" + val.nombre + "</option>");
+             });
+             $('#nombre_institucion').trigger("chosen:updated");
+            }
+          });
+          $('#secundaria').attr('hidden', true);
+          $('#secundaria').hide();
+          $('#universidad').show();
+          break;
+        default:
+      }
+    }
+  });
+  $('#nombre_institucion').change(function(){
+    var nivel = $('#select_niveles option:selected').val();
+    if (nivel == 0) {
+      alert("Favor seleccione una opción válida");
+    } else if (nivel == 1) {
+      $('#lugar_estudio').empty();
+      $('#lugar_estudio').append("<option value='0'>-----------</option>");
+      $.ajax({
+        type: "GET",
+        data: {codpais: 1},
+        url: "{% url 'ajax_departamento' %}",
+        success: function(response){
+         $.each(response, function(key, val){
+          $('#lugar_estudio').append("<option value="+val.coddepartamento+">" + val.descripciondepartamento + "</option>");
+         });
+         $('#lugar_estudio').trigger("chosen:updated");
+        }
+      });
+      $('#universidad').hide();
+      $('#secundaria').attr('hidden', false);
+      $('#secundaria').show();
+    } else if (nivel == 2) {
+      $('#lugar_estudio').empty();
+      $('#lugar_estudio').append("<option value='0'>-----------</option>");
+      $.ajax({
+        type: "GET",
+        data: {codpais: 1},
+        url: "{% url 'ajax_departamento' %}",
+        success: function(response){
+         $.each(response, function(key, val){
+          $('#lugar_estudio').append("<option value="+val.coddepartamento+">" + val.descripciondepartamento + "</option>");
+         });
+         $('#lugar_estudio').trigger("chosen:updated");
+        }
+      });
+      $('#universidad').hide();
+      $('#secundaria').attr('hidden', false);
+      $('#secundaria').show();
+    } else {
+      $('#lugar_estudio').empty();
+      $('#lugar_estudio').append("<option value='0'>-----------</option>");
+      var id_universidad = $('#nombre_institucion option:selected').val();
+      $.ajax({
+       type: "GET",
+       data: { id_universidad: id_universidad },
+       url: "{% url 'ajax_campus' %}",
+       success: function(response){
+        $.each(response, function(key, val){
+         $('#lugar_estudio').append("<option value="+val.cod_campus+">" + val.nombre + "</option>");
+        });
+        $('#lugar_estudio').trigger("chosen:updated");
+       }
+      });
+      $('#titulo_universidad').empty();
+      $('#titulo_universidad').append("<option value='0'>-----------</option>");
+      $.ajax({
+       type: "GET",
+       data: { id_universidad: id_universidad },
+       url: "{% url 'ajax_carreras' %}",
+       success: function(response){
+        $.each(response, function(key, val){
+         $('#titulo_universidad').append("<option value="+val.cod_carreras+">" + val.nombre_carrera + "</option>");
+        });
+        $('#titulo_universidad').trigger("chosen:updated");
+       }
+      });
+    }
+  });
+  $('#guardar_cambios').click(function(){
+    var nivel = $('#select_niveles option:selected').val();
+    var institucion = $('#nombre_institucion option:selected').val();
+    var institucion_basica = $('#institucion_primaria_secundaria').val();
+    var lugar = $('#lugar_estudio option:selected').val();
+    var titulo_universidad = $('#titulo_universidad option:selected').val();
+    var titulo_secundaria = $('#titulo_secundaria').val();
+    var inicio = $('#inicio option:selected').val();
+    var fin = $('#fin option:selected').val();
+    if (nivel == '0') {
+      alert('No puede dejar campos en blanco');
+    } else if (nivel == '1') {
+      if (institucion_basica == '' || inicio == '0' || fin == '0' || lugar == '0') {
+        alert('Todos los campos son obligatorios');
+      }else {
+        $('#form_estudio').submit();
+      }
+    } else if (nivel == '2') {
+      if (institucion_basica == '' || inicio == '0' || fin == '0' || titulo_secundaria == '' || lugar == '0') {
+        alert('Todos los campos son obligatorios');
+      }else {
+        $('#form_estudio').submit();
+      }
+    } else if (nivel == '3' || nivel == '4' || nivel == '5') {
+      if (institucion == '0' || lugar == '0' || inicio == '0' || fin == '0' || titulo_universidad == '0') {
+        alert('Todos los campos son obligatorios');
+      }else {
+        $('#form_estudio').submit();
+      }
+    }
+  });
+  $(document).ready(function(){
+  	$('#sidemenu a').each(function(){
+  		$(this).removeClass();
+  		$(this).addClass('list-group-item list-group-item-action justify-content-between');
+  	});
+  	$('#estudios').addClass('list-group-item list-group-item-action justify-content-between active');
+  });
+</script>
+{% endblock javascript %}

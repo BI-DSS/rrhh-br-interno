@@ -1,0 +1,71 @@
+{% extends "otrabase.html" %}
+{% load staticfiles %}
+{% block content %}
+
+<main>
+  <!-- Signup -->
+  <section class="g-bg-gray-light-v5">
+    <div class="container g-py-30">
+      <div class="row justify-content-center">
+        <div class="col-sm-10 col-md-9 col-lg-12">
+          <div class="u-shadow-v25 g-bg-white rounded g-py-30 g-px-25">
+            <header class="text-center mb-4">
+              <h4 class="h4 g-color-black g-font-weight-600">NUEVO USUARIO</h4>
+            </header>
+            <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+              <!-- Form -->
+            <form class="g-py-30" method="POST" accept-charset="utf-8" id="form_nuevo_usuario" action="{% url 'usuario_nuevo' %}">
+                {% csrf_token %}
+                <div class="row">
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <span id='error' style="display:none; color: red;" >Error. ¡No se guardó el usuario!</span>
+                    <span   id='exito' style="display:none; color: green;" >Éxito. ¡Usuario ingresado correctamente!</span>
+                    <span id="No_encontrado" style="display:none; color: red;">Error. ¡Usuario no encontrado! </span>
+                  </div>
+                 
+                </div>
+                <div class="row">
+                   <div class="col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;">Usuario Active Directory:</label>
+                    <input type="text" name="txtCod_AC" id="txtCod_AC" placeholder="Ingrese número de usuario." required="">
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;"> Correo Eletrónico: </label>
+                    <input type="email" name="txtCorreo" required="">
+                  </div>
+                </div>
+                <div class="row">
+                	<div  class="col-xs-12 col-sm-4 mb-4">
+                    <span>Para que el usuario pueda iniciar sesión como administrador, primero debes completar su perfil en el sistema</span><br>
+                		<button type="submit" name="guardar" id="guardar"  class="btn u-btn-outline-blue g-font-size-13 text-uppercase g-py-10 g-px-15"><span><i class="icon-user-follow g-pos-rel g-top-1 g-mr-8"></i>Guardar</span></button>
+                	</div>
+                </div>
+              
+            </form>
+              <!-- End Form -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End Signup -->
+  </main>
+{% endblock content %}
+{% block javascript %}
+<script>
+    {% if mensaje == 'exito' %}
+      $('#exito').fadeIn('slow').delay(5000).fadeOut('slow');
+    {% endif %}
+
+    {% if mensaje == 'error' %}
+      $('#error').fadeIn('slow').delay(5000).fadeOut('slow');
+    {% endif %}
+
+
+</script>
+    
+
+{% endblock javascript %}

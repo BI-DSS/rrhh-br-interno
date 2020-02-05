@@ -1,0 +1,320 @@
+{% extends "basesolicitud.html" %}
+{% load staticfiles %}
+{% block content %}
+<section class="g-bg-gray-light-v5">
+  <div class="container g-py-2">
+    <div class="row justify-content-center">
+      <div class="col-sm-10 col-md-9 col-lg-12">
+        <div class="u-shadow-v21 g-bg-white rounded g-py-16 g-px-30">
+          <header class="text-center mb-4">
+            <h4 class="h4 g-color-black g-font-weight-400">INGRESO DE INFORMACIÓN</h4>
+          </header>
+          <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+          <!-- Referencias laborales --> 
+          {% if error %}
+            {% include 'error_alert.html' %}
+          {% endif %}
+          <div id="id_add_ref_lab">
+            <div class="referencialab_copia" style="display: none;">
+              <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+              <div class="row">
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">Nombre Completo: <b style="color:red;">*</b></label>
+                  <input type="text" name="nombrecompleto[]" id="id_nombrecompleto" class="soloLetras no_aplica_lab" maxlength="100" required>
+                </div>
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">Profesión u Oficio: <b style="color:red;">*</b></label>
+                  <input type="text" name="profesion[]" id="id_profesion" required maxlength="100" class="no_aplica_lab">
+                </div>
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">Teléfono: <b style="color:red;">*</b></label>
+                  <input type="text" name="telefono[]" id="id_telefono" required class="telefonos no_aplica_lab">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">Dirección: <b style="color:red;">*</b></label>
+                  <textarea name="direccion[]" id="id_direccion" maxlength="200" required="" rows="3" class="no_aplica_lab"></textarea>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12 col-sm-4 mb-4">
+                    <button type="button" class="btn btn-outline-danger u-btn-danger eliminar_lab" >Eliminar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="id_add_ref_per">
+            <div class="referenciaper_copia" style="display: none;">
+              <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+              <div class="row">
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">Nombre Completo: <b style="color:red;">*</b></label>
+                  <input type="text" name="nombre_personal[]" id="id_nombre_personal" class="soloLetras" maxlength="100" required>
+                </div>
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">Profesión u Oficio: <b style="color:red;">*</b></label>
+                  <input type="text" name="profesion_personal[]" id="id_profesion_personal" maxlength="100" required>
+                </div>
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">Teléfono: <b style="color:red;">*</b></label>
+                  <input type="text" name="telefono_personal[]" id="id_telefono_personal" required class="telefonos">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">Dirección: <b style="color:red;">*</b></label>
+                  <textarea name="direccion_personal[]" id="id_direccion_personal" required maxlength="200" rows="3"></textarea>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12 col-sm-4 mb-4">
+                    <button type="button" class="btn btn-outline-danger u-btn-danger eliminar_per" >Eliminar</button>
+                </div>
+              </div>
+            </div>
+          </div> 
+          <!-- Form -->
+        <form class="g-py-12" method="POST" accept-charset="utf-8" enctype='multipart/form-data'  id="form_solicitud6">
+          {% csrf_token %}
+          <div class="row">
+            <div style="margin-top: 3px !important; margin-left:12px; ">
+              <label style="font-weight: 600;" >No tengo referencias laborales</label> &nbsp;
+            </div>
+            <div class="col-xs-12 col-sm-6 mb-6">
+              <label class="form-check-inline u-check g-mr-20 mx-0 mb-0" >
+                <input class="hidden-xs-up g-pos-abs g-top-0 g-right-0 chckNo_aplica" name="chckNo_aplica" type="checkbox" id="chck1" value="True">
+                <div class="u-check-icon-radio-v7">
+                  <i class="fa" data-check-icon="" data-uncheck-icon=""></i>
+                </div>
+              </label>
+            </div>
+          </div>
+          <br>
+          <div class="no_tiene_exp_lab">
+            <label><b style="font-weight: 600">VI. REFERENCIAS LABORALES<b></label> <br>
+            <label>Todos los campos con <b style="color:red;">*</b> son requeridos</label>
+            <div class="row">
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Nombre Completo: <b style="color:red;">*</b></label>
+                <input type="text" name="nombrecompleto[]" id="id_nombrecompleto" class="soloLetras no_aplica_lab" maxlength="100" required>
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Profesión u Oficio: <b style="color:red;">*</b></label>
+                <input type="text" name="profesion[]" id="id_profesion" required maxlength="100" class="no_aplica_lab">
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Teléfono: <b style="color:red;">*</b></label>
+                <input type="text" name="telefono[]" id="id_telefono" required class="telefonos no_aplica_lab">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Dirección: <b style="color:red;">*</b></label>
+                <textarea name="direccion[]" id="id_direccion" maxlength="200" required rows="3" class="no_aplica_lab"></textarea>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12 col-sm-4 mb-4">
+                  <button  type="button" class="btn btn-outline-info u-btn-info" id="agregar_lab">Nueva referencia laboral</button>
+              </div>            
+            </div>
+            <div id="nueva_referencia_lab"></div>
+          </div>
+          <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+          <label><b style="font-weight: 600">VII. REFERENCIAS PERSONALES<b></label><br>
+          <label>Todos los campos con <b style="color:red;">*</b> son requeridos</label>
+          <div class="row">
+            <div class="col-xs-12 col-sm-4 mb-4">
+              <label style="font-weight: normal;">Nombre Completo: <b style="color:red;">*</b></label>
+              <input type="text" name="nombre_personal[]" id="id_nombre_personal" class="soloLetras" maxlength="100" required>
+            </div>
+            <div class="col-xs-12 col-sm-4 mb-4">
+              <label style="font-weight: normal;">Profesión u Oficio: <b style="color:red;">*</b></label>
+              <input type="text" name="profesion_personal[]" id="id_profesion_personal" maxlength="100" required>
+            </div>
+            <div class="col-xs-12 col-sm-4 mb-4">
+              <label style="font-weight: normal;">Teléfono: <b style="color:red;">*</b></label>
+              <input type="text" name="telefono_personal[]" id="id_telefono_personal" required class="telefonos">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 col-sm-4 mb-4">
+              <label style="font-weight: normal;">Dirección: <b style="color:red;">*</b></label>
+              <textarea name="direccion_personal[]" id="id_direccion_personal" required maxlength="200" rows="3"></textarea>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 col-sm-4 mb-4">
+              <label for=""></label>
+                <button  type="button" class="btn btn-outline-info u-btn-info" id="agregar_per">Nueva referencia personal</button>
+            </div>
+          </div>
+          <div id="nueva_referencia_per"></div>
+          <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 mb-4">
+              <p>Subir Curriculum Vitae <b style="color:red;">*</b></p>
+                <label class="u-file-attach-v2 g-color-gray-dark-v5 mb-0">
+                  <input id="subir" name="cv" type="file" accept="application/pdf,.doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style="color: green;" required="">
+                  <i class="icon-cloud-upload g-font-size-16 g-pos-rel g-top-2 g-mr-5"></i>
+                  <span class="js-value">Elije tu CV ( no mayor 5MB) </span>
+                </label><br>
+                <p hidden="" class="cv" style="color: green;">CV cargado con éxito</p>
+                <p style="display: none; color: red" id="mensaje"></p>
+            </div>
+          </div>
+          <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+          <div  class="row">
+            <div class="col-xs-12 col-sm-12 mb-4">
+              <label><b style="font-weight: 600">VIII. AUTO DESCRIPCIÓN PERSONAL:</b></label>
+              <textarea name="observaciones_adicionales" id="id_observaciones_adicionales" rows="3"></textarea>
+            </div>
+          </div>
+          <hr class="g-brd-green-v20 g-mx-minus-30" style="color: green;">
+          <div class="row" style="text-align: center; display: block;">
+            <label><b>6 de 6</b></label>
+          </div>
+          <div class="col-12 align-self-center text-right">
+            <a href="{% url 'perfil' %}" class="btn btn-secondary" style="margin-right: 5px;">Salir</a>
+            <button type="button" name="guardar_form" id="guardar_form" class="btn btn-primary">Finalizar</button>
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}
+{% block javascript %}
+  <!--    SCRIPT PARA INICIAR PLUGINS DE  LA PLANTILLA     -->
+    <script>
+      $(document).on('ready', function(){
+        $.HSCore.components.HSTabs.init('[role="tablist"]');
+        $.HSCore.components.HSMaskedInput.init('[data-mask]');
+        $.HSCore.components.HSCountQty.init('.js-quantity');
+        $.HSCore.components.HSFileAttachment.init('.js-file-attachment');
+        $.HSCore.helpers.HSFocusState.init();
+      });
+
+      $(window).on('load', function () {
+        // initialization of header
+        $.HSCore.components.HSHeader.init($('#js-header'));
+        $.HSCore.helpers.HSHamburgers.init('.hamburger');
+        // initialization of HSMegaMenu component
+        $('.js-mega-menu').HSMegaMenu({
+          event: 'hover',
+          pageContainer: $('.container'),
+          breakpoint: 991
+        });
+      });
+      $(window).on('resize', function () {
+        setTimeout(function () {
+          $.HSCore.components.HSTabs.init('[role="tablist"]');
+        }, 200);
+      });
+    </script>
+  <!-- ++++++++++++++++++++++ FIN ++++++++++++++++++++++++ -->
+
+  <!--    VALIDAR EL SOLO INGRESO  DE LETRAS EN INPUTS     -->
+    <script>
+      $(document).on('ready', function(){
+        $(".soloLetras").keypress(function(event){
+          var inputValue = event.charCode;
+          if(!(inputValue >= 65 && inputValue <= 122) && (inputValue != 32 && inputValue != 0) && (inputValue != 241) ){
+              event.preventDefault();
+          }
+        });
+      });
+    </script>
+  <!-- ++++++++++++++++++++++ FIN ++++++++++++++++++++++++ -->
+
+  <!--        SCRIPT PARA INICIAR PLUGINS EXTERNOS         -->
+    <script>
+      $(document).on('ready', function(){
+        $('select').select2({
+          theme:'bootstrap',
+          width: '100%'
+        });
+        $("#form_solicitud6").validate();
+      });
+    </script>
+  <!-- ++++++++++++++++++++++ FIN ++++++++++++++++++++++++ -->
+
+  <!--    SCRIPT PARA GUARDAR FORM Y VALIDAR DATA FILE     -->
+    <script>
+      $(document).on('ready', function(){
+        $('#guardar_form').click(function(){
+          if ($('#subir').val() != ''){
+            var tan = $('#subir')[0].files[0].size/1024;
+            if(tan > 5120){
+              $('.cv').attr('hidden', true);
+              document.getElementById("subir").value = "";
+              $('#mensaje').text('El peso de archivo está por encima de lo permitido (5MB).').fadeIn('slow').delay(5000).fadeOut('slow');
+              
+            }
+            else{
+              $("#form_solicitud6").validate();
+              $('#form_solicitud6').submit();
+            }
+          } 
+          else{
+            $('#mensaje').text('Este  campo es obligatorio').fadeIn('slow').delay(5000).fadeOut('slow');
+          }
+        });
+
+        $('#subir').change(function(){
+          if ($(this).val() !=''){
+
+            $('.cv').attr('hidden', false);
+          }
+          else{
+            $('.cv').attr('hidden', true);
+          }
+        });
+
+      });
+    </script>
+  <!-- ++++++++++++++++++++++ FIN ++++++++++++++++++++++++ -->
+    <script>
+      $( document ).ready(function() {
+        $(".telefonos").attr("placeholder", "0000-0000");
+        $(".telefonos").attr("data-mask", "9999-9999");
+        $( "input" ).addClass( "form-control rounded-0 u-form-control " );
+        $( "textarea" ).addClass( "form-control rounded-0 u-form-control g-resize-none" );
+        $( "select" ).addClass( "form-control form-control-md form-control-lg rounded-0 g-mb-25 g-brd-primary--hover" );
+
+        $('.chckNo_aplica').change(function(){
+          if($(this).is(':checked')){
+             $('.no_tiene_exp_lab').hide();
+             $('.no_aplica_lab').prop('required', false);
+             $('.no_aplica_lab').val('');
+          }else{
+            $('.no_tiene_exp_lab').show();
+            $('.no_aplica_lab').prop('required', true);
+            $('.no_aplica_lab').val('');
+          }
+        });
+
+        $('#agregar_lab').click(function(){
+          $this = $('#id_add_ref_lab > .referencialab_copia').clone().removeAttr('style').appendTo( '#nueva_referencia_lab' );
+          $.HSCore.components.HSMaskedInput.init('[data-mask]');
+          $('html, body').animate({scrollTop: $($this).offset().top}, 1000);
+        });
+        $(document).on('click','.eliminar_lab', function(){
+          var id = $(this).closest("div.referencialab_copia").remove();
+        });
+
+        $('#agregar_per').click(function(){
+          $this = $('#id_add_ref_per > .referenciaper_copia').clone().removeAttr('style').appendTo( '#nueva_referencia_per' );
+          $.HSCore.components.HSMaskedInput.init('[data-mask]');
+          $('html, body').animate({scrollTop: $($this).offset().top}, 1000);
+        });
+        $(document).on('click','.eliminar_per', function(){
+          var id = $(this).closest("div.referenciaper_copia").remove();
+        });
+      });
+    </script>
+{% endblock javascript %}
+

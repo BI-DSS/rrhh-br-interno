@@ -1,0 +1,896 @@
+{% extends "base.html" %} 
+{% load staticfiles %}
+{% load humanize %}
+{% block content %}
+<!-- Profile Content -->
+<div class="col-lg-9">
+    <div class="d-flex align-items-center justify-content-sm-between g-mb-5">
+      <h2 class="g-font-weight-300 g-mr-10">{{ request.user.first_name }} {{ request.user.last_name }}</h2>
+    </div>
+    <ul class="list-inline g-font-weight-300">
+      <li class="list-inline-item g-mr-20">
+      <i class="icon-location-pin g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> {{ perfil.codmunicipiodomicilio.descripcionmunicipio }} {{ perfil.coddepartamentodomicilio.descripciondepartamento }}
+    </li>
+    {% if request.user.is_active %}
+      <li class="list-inline-item g-mr-20">
+        {% if perfil.empleado %}
+        <i class="icon-check g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> Empleado Banrural
+        {% else %}
+        <i class="icon-check g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> Usuario Verificado
+        {% endif %}
+      </li>
+    {% endif %}
+    </ul>
+    <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+  {% if perfil.vista > 3 %}
+    <h2 class="h3 g-font-weight-300">Información Económica</h2><br>
+    <h2 class="h5 g-font-weight-300">Vivienda
+      <span>
+        <i class="p icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1" data-toggle="modal" data-target="#editar_vivienda"></i>
+      </span>
+    </h2>
+    <div class="modal fade" id="editar_vivienda" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title g-font-weight-300" id="exampleModalLabel">EDITAR VIVIENDA</h4>
+          </div>
+          <div class="modal-body">
+            <form method="POST" action="{% url 'editar_vivienda' perfil.codsolicitud %}">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="cantidad" class="control-label">Vivienda:</label>
+                <select name="tipovivienda" class="form-control">
+                  {% if perfil.tipovivienda == 'P' %}
+                      <option value="P">Propietario</option>
+                  {% elif perfil.tipovivienda == 'I'  %}
+                      <option value="I">Inquilino</option>
+                  {% elif perfil.tipovivienda == 'I'  %}
+                    <option value="E">Inquilino</option>
+                  {% elif perfil.tipovivienda == 'F'  %}
+                    <option value="F">Con su familia</option>
+                  {% endif %}
+                  <option value="F">Con su familia</option>
+                  <option value="P">Propietario</option>
+                  <option value="I">Inquilino</option>
+                  <option value="E">Pensionista</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="amortizacion" class="control-label">Amortización:</label>
+                {% if perfil.tipovivienda == 'P' %}
+                  <input type="number" class="form-control" id="amortizacion" name="totalamortizacion" value="{{ perfil.totalamortizacion }}">
+                {% else %}
+                  <input type="number" class="form-control" id="amortizacion" name="totalamortizacion">
+                {% endif %}
+              </div>
+              <div class="form-group">
+                <label for="renta" class="control-label">Renta:</label>
+                {% if perfil.tipovivienda == 'I' %}
+                  <input type="number" class="form-control" id="renta" name="totalinquilino" value="{{ perfil.totalinquilino }}">
+                {% else %}
+                  <input type="number" class="form-control" id="renta" name="totalinquilino">
+                {% endif %}
+              </div>
+              <div class="form-group">
+                <label for="pension" class="control-label">Pensión:</label>
+                {% if perfil.tipovivienda == 'E' %}
+                  <input type="number" class="form-control" id="pension" name="totalpensionista" value="{{ perfil.totalpensionista }}">
+                {% else %}
+                  <input type="number" class="form-control" id="pension" name="totalpensionista">
+                {% endif %}
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ul class="list-unstyled g-mb-30">
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Vivienda</strong>
+          <span class="align-top" id="vivienda">{{ perfil.tipovivienda }}</span>
+        </div>
+      </li>
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Amortización</strong>
+          {% if perfil.totalamortizacion %}
+            <span class="align-top" id="vivienda">{{ perfil.totalamortizacion }}</span>
+          {% else %}
+            <span class="align-top" id="vivienda">No</span>
+          {% endif %}
+        </div>
+      </li>
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Renta</strong>
+          {% if perfil.totalinquilino %}
+            <span class="align-top">{{ perfil.totalinquilino }}</span>
+          {% else %}
+            <span class="align-top">No</span>
+          {% endif %}
+        </div>
+      </li>
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Pensión</strong>
+          {% if perfil.totalpensionista %}
+            <span class="align-top">{{ perfil.totalpensionista }}</span>
+          {% else %}
+            <span class="align-top">No</span>
+          {% endif %}
+        </div>
+      </li>
+    </ul>
+    <h2 class="h5 g-font-weight-300">Cuentas Bancarias
+      <span>
+        <i class="p icon-plus g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1" data-toggle="modal" data-target="#nueva_cuenta"></i>
+      </span>
+    </h2>
+    <div class="modal fade" id="nueva_cuenta" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title g-font-weight-300" id="exampleModalLabel">NUEVA CUENTA</h4>
+          </div>
+          <div class="modal-body">
+            <form method="POST" action="{% url 'nueva_cuenta' perfil.codsolicitud %}">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="cantidad" class="control-label">Tipo de Cuenta:</label>
+                <select name="nuevo_tipocuenta" class="form-control" required="">
+                  <option value="M">Depósitos monetarios</option>
+                  <option value="A">Depósitos de ahorro</option>
+                  <option value="O">Otros</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="institucion" class="control-label">Cantidad:</label>
+                <input type="text" class="form-control" id="cantidad" name="nueva_cantidad" required="" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+              </div>
+              <div class="form-group">
+                <label for="institucion" class="control-label">Institución:</label>
+                <input type="text" class="form-control" id="institucion" name="nueva_institucion" required="">
+              </div>
+              <div class="form-group">
+                <label for="numero" class="control-label">Número de Cuenta:</label>
+                <input type="text" class="form-control" id="numero" name="nuevo_numero" >
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% if lista_cuentas %}
+    <div class="row">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>TIPO CUENTAS</th>
+              <th>CANTIDAD</th>
+              <th>INSTITUCIÓN</th>
+              <th>NÚMERO</th>
+              <th>ACCIÓN</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for cuenta in lista_cuentas %}
+            <tr>
+              <td>
+                {% if cuenta.tipo_cuenta == 'M' %}
+                    Depósitos monetarios
+                {% elif cuenta.tipo_cuenta == 'A' %}
+                    Depósitos de ahorro
+                {% else %}
+                  Otros
+                {% endif %}
+              </td>
+              <td>{{ cuenta.cantidad|floatformat:2|intcomma }}</td>
+              <td>{{ cuenta.institucion }}</td>
+              <td>{{ cuenta.numero_cuenta }}</td>
+              <td>
+                <i class="p icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1"  data-toggle="modal" data-target="#editar-{{cuenta.cod_cuenta}}"></i>&nbsp;
+                <div class="modal fade" id="editar-{{ cuenta.cod_cuenta }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="exampleModalLabel">EDITAR CUENTA: {{ cuenta.numero_cuenta }}</h4>
+                      </div>
+                      <div class="modal-body">
+                        <form method="POST" action="{% url 'editar_cuenta' cuenta.cod_cuenta %}">
+                          {% csrf_token %}
+                          <div class="form-group">
+                            <label for="cantidad" class="control-label">Tipo de Cuenta:</label>
+                            <select name="tipocuenta" class="form-control" required="">
+                              {% if cuenta.tipo_cuenta == 'M' %}
+                                <option value="{{ cuenta.tipo_cuenta }}">Depósitos monetarios</option>
+                              {% elif cuenta.tipo_cuenta == 'A' %}
+                                <option value="{{ cuenta.tipo_cuenta }}">Depósitos de ahorro</option>
+                              {% else %}
+                                <option value="{{ cuenta.tipo_cuenta }}">Otros</option>
+                              {% endif %}
+                              <option value="M">Depósitos monetarios</option>
+                              <option value="A">Depósitos de ahorro</option>
+                              <option value="O">Otros</option>
+                            </select>
+                          </div>
+                          <div class="form-group">
+                            <label for="institucion" class="control-label">Cantidad:</label>
+                            <input type="text" class="form-control" id="cantidad" name="cantidad" value="{{cuenta.cantidad|intcomma}}" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+                          </div>
+                          <div class="form-group">
+                            <label for="institucion" class="control-label">Institución:</label>
+                            <input type="text" class="form-control" id="institucion" name="institucion" value="{{ cuenta.institucion }}">
+                          </div>
+                          <div class="form-group">
+                            <label for="numero" class="control-label">Número de Cuenta:</label>
+                            <input type="text" class="form-control" id="numero" name="numero" value="{{ cuenta.numero_cuenta }}" maxlength="30">
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <i class="p icon-trash g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1"  data-toggle="modal" data-target="#eliminar-{{ cuenta.cod_cuenta }}"></i>
+                <div class="modal fade" id="eliminar-{{ cuenta.cod_cuenta }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="exampleModalLabel">Eliminar Cuenta</h4>
+                      </div>
+                      <div class="modal-body">
+                        <h2 class="h5 g-font-weight-400">¿Está seguro que desea eliminar la cuenta: {{ cuenta.numero_cuenta }}?</h2>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <a href="{% url 'eliminar_cuenta' cuenta.cod_cuenta %}" class="btn btn-danger">Aceptar</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <br>
+      </div>
+    </div>
+    {% endif %}
+    <h2 class="h5 g-font-weight-300">Datos de Deudas
+      <span>
+        <i class="p icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1" data-toggle="modal" data-target="#editar_deudas"></i>
+      </span>
+    </h2>
+    <div class="modal fade" id="editar_deudas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title g-font-weight-300" id="exampleModalLabel">EDITAR DEUDAS</h4>
+          </div>
+          <div class="modal-body">
+            <form method="POST" action="{% url 'editar_deuda' perfil.codsolicitud %}">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-xs-12 col-sm-12 mb-12">
+                  <label style="font-weight: normal;">¿Tiene deudas pedientes? </label> <br>
+                  <label style="font-weight: normal;" class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600 g-font-size-13">
+                    <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="deudas" type="radio"  value="True" id="si_deudas">
+                    <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                      <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                    </div>
+                    SI
+                  </label>
+                  <label style="font-weight: normal;" class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600  g-font-size-13">
+                    <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="deudas" type="radio" value="False" id="no_deudas">
+                    <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                      <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                    </div>
+                    NO
+                  </label>
+                </div>
+              </div>
+              <div id="deuda">
+                <div class="form-group">
+                  <label for="acreedor" class="control-label">Acreedor:</label>
+                  <input type="text" class="form-control" id="acreedor" name="nombreacreedor" value="{{ perfil.nombreacreedor }}">
+                </div>
+                <div class="form-group">
+                  <label for="monto" class="control-label">Monto:</label>
+                  <input type="number" class="form-control" id="monto" name="montodeuda" value="{{ perfil.montodeuda }}">
+                </div>
+                <div class="form-group">
+                  <label for="cuota" class="control-label">Cuota:</label>
+                  <input type="number" class="form-control" id="cuota" name="cuotamensual" value="{{ perfil.cuotamensual }}">
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ul class="list-unstyled g-mb-30">
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Deudas Pendientes</strong>
+          {% if perfil.deudaspendientes == True %}
+            <span class="align-top">Si</span>
+          {% else %}
+            <span class="align-top">No</span>
+          {% endif %}
+        </div>
+      </li>
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Nombre Acreedor</strong>
+          {% if perfil.deudaspendientes == True %}
+            <span class="align-top">{{ perfil.nombreacreedor }}</span>
+          {% else %}
+            <span class="align-top">Nadie</span>
+          {% endif %}
+        </div>
+      </li>
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Monto Deuda</strong>
+          {% if perfil.deudaspendientes == True %}
+            <span class="align-top">{{ perfil.montodeuda }}</span>
+          {% else %}
+            <span class="align-top">No</span>
+          {% endif %}
+        </div>
+      </li>
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Cuota Mensual</strong>
+          {% if perfil.deudaspendientes == True %}
+            <span class="align-top">{{ perfil.cuotamensual }}</span>
+          {% else %}
+            <span class="align-top">No</span>
+          {% endif %}
+        </div>
+      </li>
+    </ul>
+    <h2 class="h5 g-font-weight-300">Información de Embargo
+      <span>
+        <i class="p icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1" data-toggle="modal" data-target="#editar_embargo"></i>
+      </span>
+    </h2>
+    <div class="modal fade" id="editar_embargo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title g-font-weight-300" id="exampleModalLabel">EDITAR EMBARGO</h4>
+          </div>
+          <div class="modal-body">
+            <form method="POST" action="{% url 'editar_embargo' perfil.codsolicitud %}">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-xs-12 col-sm-12 mb-12">
+                  <label style="font-weight: normal;">¿Ha sido embargado su sueldo? </label> <br>
+                  <label style="font-weight: normal;" class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600 g-font-size-13">
+                    <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="embargo" type="radio"  value="True" id="si_embargo">
+                    <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                      <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                    </div>
+                    SI
+                  </label>
+                  <label style="font-weight: normal;" class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600  g-font-size-13">
+                    <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="embargo" type="radio" value="False" id="no_embargo">
+                    <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                      <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                    </div>
+                    NO
+                  </label>
+                </div>
+              </div>
+              <div id="embargo">
+                <div class="form-group">
+                  <label for="persona" class="control-label">Quien embargo:</label>
+                  <input type="text" class="form-control" id="persona" name="nombrequienembargo" value="{{ perfil.nombrequienembargo }}">
+                </div>
+                <div class="form-group">
+                  <label for="motivo" class="control-label">Motivo:</label>
+                  <input type="text" class="form-control" id="motivo" name="motivoembargo" value="{{ perfil.motivoembargo }}">
+                </div>
+                <div class="form-group">
+                  <label for="monto" class="control-label">Monto:</label>
+                  <input type="number" class="form-control" id="monto" name="montoembargo" value="{{ perfil.montoembargo }}">
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ul class="list-unstyled g-mb-30">
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Tiene Embargo</strong>
+          {% if perfil.embargado == True %}
+            <span class="align-top">Si</span>
+          {% else %}
+            <span class="align-top">No</span>
+          {% endif %}
+        </div>
+      </li>
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Quien me embarga</strong>
+          {% if perfil.embargado == True %}
+            <span class="align-top">{{ perfil.nombrequienembargo }}</span>
+          {% else %}
+            <span class="align-top">No</span>
+          {% endif %}
+        </div>
+      </li>
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Motivo Embargo</strong>
+          {% if perfil.embargado == True %}
+            <span class="align-top">{{ perfil.motivoembargo }}</span>
+          {% else %}
+            <span class="align-top">No</span>
+          {% endif %}
+        </div>
+      </li>
+ 
+    </ul>
+    <h2 class="h5 g-font-weight-300">Otra Información
+      <span>
+        <i class="p icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1" data-toggle="modal" data-target="#editar_informacion"></i>
+      </span>
+    </h2>
+    <div class="modal fade" id="editar_informacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title g-font-weight-300" id="exampleModalLabel">EDITAR OTRA INFORMACIÓN</h4>
+          </div>
+          <div class="modal-body">
+            <form method="POST" action="{% url 'editar_otrainformacion' perfil.codsolicitud %}">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-xs-12 col-sm-12 mb-12">
+                  <label style="font-weight: normal;">¿Ha manejado valores en efectivo?</label> <br>
+                  <label style="font-weight: normal;" class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600 g-font-size-13">
+                    <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="efectivo" type="radio"  value="True" id="si_efectivo">
+                    <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                      <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                    </div>
+                    SI
+                  </label>
+                  <label style="font-weight: normal;" class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600  g-font-size-13">
+                    <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="efectivo" type="radio" value="False" id="no_efectivo">
+                    <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                      <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                    </div>
+                    NO
+                  </label>
+                </div>
+              </div>
+              <div id="efectivo">
+                <div class="form-group">
+                  <label for="cantidad" class="control-label">Cantidad:</label>
+                  <input type="text" class="form-control" id="cantidad" name="montoefectivo" value="{{ perfil.montoefectivo }}">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12 col-sm-12 mb-12">
+                  <label style="font-weight: normal;">¿Tiene algún familiar en esta institución?</label> <br>
+                  <label style="font-weight: normal;" class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600 g-font-size-13">
+                    <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="familiar" type="radio"  value="True" id="si_familiar">
+                    <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                      <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                    </div>
+                    SI
+                  </label>
+                  <label style="font-weight: normal;" class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600  g-font-size-13">
+                    <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="familiar" type="radio" value="False" id="no_familiar">
+                    <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                      <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                    </div>
+                    NO
+                  </label>
+                </div>
+              </div>
+              <div id="familiar">
+                <div class="form-group">
+                  <label for="nombre" class="control-label">Nombre del Familiar:</label>
+                  <input type="text" class="form-control" id="nombre" name="nombrefamiliar" value="{{ perfil.nombrefamiliar }}">
+                </div>
+                <div class="form-group">
+                  <label for="nombre" class="control-label">Parentesco del Familiar:</label>
+                  <select class="form-control" name="parentesco">
+                    {% if perfil.parentesco == 'C'  %}
+                      <option value="C">Conyugue</option>
+                    {% elif perfil.parentesco == 'H' %}
+                      <option value="H">Hijo</option>
+                    {% elif perfil.parentesco == 'I' %}
+                      <option value="I">Hija</option>
+                    {% elif perfil.parentesco == 'P' %}
+                      <option value="P">Padre</option>
+                    {% elif perfil.parentesco == 'M' %}
+                      <option value="M">Madre</option>
+                    {% elif perfil.parentesco == 'F' %}
+                      <option value="F">Familiar</option>
+                    {% elif perfil.parentesco == 'O' %}
+                      <option value="O">Otros</option>
+                    {% endif %}
+                    <option value="C">Conyugue</option>
+                    <option value="H">Hijo</option>
+                    <option value="I">Hija</option>
+                    <option value="P">Padre</option>
+                    <option value="M">Madre</option>
+                    <option value="F">Familiar</option>
+                    <option value="O">Otros</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="puesto" class="control-label">Puesto que ocupa:</label>
+                  <input type="text" class="form-control" id="puesto" name="puestofamiliar" value="{{ perfil.puestofamiliar }}">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="recomendacion" class="control-label">Persona quien lo recomienda:</label>
+                <input type="text" class="form-control" id="recomendacion" name="nombrequienrecomienda" value="{{ perfil.nombrequienrecomienda }}">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ul class="list-unstyled g-mb-30">
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Manejo de Valores Efectivo</strong>
+          {% if perfil.valoresefectivo == True %}
+            <span class="align-top">Si</span>
+          {% else %}
+            <span class="align-top">No</span>
+          {% endif %}
+        </div>
+      </li>
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Monto Efectivo</strong>
+          {% if perfil.valoresefectivo == True %}
+            <span class="align-top">{{ perfil.montoefectivo }}</span>
+          {% else %}
+            <span class="align-top">No</span>
+          {% endif %}
+        </div>
+      </li>
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Familiares en la Institución</strong>
+          {% if perfil.familiaresinstitucion == True %}
+            <span class="align-top">Si</span>
+          {% else %}
+            <span class="align-top">No</span>
+          {% endif %}
+        </div>
+      </li>
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Nombre del Familiar</strong>
+          {% if perfil.familiaresinstitucion == True %}
+            <span class="align-top">{{ perfil.nombrefamiliar }}</span>
+          {% else %}
+            <span class="align-top">No</span>
+          {% endif %}
+        </div>
+      </li>
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Parentesco</strong>
+          {% if perfil.familiaresinstitucion == True %}
+            <span class="align-top" id="parentesco_familiar"></span>
+          {% else %}
+            <span class="align-top">No</span>
+          {% endif %}
+        </div>
+      </li>
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Puesto Familiar</strong>
+          {% if perfil.familiaresinstitucion == True %}
+            <span class="align-top">{{ perfil.puestofamiliar }}</span>
+          {% else %}
+            <span class="align-top">No</span>
+          {% endif %}
+        </div>
+      </li>
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Recomendación</strong>
+          <span class="align-top">{{ perfil.nombrequienrecomienda }}</span>
+        </div>
+      </li>
+    </ul>
+    <h2 class="h5 g-font-weight-300">Información de Aspiración Laboral
+      <span>
+        <i class="p icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1" data-toggle="modal" data-target="#editar_aspiracion"></i>
+      </span>
+    </h2>
+    <div class="modal fade" id="editar_aspiracion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title g-font-weight-300" id="exampleModalLabel">EDITAR OTRA INFORMACIÓN DE ASPIRACIÓN</h4>
+          </div>
+          <div class="modal-body">
+            <form method="POST" action="{% url 'editar_aspiracionlaboral' perfil.codsolicitud %}">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-xs-12 col-sm-12 mb-12">
+                  <label style="font-weight: normal;">¿Esta dispuesto a trabajar fuera del país?</label> <br>
+                  <label style="font-weight: normal;" class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600 g-font-size-13">
+                    <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="fuerapais" type="radio"  value="True" id="si_fuerapais">
+                    <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                      <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                    </div>
+                    SI
+                  </label>
+                  <label style="font-weight: normal;" class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600  g-font-size-13">
+                    <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="fuerapais" type="radio" value="False" id="no_fuerapais">
+                    <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                      <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                    </div>
+                    NO
+                  </label>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="puesto_solicita" class="control-label">Puesto que Solicita:</label>
+                <input type="text" class="form-control" id="puesto_solicita" name="puestoquesolicita" value="{{ perfil.puestoquesolicita }}">
+              </div>
+              <div class="form-group">
+                <label for="aspiracion" class="control-label">Aspiración Salarial:</label>
+                <input type="text" class="form-control" id="aspiracion" name="sueldopretende" value="{{ perfil.sueldopretende }}">
+              </div>
+              <div class="form-group">
+                <label for="aspiracion" class="control-label">Fecha que puede iniciar:</label>
+                <div class="input-group g-brd-primary--focus">
+                  <input name="fechainicio" id="fechainicio" class="form-control form-control-md u-datepicker-v1 g-brd-right-none rounded-0" type="text" value="{{ perfil.fechainicio }}">
+                  <div class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-dark-v5 rounded-0">
+                    <i class="icon-calendar"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ul class="list-unstyled g-mb-30">
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Puesto que solicita</strong>
+          <span class="align-top">{{ perfil.puestoquesolicita }}</span>
+        </div>
+      </li>
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Aspiración Salarial</strong>
+          <span class="align-top">{{ perfil.sueldopretende }}</span>
+        </div>
+      </li>
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Fecha Inicio</strong>
+          <span class="align-top">{{ perfil.fechainicio }}</span>
+        </div>
+      </li>
+      <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+        <div class="g-pr-10">
+          <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Disponibilidad de trabajar en cualquier parte del país</strong>
+          {% if perfil.trabajarcualquierlugar == True %}
+            <span class="align-top">Si</span>
+          {% else %}
+            <span class="align-top">No</span>
+          {% endif %}
+        </div>
+      </li>
+    </ul>
+
+    {% endif %}
+</div>
+<!-- End Profile Content -->
+{% endblock content %}
+{% block javascript %}
+<script>
+  $(document).on('ready', function () {
+    // initialization of go to
+    $.HSCore.components.HSGoTo.init('.js-go-to');
+    // initialization of tabs
+    $.HSCore.components.HSTabs.init('[role="tablist"]');
+    // initialization of counters
+    var counters = $.HSCore.components.HSCounter.init('[class*="js-counter"]');
+    // initialization of rating
+    $.HSCore.components.HSRating.init($('.js-rating'), {
+      spacing: 2
+    });
+    // initialization of HSScrollBar component
+    $.HSCore.components.HSScrollBar.init( $('.js-scrollbar') );
+    var vivienda = {F:"Con su familia", P:"Propietario", I:"Inquilino", E:"Pensionista"}
+    var parentsco = {C:"Conyuge", H:"Hijo", I:"Hija", P:"Padre", M:"Madre", 'F':"Familiar", O:"Otros"}
+    $('#vivienda').html(vivienda["{{ perfil.tipovivienda }}"]);
+    $('#vivienda_editar').html(vivienda["{{ perfil.tipovivienda }}"]);
+    $('#parentesco').html(parentsco["{{ perfil.parentesco }}"]);
+    $('#parentesco_familiar').html(parentsco["{{ perfil.parentesco }}"]);
+    $('#fechainicio' ).datepicker({
+      autoclose: true,
+      format: 'yyyy-mm-dd',
+      language: 'es',
+    });
+    if ('{{ perfil.deudaspendientes }}' != 'None') {
+      $('#si_deudas').prop('checked', true);
+      $('#no_deudas').prop('checked', false);
+      $('#deuda').show();
+    }else {
+      $('#si_deudas').prop('checked', false);
+      $('#no_deudas').prop('checked', true);
+      $('#deuda').hide();
+    }
+    if ('{{ perfil.embargado }}' != 'False') {
+      $('#si_embargo').prop('checked', true);
+      $('#no_embargo').prop('checked', false);
+      $('#embargo').show();
+    }else {
+      $('#si_embargo').prop('checked', false);
+      $('#no_embargo').prop('checked', true);
+      $('#embargo').hide();
+    }
+    if ('{{ perfil.valoresefectivo }}' != 'False') {
+      $('#si_efectivo').prop('checked', true);
+      $('#no_efectivo').prop('checked', false);
+      $('#efectivo').show();
+    }else {
+      $('#si_efectivo').prop('checked', false);
+      $('#no_efectivo').prop('checked', true);
+      $('#efectivo').hide();
+    }
+    if ('{{ perfil.familiaresinstitucion }}' != 'False') {
+      $('#si_familiar').prop('checked', true);
+      $('#no_familiar').prop('checked', false);
+      $('#familiar').show();
+    }else {
+      $('#si_familiar').prop('checked', false);
+      $('#no_familiar').prop('checked', true);
+      $('#familiar').hide();
+    }
+    if ('{{ perfil.trabajarcualquierlugar }}' != 'False') {
+      $('#si_fuerapais').prop('checked', true);
+      $('#no_fuerapais').prop('checked', false);
+    }else {
+      $('#si_fuerapais').prop('checked', false);
+      $('#no_fuerapais').prop('checked', true);
+    }
+  });
+  $('#si_deudas').change(function(){
+    if ($(this).val() == "True") {
+        $('#deuda').show();
+    }else{
+       $('#deuda').hide();
+    }
+  });
+  $('#no_deudas').change(function(){
+    if ($(this).val() == "False") {
+        $('#deuda').hide();
+    }else{
+       $('#deuda').show();
+    }
+  });
+  $('#si_embargo').change(function(){
+    if ($(this).val() == "True") {
+        $('#embargo').show();
+    }else{
+       $('#embargo').hide();
+    }
+  });
+  $('#no_embargo').change(function(){
+    if ($(this).val() == "False") {
+        $('#embargo').hide();
+    }else{
+       $('#embargo').show();
+    }
+  });
+  $('#si_efectivo').change(function(){
+    if ($(this).val() == "True") {
+        $('#efectivo').show();
+    }else{
+       $('#efectivo').hide();
+    }
+  });
+  $('#no_efectivo').change(function(){
+    if ($(this).val() == "False") {
+        $('#efectivo').hide();
+    }else{
+       $('#efectivo').show();
+    }
+  });
+  $('#si_familiar').change(function(){
+    if ($(this).val() == "True") {
+        $('#familiar').show();
+    }else{
+       $('#familiar').hide();
+    }
+  });
+  $('#no_familiar').change(function(){
+    if ($(this).val() == "False") {
+        $('#familiar').hide();
+    }else{
+       $('#familiar').show();
+    }
+  });
+  $(window).on('load', function () {
+    // initialization of header
+    $.HSCore.components.HSHeader.init($('#js-header'));
+    $.HSCore.helpers.HSHamburgers.init('.hamburger');
+    // initialization of HSMegaMenu component
+    $('.js-mega-menu').HSMegaMenu({
+      event: 'hover',
+      pageContainer: $('.container'),
+      breakpoint: 991
+    });
+    // initialization of horizontal progress bars
+    setTimeout(function () { // important in this case
+      var horizontalProgressBars = $.HSCore.components.HSProgressBar.init('.js-hr-progress-bar', {
+        direction: 'horizontal',
+        indicatorSelector: '.js-hr-progress-bar-indicator'
+      });
+    }, 1);
+  });
+  $(window).on('resize', function () {
+    setTimeout(function () {
+      $.HSCore.components.HSTabs.init('[role="tablist"]');
+    }, 200);
+  });
+  $(document).ready(function(){
+    $('#sidemenu a').each(function(){
+      $(this).removeClass();
+      $(this).addClass('list-group-item list-group-item-action justify-content-between');
+    });
+    $('#economia').addClass('list-group-item list-group-item-action justify-content-between active');
+  });
+</script>
+{% endblock javascript %}

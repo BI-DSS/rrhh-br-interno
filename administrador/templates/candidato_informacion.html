@@ -1,0 +1,337 @@
+{% extends "baseperfil.html" %}
+{% load staticfiles %}
+{% block content %}
+<div class="col-lg-9">
+  <!-- User Details -->
+  <div class="d-flex align-items-center justify-content-sm-between g-mb-5">
+    <h2 class="g-font-weight-300 g-mr-10">{{ solicitud.nombres }} {{ solicitud.primerapellido }}</h2>
+  </div>
+  <ul class="list-inline g-font-weight-300">
+    <li class="list-inline-item g-mr-20">
+      <i class="icon-location-pin g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> {{ solicitud.codmunicipiodomicilio.descripcionmunicipio }}, {{ solicitud.coddepartamentodomicilio.descripciondepartamento }}
+    </li> 
+    {% if solicitud.anonima %}
+      <li class="list-inline-item g-mr-20">
+        <i class="icon-check g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> Solicitante a plaza Anonima
+      </li>
+    {% endif %}
+  </ul>
+    <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+    <div class="tab-pane fade show active" id="nav-1-1-default-hor-left-underline--1" role="tabpanel">
+      <h2 class="h4 g-font-weight-300">Datos Generales</h2>
+      {% if solicitud %}
+      <ul class="list-unstyled g-mb-30">
+        <!-- Name -->
+        <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+          <div class="g-pr-10">
+            <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Nombre</strong>
+            <span class="align-top">{{ solicitud.nombres }} {{ solicitud.primerapellido }}</span>
+          </div>
+        </li>
+        <!-- End Name -->
+        <!-- Your ID -->
+        <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+          <div class="g-pr-10">
+            <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Numero Identidad</strong>
+            <span class="align-top">{{ solicitud.identidad }}</span>
+          </div>
+        </li>
+        <!-- End Your ID -->
+
+        <!-- Company Name -->
+        <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+          <div class="g-pr-10">
+            <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Direccion</strong>
+            <span class="align-top">{{ solicitud.direcciondomicilio }}</span>
+          </div>
+        </li>
+        <!-- End Company Name -->
+ 
+        <!-- Position -->
+        <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+          <div class="g-pr-10">
+            <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Municipio</strong>
+            <span class="align-top">{{ solicitud.codmunicipiodomicilio.descripcionmunicipio }}</span>
+          </div>
+        </li>
+        <!-- End Position -->
+
+        <!-- Primary Email Address -->
+        <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+          <div class="g-pr-10">
+            <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Correo Electronico</strong>
+            <span class="align-top">{{ solicitud.correo }}</span>
+          </div>
+        </li>
+        <!-- End Primary Email Address -->
+
+        <!-- Linked Account -->
+        <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+          <div class="g-pr-10">
+            <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Telefono Fijo</strong>
+            <span class="align-top">{{ solicitud.telefonofijo }}</span>
+          </div>
+        </li>
+
+        <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+          <div class="g-pr-10">
+            <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Telefono Celular</strong>
+            <span class="align-top">{{ solicitud.celular }}</span>
+          </div>
+        </li>
+        <!-- End Linked Account -->
+
+        <!-- Website -->
+        <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+          <div class="g-pr-10">
+            <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Fecha Nacimiento</strong>
+            <span class="align-top">{{ solicitud.fechanacimiento }}</span>
+          </div>
+        </li>
+        <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+          <div class="g-pr-10">
+            <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Edad</strong>
+            <span class="align-top">{{ solicitud.edad }}</span>
+          </div>
+        </li>
+        <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+          <div class="g-pr-10">
+            <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Sexo</strong>
+            <span class="align-top">{{solicitud.sexo}}</span>
+          </div>
+        </li>
+        <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+          <div class="g-pr-10">
+            <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Estado Civil</strong>
+            <span class="align-top" id="estadocivil"></span>
+          </div>
+        </li>
+        <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+          <div class="g-pr-10">
+            <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Nacionalidad</strong>
+            <span class="align-top">{{ solicitud.lugarnacimiento }}</span>
+          </div>
+        </li>
+        <!-- End Office Number -->
+
+        <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+          <div class="g-pr-10">
+            <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Profesión</strong>
+            <span class="align-top">{{ solicitud.profesion }}</span>
+          </div>
+        </li>
+
+        <!-- Address -->
+        <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+          <div class="g-pr-10">
+            <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Posee Automovil</strong>
+            {% if solicitud.automovil == True %}
+              <span class="align-top">Si </span>
+            {% else %}
+              <span class="align-top">No </span>
+            {% endif %}
+
+          </div>
+        </li>
+        <!-- End Address -->
+
+        <!-- Address -->
+        <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+          <div class="g-pr-10">
+            <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Licencia de Conducir</strong>
+            <span class="align-top" id="licencias"></span>
+          </div>
+        </li>
+        <!-- End Address -->
+
+        <!-- Address -->
+        <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+          <div class="g-pr-10">
+            <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Poliza de Seguros</strong>
+            {% if solicitud.polizaseguro == True %}
+              <span class="align-top">Si - {{ solicitud.companiapoliza }}</span>
+            {% else %}
+              <span class="align-top">No</span>
+            {% endif %}
+          </div>
+        </li>
+        <!-- End Address -->
+
+        <!-- Address -->
+        <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+          <div class="g-pr-10">
+            <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Practica Deportes</strong>
+            {% if solicitud.deporte == True %}
+              <span class="align-top">Si - {{ solicitud.tipodeporte }} - Desde {{ solicitud.fechadeporte }}</span>
+            {% else %}
+              <span class="align-top">No</span>
+            {% endif %}
+          </div>
+        </li>
+        <!-- End Address -->
+
+        <!-- Address -->
+        <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+          <div class="g-pr-10">
+            <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Afiliacion IHSS</strong>
+            {% if solicitud.numeroihss %}
+              <span class="align-top">{{ solicitud.numeroihss }}</span>
+            {% else %}
+              <span class="align-top">No</span>
+            {% endif %}
+          </div>
+        </li>
+        <!-- End Address -->
+
+        <!-- Address -->
+        <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+          <div class="g-pr-10">
+            <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">RTN</strong>
+            {% if solicitud.rtn %}
+              <span class="align-top">{{ solicitud.rtn }}</span>
+            {% else %}
+              <span class="align-top">No</span>
+            {% endif %}
+          </div>
+        </li>
+        <!-- End Address -->
+
+        <!-- Address -->
+        <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+          <div class="g-pr-10">
+            <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">N. Pasaporte</strong>
+            {% if solicitud.numeropasaporte %}
+                <span class="align-top">{{ solicitud.numeropasaporte }}</span>
+            {% else %}
+              <span class="align-top">No</span>
+            {% endif %}
+          </div>
+        </li>
+        <!-- End Address -->
+
+        <!-- Address -->
+        <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+          <div class="g-pr-10">
+            <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Nombre de clubes y/o asociasiones</strong>
+            <span class="align-top">
+              {% if lista_organizaciones %}
+                {% for org in lista_organizaciones %}
+                    {{ org.nombre }},
+                {% endfor %}
+              {% else %}
+                Ninguna
+              {% endif %}
+            </span>
+          </div>
+        </li>
+        <!-- End Address -->
+      </ul>
+      {% endif %}
+    </div>
+    <!-- End Edit Profile -->
+</div>
+{% endblock content %}
+{% block javascript %}
+<script>
+  $(document).on('ready', function () {
+    var estado_civil = {S:"Soltero(a)", C:'Casado(a)', U:'Unión Libre', V:'Viudo(a)', D:'Divorciado(a)'}
+    var profesion = {A:"Asalariado", I:'Independiente', J:'Jubilado', E:'Estudiante', M:'Ama de Casa', O:'Otros'}
+    var licencia = {A:"Automovil", M:'Motocicleta', O:'Otro'}
+    $('#estadocivil').html(estado_civil["{{ solicitud.estadocivil }}"]);
+    var todo='';
+     if('{{solicitud.liviana}}' == 'True'){
+       todo  += "Liviana -";
+     }
+     if('{{solicitud.pesada}}' == 'True'){
+       todo +="Pesada -";
+     }
+     if('{{solicitud.motocicleta}}' =='True'){
+       todo +="Motocicleta";
+     }
+     $('#licencias').text(todo);
+    // initialization of go to
+    $.HSCore.components.HSGoTo.init('.js-go-to');
+    // initialization of tabs
+    $.HSCore.components.HSTabs.init('[role="tablist"]');
+    // initialization of counters
+    var counters = $.HSCore.components.HSCounter.init('[class*="js-counter"]');
+    // initialization of rating
+    $.HSCore.components.HSRating.init($('.js-rating'), {
+      spacing: 2
+    });
+    // initialization of HSScrollBar component
+    $.HSCore.components.HSScrollBar.init( $('.js-scrollbar') );
+    $('#sidemenu a').each(function(){
+      $(this).removeClass();
+      $(this).addClass('list-group-item list-group-item-action justify-content-between');
+    });
+    $('#datos').addClass('list-group-item list-group-item-action justify-content-between active');
+  });
+
+  $(window).on('load', function () {
+    // initialization of header
+    $.HSCore.components.HSHeader.init($('#js-header'));
+    $.HSCore.helpers.HSHamburgers.init('.hamburger');
+
+    // initialization of HSMegaMenu component
+    $('.js-mega-menu').HSMegaMenu({
+      event: 'hover',
+      pageContainer: $('.container'),
+      breakpoint: 991
+    });
+
+    // initialization of horizontal progress bars
+    setTimeout(function () { // important in this case
+      var horizontalProgressBars = $.HSCore.components.HSProgressBar.init('.js-hr-progress-bar', {
+        direction: 'horizontal',
+        indicatorSelector: '.js-hr-progress-bar-indicator'
+      });
+    }, 1);
+  });
+
+  $(window).on('resize', function () {
+    setTimeout(function () {
+      $.HSCore.components.HSTabs.init('[role="tablist"]');
+    }, 200);
+  });
+
+
+  $(document).on('ready', function () {
+    // initialization of go to
+    $.HSCore.components.HSGoTo.init('.js-go-to');
+
+    // initialization of tabs
+    $.HSCore.components.HSTabs.init('[role="tablist"]');
+
+    // initialization of HSScrollBar component
+    $.HSCore.components.HSScrollBar.init( $('.js-scrollbar') );
+  });
+
+  $(window).on('load', function () {
+    // initialization of header
+    $.HSCore.components.HSHeader.init($('#js-header'));
+    $.HSCore.helpers.HSHamburgers.init('.hamburger');
+
+    // initialization of HSMegaMenu component
+    $('.js-mega-menu').HSMegaMenu({
+      event: 'hover',
+      pageContainer: $('.container'),
+      breakpoint: 991
+    });
+
+    // initialization of horizontal progress bars
+    setTimeout(function () { // important in this case
+      var horizontalProgressBars = $.HSCore.components.HSProgressBar.init('.js-hr-progress-bar', {
+        direction: 'horizontal',
+        indicatorSelector: '.js-hr-progress-bar-indicator'
+      });
+    }, 1);
+  });
+
+  $(window).on('resize', function () {
+    setTimeout(function () {
+      $.HSCore.components.HSTabs.init('[role="tablist"]');
+    }, 200);
+  });
+</script>
+{% endblock javascript %}

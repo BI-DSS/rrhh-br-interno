@@ -1,0 +1,1021 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+<div class="col-lg-9">
+  <div class="d-flex align-items-center justify-content-sm-between g-mb-5">
+    <h2 class="g-font-weight-300 g-mr-10">{{ request.user.first_name }} {{ request.user.last_name }}</h2>
+  </div>
+  <ul class="list-inline g-font-weight-300">
+    <li class="list-inline-item g-mr-20">
+      <i class="icon-location-pin g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> {{ perfil.codmunicipiodomicilio.descripcionmunicipio }} {{ perfil.coddepartamentodomicilio.descripciondepartamento }}
+    </li>
+    {% if request.user.is_active %}
+      <li class="list-inline-item g-mr-20">
+        {% if perfil.empleado %}
+        <i class="icon-check g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> Empleado Banrural
+        {% else %}
+        <i class="icon-check g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> Usuario Verificado
+        {% endif %}
+      </li>
+    {% endif %}
+  </ul>
+  <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+  <!-- Estudios Academicos -->
+  {% if  perfil.vista > 5 %}
+  <div class="card border-0 rounded-0 g-mb-40">
+    <!-- Panel Header -->
+    <div class="card-header d-flex align-items-center justify-content-between g-bg-gray-light-v5 border-0 g-mb-15">
+      <h3 class="h6 mb-0">
+        <i class="icon-graduation g-pos-rel g-top-1 g-mr-5"></i> Educacion
+      </h3>
+      <div class="dropdown g-mb-10 g-mb-0--md">
+        <span class="d-block g-color-primary--hover g-cursor-pointer g-mr-minus-5 g-pa-5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="icon-options-vertical g-pos-rel g-top-1"></i>
+        </span>
+        <div class="dropdown-menu dropdown-menu-right rounded-0 g-mt-10">
+          <a class="dropdown-item g-px-10" href="{% url 'nuevo_estudio' %}">
+            <i class="icon-plus g-font-size-12 g-color-gray-dark-v5 g-mr-5"></i> Agregar Estudio
+          </a>
+        </div>
+      </div>
+    </div>
+    <!-- End Panel Header -->
+    <!-- Panel Body -->
+    <div class="js-scrollbar card-block u-info-v1-1 g-bg-white-gradient-v1--after g-height-300 g-pa-0">
+      <ul class="row u-timeline-v2-wrap list-unstyled">
+        {% if lista_estudios %}
+            {% for estudio in lista_estudios %}
+              <li class="col-md-12 g-brd-bottom g-brd-0--md g-brd-gray-light-v4 g-pb-30 g-pb-0--md g-mb-30 g-mb-0--md">
+                <div class="row">
+                  <!-- Timeline Date -->
+                  <div class="col-md-3 align-self-center text-md-right g-pr-40--md g-mb-20 g-mb-0--md">
+                    <h4 class="h5 g-font-weight-300">{{ estudio.nivelestudios }}</h4>
+                    <h5 class="h6 g-font-weight-300 mb-0">{{ estudio.inicio }} - {{ estudio.fin }}</h5>
+                  </div>
+                  <!-- End Timeline Date -->
+                  <!-- Timeline Content -->
+                  <div class="col-md-9 align-self-center g-orientation-left g-pl-40--md">
+                    <!-- Timeline Dot -->
+                    <div class="hidden-sm-down u-timeline-v2__icon g-top-35">
+                      <i class="d-block g-width-18 g-height-18 g-bg-primary g-brd-around g-brd-4 g-brd-gray-light-v4 rounded-circle"></i>
+                    </div>
+                    <!-- End Timeline Dot -->
+                    <article class="g-pa-10--md">
+                      <h3 class="h4 g-font-weight-300">
+                        <a href="{% url 'editar_estudio' estudio.codinstitucion %}" style="text-decoration: none;">
+                          <span>
+                            <i class="p icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1" data-toggle="modal" data-target="#editarcurso-{{ curso.codcurso }}"></i>
+                          </span>&nbsp;
+                        </a>
+                        {{ estudio.nombreinstitucion }}
+                      </h3>
+                      <p class="mb-0">{{ estudio.lugarestudio }}</p>
+                      {% if estudio.tituloobtenido %}
+                        <p class="mb-0">{{ estudio.tituloobtenido }}</p>
+                      {% endif %}
+                    </article>
+                  </div>
+                  <!-- End Timeline Content -->
+                </div>
+              </li>
+            {% endfor %}
+        {% endif %}
+      </ul>
+    </div>
+    <!-- End Panel Body -->
+  </div>
+  <!-- Cursos -->
+  <div class="card border-0 rounded-0 g-mb-40">
+    <!-- Panel Header -->
+    <div class="card-header d-flex align-items-center justify-content-between g-bg-gray-light-v5 border-0 g-mb-15">
+      <h3 class="h6 mb-0">
+        <i class="icon-book-open g-pos-rel g-top-1 g-mr-5"></i> Cursos
+      </h3>
+      <div class="dropdown g-mb-10 g-mb-0--md">
+        <span class="d-block g-color-primary--hover g-cursor-pointer g-mr-minus-5 g-pa-5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="icon-options-vertical g-pos-rel g-top-1"></i>
+        </span>
+        <div class="dropdown-menu dropdown-menu-right rounded-0 g-mt-10">
+          <a class="dropdown-item g-px-10" href="#!" data-toggle="modal" data-target="#nuevo_curso">
+            <i class="icon-plus g-font-size-12 g-color-gray-dark-v5 g-mr-5"></i> Agregar Curso
+          </a>
+        </div>
+      </div>
+      <div class="modal fade" id="nuevo_curso" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="exampleModalLabel">Editar Curso</h4>
+            </div>
+            <div class="modal-body">
+              <form action="{% url 'nuevo_curso' %}" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label for="temacurso" class="control-label">Tema del Curso:</label>
+                  <input type="text" class="form-control" id="temacurso" name="temacurso" required="">
+                </div>
+                <div class="form-group">
+                  <label for="duracion" class="control-label">Duración:</label>
+                  <input type="text" class="form-control" id="duracion" name="duracion" required="">
+                </div>
+                <div class="form-group">
+                  <label for="titulo" class="control-label">Título Obtenido:</label>
+                  <input type="text" class="form-control" id="titulo" name="titulo" required="">
+                </div>
+                <div class="form-group">
+                  <label for="nombrecentroestudio" class="control-label">Centro de Estudio:</label>
+                  <input type="text" class="form-control" id="nombrecentroestudio" name="nombrecentroestudio" required="">
+                </div>
+                <div class="form-group">
+                  <label for="direccioncentroestudio" class="control-label">Dirección Centro de Estudio:</label>
+                  <input type="text" class="form-control" id="direccioncentroestudio" name="direccioncentroestudio" required="">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                  <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Panel Header -->
+    <!-- Panel Body -->
+    <div class="js-scrollbar card-block u-info-v1-1 g-bg-white-gradient-v1--after g-height-300 g-pa-0">
+      <ul class="row u-timeline-v2-wrap list-unstyled">
+        {% if lista_cursos %}
+            {% for curso in lista_cursos %}
+              <li class="col-md-12 g-brd-bottom g-brd-0--md g-brd-gray-light-v4 g-pb-30 g-pb-0--md g-mb-30 g-mb-0--md">
+                <div class="row">
+                  <!-- Timeline Date -->
+                  <div class="col-md-3 align-self-center text-md-right g-pr-40--md g-mb-20 g-mb-0--md">
+                    <h4 class="h5 g-font-weight-300">{{ curso.temacurso }}</h4>
+                    <h5 class="h6 g-font-weight-300 mb-0">{{ curso.duracion }}</h5>
+                  </div>
+                  <!-- End Timeline Date -->
+                  <!-- Timeline Content -->
+                  <div class="col-md-9 align-self-center g-orientation-left g-pl-40--md">
+                    <!-- Timeline Dot -->
+                    <div class="hidden-sm-down u-timeline-v2__icon g-top-35">
+                      <i class="d-block g-width-18 g-height-18 g-bg-primary g-brd-around g-brd-4 g-brd-gray-light-v4 rounded-circle"></i>
+                    </div>
+                    <!-- End Timeline Dot -->
+                    <article class="g-pa-10--md">
+                      <h3 class="h4 g-font-weight-300">
+                        <span>
+                          <i class="p icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1" data-toggle="modal" data-target="#editarcurso-{{ curso.codcurso }}"></i>
+                        </span>&nbsp;
+                        {{ curso.titulo }}
+                      </h3>
+                      <h3 class="h5 g-font-weight-300">{{ curso.nombrecentroestudio }}</h3>
+                      <p class="mb-0">{{ curso.direccioncentroestudio }}</p>
+                    </article>
+                  </div>
+                  <div class="modal fade" id="editarcurso-{{ curso.codcurso }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                          <h4 class="modal-title" id="exampleModalLabel">Editar Curso</h4>
+                        </div>
+                        <div class="modal-body">
+                          <form action="{% url 'editar_curso' curso.codcurso %}" method="POST">
+                            {% csrf_token %}
+                            <div class="form-group">
+                              <label for="temacurso" class="control-label">Tema del Curso:</label>
+                              <input type="text" class="form-control" id="temacurso" name="temacurso" value="{{ curso.temacurso }}">
+                            </div>
+                            <div class="form-group">
+                              <label for="duracion" class="control-label">Duración:</label>
+                              <input type="text" class="form-control" id="duracion" name="duracion" value="{{ curso.duracion }}">
+                            </div>
+                            <div class="form-group">
+                              <label for="titulo" class="control-label">Título Obtenido:</label>
+                              <input type="text" class="form-control" id="titulo" name="titulo" value="{{ curso.titulo }}">
+                            </div>
+                            <div class="form-group">
+                              <label for="nombrecentroestudio" class="control-label">Centro de Estudio:</label>
+                              <input type="text" class="form-control" id="nombrecentroestudio" name="nombrecentroestudio" value="{{ curso.nombrecentroestudio }}">
+                            </div>
+                            <div class="form-group">
+                              <label for="direccioncentroestudio" class="control-label">Dirección Centro de Estudio:</label>
+                              <input type="text" class="form-control" id="direccioncentroestudio" name="direccioncentroestudio" value="{{ curso.direccioncentroestudio }}">
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                              <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- End Timeline Content -->
+                </div>
+              </li>
+            {% endfor %}
+        {% endif %}
+      </ul>
+    </div>
+    <!-- End Panel Body -->
+  </div>
+  <div class="card border-0 rounded-0 g-mb-40">
+    <div class="card-header d-flex align-items-center justify-content-between g-bg-gray-light-v5 border-0 g-mb-15">
+      <h3 class="h6 mb-0">
+        <i class="icon-book-open g-pos-rel g-top-1 g-mr-5"></i> Idiomas
+      </h3>
+      <div class="dropdown g-mb-10 g-mb-0--md">
+        <span class="d-block g-color-primary--hover g-cursor-pointer g-mr-minus-5 g-pa-5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="icon-options-vertical g-pos-rel g-top-1"></i>
+        </span>
+        <div class="dropdown-menu dropdown-menu-right rounded-0 g-mt-10">
+            <i class="p icon-plus g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1"  data-toggle="modal" data-target="#nuevo-idioma">&nbsp;Agregar Idiomas</i>
+        </div>
+       <div class="modal fade" id="nuevo-idioma" role="dialog" aria-labelledby="exampleModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="exampleModalLabel">NUEVO IDIOMA: </h4>
+                </div>
+                <div class="modal-body">
+                  <form method="POST" action="{% url 'create_idioma' %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                      <label for="cantidad" class="control-label">Idioma:</label>
+                      <select name="nombre_idioma" id="select_idioma">
+                        <option value="Ingles">Ingles</option>
+                        <option value="Aleman">Alemán</option>
+                        <option value="Frances">Frances</option>
+                        <option value="Portugues">Portugues</option>
+                        <option value="Italiano">Italiano</option>
+                        <option value="Otro">Otro</option>
+                      </select>
+                    </div>
+                    <br>
+                    <label  class="control-label">Expresión:</label>
+                    <div class="form-group">
+                      <div hidden>
+                        <input type="text" id="expresion-nuevo-idioma" value="100" name="expresion-nuevo-idioma">
+                      </div>
+                      <ul class="js-rating u-rating-v1 g-font-size-17 g-color-gray-light-v3 mb-0" id="rating-expresion" data-hover-classes="g-color-primary">
+
+
+                        <li class="g-color-primary click" value="0" id="1star">
+                          <i class="fa fa-star"></i>
+                        </li>
+
+                        <li class="" value="25" id="2star">
+                          <i class="fa fa-star"></i>
+                        </li>
+
+                        <li class="" value="50" id="3star">
+                          <i class="fa fa-star"></i>
+                        </li>
+
+                        <li class="" value="75" id="4star">
+                          <i class="fa fa-star"></i>
+                        </li>
+                        <li class="" value="100" id="5star">
+                          <i class="fa fa-star"></i>
+                        </li>
+                      </ul>
+                       <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+                        <script>
+
+                          $("#rating-expresion li").click(function(){
+                            var expresion_idioma = $(this).val();
+                            $("#expresion-nuevo-idioma").attr('value', expresion_idioma);
+                            console.log(expresion_idioma);
+
+                          });
+                        </script>
+
+                    </div><br>
+
+                     <label  class="control-label">Lectura:</label>
+                    <div class="form-group">
+                      <div hidden>
+                        <input type="text" id="lectura-nuevo-idioma" value="100" name="lectura-nuevo-idioma">
+                      </div>
+                      <ul class="js-rating u-rating-v1 g-font-size-17 g-color-gray-light-v3 mb-0" id="rating-lectura" data-hover-classes="g-color-primary">
+
+
+                        <li class="g-color-primary click" value="0" id="1star">
+                          <i class="fa fa-star"></i>
+                        </li>
+
+                        <li class="" value="25" id="2star">
+                          <i class="fa fa-star"></i>
+                        </li>
+
+                        <li class="" value="50" id="3star">
+                          <i class="fa fa-star"></i>
+                        </li>
+
+                        <li class="" value="75" id="4star">
+                          <i class="fa fa-star"></i>
+                        </li>
+                        <li class="" value="100" id="5star">
+                          <i class="fa fa-star"></i>
+                        </li>
+                      </ul>
+                       <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+                        <script>
+
+                          $("#rating-lectura li").click(function(){
+                            var lectura_idioma = $(this).val();
+                            $("#lectura-nuevo-idioma").attr('value', lectura_idioma);
+                            console.log("lectura"+lectura_idioma);
+
+                          });
+                        </script>
+
+                    </div><br>
+
+                    <label  class="control-label">Escritura:</label>
+                    <div class="form-group">
+                      <div hidden>
+                        <input type="text" id="escritura-nuevo-idioma" value="100" name="escritura-nuevo-idioma">
+                      </div>
+                      <ul class="js-rating u-rating-v1 g-font-size-17 g-color-gray-light-v3 mb-0" id="rating-escritura" data-hover-classes="g-color-primary">
+
+
+                        <li class="g-color-primary click" value="0" id="1star">
+                          <i class="fa fa-star"></i>
+                        </li>
+
+                        <li class="" value="25" id="2star">
+                          <i class="fa fa-star"></i>
+                        </li>
+
+                        <li class="" value="50" id="3star">
+                          <i class="fa fa-star"></i>
+                        </li>
+
+                        <li class="" value="75" id="4star">
+                          <i class="fa fa-star"></i>
+                        </li>
+                        <li class="" value="100" id="5star">
+                          <i class="fa fa-star"></i>
+                        </li>
+                      </ul>
+                      <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+                      <script>
+
+                        $("#rating-escritura li").click(function(){
+                          var escritura_idioma = $(this).val();
+                          $("#escritura-nuevo-idioma").attr('value', escritura_idioma);
+                        });
+                      </script>
+
+                    </div>
+
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                      <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+
+    <div class="js-scrollbar card-block u-info-v1-1 g-bg-white-gradient-v1--after g-height-300 g-pa-0">
+        {% if lista_idiomas %}
+              <!-- Basic Table -->
+              <div class="table-responsive">
+                <br>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>IDIOMA</th>
+                      <th>EXPRESIÓN</th>
+                      <th>LECTURA</th>
+                      <th>ESCRITURA</th>
+                      <th>ACCIÓN</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for idioma in lista_idiomas %}
+                      <tr>
+                        <td>{{ idioma.nombre }}</td>
+                        <td>{{ idioma.habla }}%</td>
+                        <td>{{ idioma.lectura }}%</td>
+                        <td>{{ idioma.escritura }}%</td>
+                        <td>
+                          <i class="p icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1"  data-toggle="modal" data-target="#editar-idioma-{{idioma.cod_idioma}}"></i>&nbsp;
+
+                          <div class="modal fade" id="editar-idioma-{{idioma.cod_idioma}}" role="dialog" aria-labelledby="exampleModalLabel">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                  <h4 class="modal-title" id="exampleModalLabel">EDITAR IDIOMA: </h4>
+                                </div>
+                                <div class="modal-body">
+                                  <form method="POST" action="{% url  'update_idioma' idioma.cod_idioma %}">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                      <label for="cantidad" class="control-label">Idioma:</label>
+                                      <select name="nombre_idioma-editar" id="select_idioma-editar">
+                                        <option value="{{idioma.nombre}}">{{idioma.nombre}}</option>
+                                        <option value="Ingles">Ingles</option>
+                                        <option value="Aleman">Alemán</option>
+                                        <option value="Frances">Frances</option>
+                                        <option value="Portugues">Portugues</option>
+                                        <option value="Italiano">Italiano</option>
+                                        <option value="Otro">Otro</option>
+                                      </select>
+                                    </div>
+                                    <br>
+                                    <label  class="control-label">Expresión:</label>
+                                    <div class="form-group">
+                                      <div hidden>
+                                        <input type="text" id="expresion-editar-idioma-{{idioma.cod_idioma}}" value="{{idioma.habla}}" name="expresion-editar-idioma-{{idioma.cod_idioma}}">
+                                      </div>
+                                      <ul class="js-rating u-rating-v1 g-font-size-17 g-color-gray-light-v3 mb-0" id="rating-expresion-editar-{{idioma.cod_idioma}}" data-hover-classes="g-color-primary">
+
+
+                                        <li {% if idioma.habla == 0 or idioma.habla > 0 %} class="g-color-primary click" {% endif %} value="0" id="1star{{idioma.cod_idioma}}">
+                                          <i class="fa fa-star"></i>
+                                        </li>
+
+                                        <li {% if idioma.habla > 0 %} class="g-color-primary click" {% endif %} value="25" id="2star{{idioma.cod_idioma}}">
+                                          <i class="fa fa-star"></i>
+                                        </li>
+
+                                        <li {% if idioma.habla > 25 %} class="g-color-primary click" {% endif %} value="50" id="3star{{idioma.cod_idioma}}">
+                                          <i class="fa fa-star"></i>
+                                        </li>
+
+                                        <li {% if idioma.habla > 50 %} class="g-color-primary click" {% endif %} value="75" id="4star{{idioma.cod_idioma}}">
+                                          <i class="fa fa-star"></i>
+                                        </li>
+                                        <li {% if not idioma.habla < 100 %} class="g-color-primary click" {% endif %} value="100" id="5star{{idioma.cod_idioma}}">
+                                          <i class="fa fa-star"></i>
+                                        </li>
+                                      </ul>
+
+                                       <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+                                        <script>
+
+
+                                          $("#rating-expresion-editar-{{idioma.cod_idioma}} li").click(function(){
+                                            var expresion_idioma = $(this).val();
+                                            $("#expresion-editar-idioma-{{idioma.cod_idioma}}").attr('value', expresion_idioma);
+
+                                          });
+                                        </script>
+
+                                    </div><br>
+
+                                     <label  class="control-label">Lectura:</label>
+                                    <div class="form-group">
+                                      <div hidden>
+                                        <input type="text" id="lectura-editar-idioma-{{idioma.cod_idioma}}" value="{{idioma.lectura}}" name="lectura-editar-idioma-{{idioma.cod_idioma}}">
+                                      </div>
+                                      <ul class="js-rating u-rating-v1 g-font-size-17 g-color-gray-light-v3 mb-0" id="rating-lectura-editar-{{idioma.cod_idioma}}" data-hover-classes="g-color-primary">
+
+
+                                        <li {% if idioma.lectura == 0 or idioma.lectura > 0 %} class="g-color-primary click" {% endif %} value="0" id="1star-leer-{{idioma.cod_idioma}}">
+                                          <i class="fa fa-star"></i>
+                                        </li>
+
+                                        <li {% if idioma.lectura > 0 %} class="g-color-primary click" {% endif %} value="25" id="2star-leer-{{idioma.cod_idioma}}">
+                                          <i class="fa fa-star"></i>
+                                        </li>
+
+                                        <li {% if idioma.lectura > 25 %} class="g-color-primary click" {% endif %} value="50" id="3star-leer-{{idioma.cod_idioma}}">
+                                          <i class="fa fa-star"></i>
+                                        </li>
+
+                                        <li {% if idioma.lectura > 50 %} class="g-color-primary click" {% endif %} value="75" id="4star-leer-{{idioma.cod_idioma}}">
+                                          <i class="fa fa-star"></i>
+                                        </li>
+                                        <li {% if not idioma.lectura < 100 %} class="g-color-primary click" {% endif %} value="100" id="5star-leer-{{idioma.cod_idioma}}">
+                                          <i class="fa fa-star"></i>
+                                        </li>
+                                      </ul>
+                                       <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+                                        <script>
+
+
+
+                                          $("#rating-lectura-editar-{{idioma.cod_idioma}} li").click(function(){
+                                            var lectura_idioma = $(this).val();
+                                            $("#lectura-editar-idioma-{{idioma.cod_idioma}}").attr('value', lectura_idioma);
+
+                                          });
+                                        </script>
+
+                                    </div><br>
+
+                                    <label  class="control-label">Escritura:</label>
+                                    <div class="form-group">
+                                      <div hidden>
+                                        <input type="text" id="escritura-editar-idioma-{{idioma.cod_idioma}}" value="{{idioma.escritura}}" name="escritura-editar-idioma-{{idioma.cod_idioma}}">
+                                      </div>
+                                      <ul class="js-rating u-rating-v1 g-font-size-17 g-color-gray-light-v3 mb-0" id="rating-escritura-editar-{{idioma.cod_idioma}}" data-hover-classes="g-color-primary">
+
+
+                                        <li {% if idioma.escritura == 0 or idioma.escritura > 0  %} class="g-color-primary click" {% endif %} value="0" id="1star-escribir-{{idioma.cod_idioma}}">
+                                          <i class="fa fa-star"></i>
+                                        </li>
+
+                                        <li {% if idioma.escritura > 0 %} class="g-color-primary click" {% endif %} value="25" id="2star-escribir-{{idioma.cod_idioma}}">
+                                          <i class="fa fa-star"></i>
+                                        </li>
+
+                                        <li {% if idioma.escritura > 25 %} class="g-color-primary click" {% endif %} value="50" id="3star-escribir-{{idioma.cod_idioma}}">
+                                          <i class="fa fa-star"></i>
+                                        </li>
+
+                                        <li {% if idioma.escritura > 50 %} class="g-color-primary click" {% endif %} value="75" id="4star-escribir-{{idioma.cod_idioma}}">
+                                          <i class="fa fa-star"></i>
+                                        </li>
+                                        <li {% if not idioma.escritura < 100 %} class="g-color-primary click" {% endif %} value="100" id="5star-escribir-{{idioma.cod_idioma}}">
+                                          <i class="fa fa-star"></i>
+                                        </li>
+                                      </ul>
+                                      <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+                                      <script>
+                                        $("#rating-escritura-editar-{{idioma.cod_idioma}} li").click(function(){
+                                          var escritura_idioma = $(this).val();
+                                          $("#escritura-editar-idioma-{{idioma.cod_idioma}}").attr('value',escritura_idioma);
+                                        });
+                                      </script>
+
+                                    </div>
+
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                      <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                                    </div>
+                                  </form>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <i class="p icon-trash g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1"  data-toggle="modal" data-target="#eliminar-idioma-{{idioma.cod_idioma}}"></i>
+                          <div class="modal fade" id="eliminar-idioma-{{idioma.cod_idioma}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="exampleModalLabel">Eliminar Idioma</h4>
+                              </div>
+                              <div class="modal-body">
+
+                                <h2 class="h5 g-font-weight-400">¿Está seguro que desea eliminar el idioma: {{ idioma.nombre }}?</h2>
+
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                <a href="{% url 'delete_idioma' idioma.cod_idioma %}" class="btn btn-danger">Aceptar</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <!-- End Basic Table -->
+        {% endif %}
+      </div>
+    </div>
+  <!-- Idiomas -->
+
+  <!-- Idiomas -->
+  <div class="card border-0 rounded-0 g-mb-40">
+
+    <!-- Panel Header -->
+    <div class="card-header d-flex align-items-center justify-content-between g-bg-gray-light-v5 border-0 g-mb-15">
+      <h3 class="h6 mb-0">
+        <i class="icon-book-open g-pos-rel g-top-1 g-mr-5"></i> Habilidades
+      </h3>
+      <div class="dropdown g-mb-10 g-mb-0--md">
+        <span class="d-block g-color-primary--hover g-cursor-pointer g-mr-minus-5 g-pa-5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="icon-options-vertical g-pos-rel g-top-1"></i>
+        </span>
+        <div class="dropdown-menu dropdown-menu-right rounded-0 g-mt-10">
+            <i class="p icon-plus g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1"  data-toggle="modal" data-target="#nueva-habilidad">&nbsp;Agregar Habilidad</i>
+
+        </div>
+        <div class="modal fade" id="nueva-habilidad" role="dialog" aria-labelledby="exampleModalLabel">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">NUEVA HABILIDAD: </h4>
+                  </div>
+                  <div class="modal-body">
+                    <form method="POST" action="{% url 'create_habilidades' %}">
+                      {% csrf_token %}
+                      <div class="form-group">
+                        <label for="cantidad" class="control-label">Habilidad:</label>
+                        <select name="nombre_habilidad" id="select_habilidades">
+                          <option value="DISEÑO GRÁFICO">DISEÑO GRÁFICO</option>
+                          <option value="PROGRAMACIÓN">PROGRAMACIÓN</option>
+                          <option value="OFFICE">OFFICE</option>
+                          <option value="SOPORTE TÉCNICO">SOPORTE TÉCNICO</option>
+                          <option value="REDES E INFRAESTRUCTURA">REDES E INFRAESTRUCTURA</option>
+                        </select>
+
+                      </div>
+
+                      <label  class="control-label">Porcentaje:</label>
+                      <div class="form-group">
+                        <div hidden>
+                          <input type="text" id="porcentaje_habilidad" value="100" name="porcentaje_habilidad">
+                        </div>
+                        <ul class="js-rating u-rating-v1 g-font-size-17 g-color-gray-light-v3 mb-0" id="rating" data-hover-classes="g-color-primary">
+
+
+                          <li class="g-color-primary click" value="0" id="1star">
+                            <i class="fa fa-star"></i>
+                          </li>
+
+                          <li class="" value="25" id="2star">
+                            <i class="fa fa-star"></i>
+                          </li>
+
+                          <li class="" value="50" id="3star">
+                            <i class="fa fa-star"></i>
+                          </li>
+
+                          <li class="" value="75" id="4star">
+                            <i class="fa fa-star"></i>
+                          </li>
+                          <li class="" value="100" id="5star">
+                            <i class="fa fa-star"></i>
+                          </li>
+                        </ul>
+                         <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+                          <script>
+
+                            $("#rating li").click(function(){
+                              var habilidad = $(this).val();
+                              $("#porcentaje_habilidad").attr('value', habilidad);
+                              console.log(habilidad);
+
+                            });
+                          </script>
+
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+      </div>
+    </div>
+
+    <div class="js-scrollbar card-block u-info-v1-1 g-bg-white-gradient-v1--after g-height-300 g-pa-0">
+      {% if lista_habilidades %}
+            <!-- Basic Table -->
+            <div class="table-responsive">
+              <br>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>HABILIDAD</th>
+                    <th>PORCENTAJE</th>
+                    <th>ACCIÓN</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for habilidad in lista_habilidades %}
+                    <tr>
+                      <td>{{ habilidad.nombre_habilidad }}</td>
+                      <td>{{ habilidad.porcentaje }}%</td>
+                      <td>
+                        <i class="p icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1"  data-toggle="modal" data-target="#editar-{{habilidad.cod_habilidad}}"></i>&nbsp;
+                        <div class="modal fade" id="editar-{{ habilidad.cod_habilidad }}" role="dialog" aria-labelledby="exampleModalLabel">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="exampleModalLabel">EDITAR HABILIDAD: {{ habilidad.nombre_habilidad }}</h4>
+                              </div>
+                              <div class="modal-body">
+                                <form method="POST" action="{% url 'update_habilidades' habilidad.cod_habilidad %}">
+                                  {% csrf_token %}
+                                  <div class="form-group">
+                                    <label for="cantidad" class="control-label">Habilidad:</label>
+                                    <select name="nombre_habilidad" id="select_habilidades">
+                                      <option value="{{ habilidad.nombre_habilidad }}">{{ habilidad.nombre_habilidad }}</option>
+                                      <option value="DISEÑO GRÁFICO">DISEÑO GRÁFICO</option>
+                                      <option value="PROGRAMACIÓN">PROGRAMACIÓN</option>
+                                      <option value="OFFICE">OFFICE</option>
+                                      <option value="SOPORTE TÉCNICO">SOPORTE TÉCNICO</option>
+                                      <option value="REDES E INFRAESTRUCTURA">REDES E INFRAESTRUCTURA</option>
+                                    </select>
+
+                                  </div>
+
+                                  <label  class="control-label">Porcentaje:</label>
+                                  <div class="form-group">
+                                    <div hidden>
+                                    <input type="text" id="porcentaje_habilidad-{{habilidad.cod_habilidad}}" value="" name="porcentaje_habilidad-{{habilidad.cod_habilidad}}">
+                                    </div>
+                                    <ul class="js-rating u-rating-v1 g-font-size-17 g-color-gray-light-v3 mb-0" id="rating-{{habilidad.cod_habilidad}}" data-hover-classes="g-color-primary">
+                                      <li class="g-color-primary click" value="0" id="1star">
+                                        <i class="fa fa-star"></i>
+                                      </li>
+                                      <li value="25" id="2star">
+                                        <i class="fa fa-star"></i>
+                                      </li>
+                                      <li value="50" id="3star">
+                                        <i class="fa fa-star"></i>
+                                      </li>
+                                      <li value="75" id="4star">
+                                        <i class="fa fa-star"></i>
+                                      </li>
+                                      <li value="100" id="5star">
+                                        <i class="fa fa-star"></i>
+                                      </li>
+                                    </ul>
+                                     <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+                                      <script>
+                                        var valor = '{{ habilidad.porcentaje }}';
+                                        if(valor == '25'){
+                                           $("#1star ,#2star").addClass("g-color-primary click");
+                                        }else if(valor == '50'){
+                                           $("#2star, #3star").addClass("g-color-primary click");
+                                        }else if(valor == '75'){
+                                          $("#2star, #3star , #4star").addClass("g-color-primary click");
+                                        }else if(valor == '100'){
+                                           $("#2star, #3star , #4star , #5star").addClass("g-color-primary click");
+                                        }
+                                        $("#rating-{{habilidad.cod_habilidad}} li").click(function(){
+                                          var habilidad = $(this).val();
+                                          $("#porcentaje_habilidad-{{habilidad.cod_habilidad}}").attr('value', habilidad);
+                                          console.log(habilidad);
+                                        });
+                                      </script>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                                  </div>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <i class="p icon-trash g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1"  data-toggle="modal" data-target="#eliminar-{{ habilidad.cod_habilidad }}"></i>
+                        <div class="modal fade" id="eliminar-{{ habilidad.cod_habilidad }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="exampleModalLabel">Eliminar Habilidad</h4>
+                              </div>
+                              <div class="modal-body">
+
+
+                                <h2 class="h5 g-font-weight-400">¿Está seguro que desea eliminar la habilidad: {{ habilidad.nombre_habilidad }}?</h2>
+
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                <a href="{% url 'delete_habilidades' habilidad.cod_habilidad %}" class="btn btn-danger">Aceptar</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <!-- End Basic Table -->
+      {% endif %}
+    </div>
+    <!-- End Panel Body -->
+  </div>
+  <!-- Competencias -->
+  <div class="card border-0 rounded-0 g-mb-40">
+    <!-- Panel Header -->
+    <div class="card-header d-flex align-items-center justify-content-between g-bg-gray-light-v5 border-0 g-mb-15">
+      <h3 class="h6 mb-0">
+        <i class="icon-book-open g-pos-rel g-top-1 g-mr-5"></i> Competencias
+      </h3>
+      <div class="dropdown g-mb-10 g-mb-0--md">
+        <span class="d-block g-color-primary--hover g-cursor-pointer g-mr-minus-5 g-pa-5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="icon-options-vertical g-pos-rel g-top-1"></i>
+        </span>
+        <div class="dropdown-menu dropdown-menu-right rounded-0 g-mt-10">
+          <a class="dropdown-item g-px-10" href="#!" data-toggle="modal" data-target="#nueva_competencia">
+            <i class="icon-plus g-font-size-12 g-color-gray-dark-v5 g-mr-5"></i> Agregar Competencia
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="nueva_competencia" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="exampleModalLabel">Nuevas Competencias</h4>
+          </div>
+          <div class="modal-body">
+            <form action="{% url 'agregar_competencias' %}" id="form_competencias" method="POST">
+                {% csrf_token %}
+                <input type="text" id="competencias" name="competencias" hidden>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-4 mb-2">
+                        <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Trabajo en Equipo</label> <br>
+                        <label class="form-check-inline u-check g-mr-20 mx-0 mb-0" >
+                            <input class="hidden-xs-up g-pos-abs g-top-0 g-right-0 competencia" name="trabajoequipo" type="checkbox" value="1">
+                            <div class="u-check-icon-radio-v7">
+                                <i class="fa" data-check-icon="" data-uncheck-icon=""></i>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 mb-2">
+                        <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Puntualidad</label> <br>
+                        <label class="form-check-inline u-check g-mr-20 mx-0 mb-0" >
+                            <input class="hidden-xs-up g-pos-abs g-top-0 g-right-0 competencia" name="puntualidad" type="checkbox" value="2">
+                            <div class="u-check-icon-radio-v7">
+                                <i class="fa" data-check-icon="" data-uncheck-icon=""></i>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 mb-2">
+                        <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Liderazgo</label> <br>
+                        <label class="form-check-inline u-check g-mr-20 mx-0 mb-0" >
+                            <input class="hidden-xs-up g-pos-abs g-top-0 g-right-0 competencia" name="liderazgo" type="checkbox" value="3">
+                            <div class="u-check-icon-radio-v7">
+                                <i class="fa" data-check-icon="" data-uncheck-icon=""></i>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 mb-2">
+                        <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Innovación</label> <br>
+                        <label class="form-check-inline u-check g-mr-20 mx-0 mb-0" >
+                            <input class="hidden-xs-up g-pos-abs g-top-0 g-right-0 competencia" name="innovacion" type="checkbox" value="4">
+                            <div class="u-check-icon-radio-v7">
+                                <i class="fa" data-check-icon="" data-uncheck-icon=""></i>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 mb-2">
+                        <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Creatrividad</label> <br>
+                        <label class="form-check-inline u-check g-mr-20 mx-0 mb-0" >
+                            <input class="hidden-xs-up g-pos-abs g-top-0 g-right-0 competencia" name="creatividad" type="checkbox" value="5">
+                            <div class="u-check-icon-radio-v7">
+                                <i class="fa" data-check-icon="" data-uncheck-icon=""></i>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 mb-2">
+                        <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Iniciativa</label> <br>
+                        <label class="form-check-inline u-check g-mr-20 mx-0 mb-0" >
+                            <input class="hidden-xs-up g-pos-abs g-top-0 g-right-0 competencia" name="iniciativa" type="checkbox" value="6">
+                            <div class="u-check-icon-radio-v7">
+                                <i class="fa" data-check-icon="" data-uncheck-icon=""></i>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary" id="guardar_competencias">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Panel Header -->
+    <!-- Panel Body -->
+    <div class="js-scrollbar card-block u-info-v1-1 g-bg-white-gradient-v1--after g-height-300 g-pa-0">
+      <div class="table-responsive">
+        <br>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>COMPETENCIA</th>
+              <th>BORRAR</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for competencia in lista_competencias %}
+              <tr>
+                <td>{{ competencia.nombre_competencia }}</td>
+                <td>
+                  <i class="p icon-trash g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1"  data-toggle="modal" data-target="#eliminar-competencia-{{ competencia.cod_compentencias }}"></i>
+                  <div class="modal fade" id="eliminar-competencia-{{ competencia.cod_compentencias }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                          <h4 class="modal-title" id="exampleModalLabel">Eliminar Competencia</h4>
+                        </div>
+                        <div class="modal-body">
+                          <h2 class="h5 g-font-weight-400">¿Está seguro que desea eliminar la competencia: {{ competencia.nombre_competencia }}?</h2>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                          <a href="{% url 'eliminar_competencia' competencia.cod_compentencias %}" class="btn btn-danger">Aceptar</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- End Panel Body -->
+  </div>
+  {% endif %}
+</div>
+{% endblock content %}
+{% block javascript %}
+<script>
+  var lista_competencias = []
+  var registro_competencias = "";
+  $('.competencia').change(function(){
+    var competencia = $(this).prop('checked');
+    if (competencia == true) {
+      lista_competencias.push($(this).val());
+    } else if (competencia == false){
+      lista_competencias.pop($(this).val());
+    }
+  });
+  $('#guardar_competencias').click(function(){
+    lista_competencias.forEach(function(element) {
+      registro_competencias += element + '/';
+    }, this);
+    $('#competencias').attr('value', registro_competencias);
+    $('#form_competencias').submit();
+  });
+  $(document).on('ready', function () {
+    // initialization of go to
+    $.HSCore.components.HSGoTo.init('.js-go-to');
+    // initialization of tabs
+    $.HSCore.components.HSTabs.init('[role="tablist"]');
+    // initialization of counters
+    var counters = $.HSCore.components.HSCounter.init('[class*="js-counter"]');
+    // initialization of rating
+     $.HSCore.helpers.HSRating.init();
+    // initialization of HSScrollBar component
+    $.HSCore.components.HSScrollBar.init( $('.js-scrollbar') );
+  });
+  $('#select_habilidades').select2({
+    theme:'bootstrap',
+    width: '100%'
+  });
+  $(window).on('load', function () {
+    // initialization of header
+    $.HSCore.components.HSHeader.init($('#js-header'));
+    $.HSCore.helpers.HSHamburgers.init('.hamburger');
+    // initialization of HSMegaMenu component
+    $('.js-mega-menu').HSMegaMenu({
+      event: 'hover',
+      pageContainer: $('.container'),
+      breakpoint: 991
+    });
+    // initialization of horizontal progress bars
+    setTimeout(function () { // important in this case
+      var horizontalProgressBars = $.HSCore.components.HSProgressBar.init('.js-hr-progress-bar', {
+        direction: 'horizontal',
+        indicatorSelector: '.js-hr-progress-bar-indicator'
+      });
+    }, 1);
+  });
+  $(window).on('resize', function () {
+    setTimeout(function () {
+      $.HSCore.components.HSTabs.init('[role="tablist"]');
+    }, 200);
+  });
+  $(document).ready(function(){
+  	$('#sidemenu a').each(function(){
+  		$(this).removeClass();
+  		$(this).addClass('list-group-item list-group-item-action justify-content-between');
+  	});
+  	$('#estudios').addClass('list-group-item list-group-item-action justify-content-between active');
+  });
+</script>
+{% endblock javascript %}

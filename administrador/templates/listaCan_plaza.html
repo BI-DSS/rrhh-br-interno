@@ -1,0 +1,231 @@
+{% extends "otrabase.html" %}
+{% load staticfiles %}
+{% block content %}
+
+<div class="container">
+	<h2 class="h1 g-font-weight-300 g-color-black text-center">Oferta: {{oferta.Puesto_oferta}}</h2>
+  	<h2 class="h4 g-font-weight-300 g-color-black">Lista de Candidatos </h2> <br>
+    <div class="row">
+      <div class="col-xs-12 col-sm-4 mb-4">
+          <a id="usuarios" href="{% url 'lista_favoritos' oferta.Cod_oferta %}" class="btn u-btn-outline-primary g-font-size-13 text-uppercase g-py-10 g-px-15"><span><i class="icon-like g-pos-rel g-top-1 g-mr-8"></i> Ver cantidatos favoritos</span>
+            </a>
+      </div>
+    </div>
+    <br>
+      <!--Basic Table-->
+        <table class="table table-hover table-responsive table-striped table-borders" id="tabla_candidatos">
+          <thead>
+            <tr>
+              <th>CANDIDATO</th>
+              <th >PROFESIÓN</th>
+              <th >CONTACTO</th>
+              <th >REQUISITOS</th>
+              <th class="text-center">ACCIONES</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for aplicacion in aplicaciones %}
+              <tr>
+                <td class="">
+                  <div class="media">
+                    {% if aplicacion.Cod_solicitud.foto_usuario  %}
+                      {% if aplicacion.Cod_solicitud.empleado == None %}
+                        <img class="d-flex g-width-40 g-height-40 rounded-circle g-mr-10" src="https://empleateycrececonnosotros.banrural.com.hn/media/{{ aplicacion.Cod_solicitud.foto_usuario }}"  alt="Image Description">
+                      {% else %}
+                        <img class="d-flex g-width-40 g-height-40 rounded-circle g-mr-10" src="/media/{{ aplicacion.Cod_solicitud.foto_usuario }}"  alt="Image Description">
+                      {% endif %}
+
+                    {% else %}
+                    <img class="d-flex g-width-40 g-height-40 rounded-circle g-mr-10" src="{% static 'img/icon_user.png' %}" alt="Image Description">
+                    {% endif %}  
+                    <div class=""> 
+                      <h5 class="h6 align-self-center g-font-weight-600 mb-0 {% if aplicacion.Dislike == True %} g-color-red  {% else %} {% if aplicacion.Visto %} g-color-green {% else %} g-color-black {% endif %} {% endif %}">{{ aplicacion.Cod_solicitud.nombres }}</h5>
+                      <span class="g-font-size-12">{{ aplicacion.Cod_solicitud.primerapellido }}</span>
+                    </div>
+                  </div>
+                </td>
+                <td >{{ aplicacion.Cod_solicitud.profesion }}</td>
+                <td>
+  	                <span class="d-block g-mb-5">
+  	                  <i class="icon-phone g-font-size-16 g-color-gray-dark-v5 g-pos-rel g-top-2 g-mr-5"></i>{{ aplicacion.Cod_solicitud.celular }}
+  	                </span>
+  	                <span class="d-block">
+                      <i class="icon-envelope g-font-size-16 g-color-gray-dark-v5 g-pos-rel g-top-2 g-mr-5"></i>{{aplicacion.Cod_solicitud.correo}}
+  	                </span>
+                </td>
+                <td class="align-middle text-left">
+                  {% if oferta.Vehiculo %}
+                    {% if aplicacion.Cod_solicitud.automovil %}
+                    <span class="d-block">Vehiculo: SI</span>
+                    {% else %}
+                    <span class="d-block">Vehiculo: NO</span>
+                    {% endif %}
+                  {% endif %}
+
+                  {% if oferta.Trabajo_campo %}
+                    {% if aplicacion.Cod_solicitud.trabajarcualquierlugar %}
+                    <span class="d-block">Trabajo Campo: SI</span>
+                    {% else %}
+                    <span class="d-block">Trabajo Campo: NO</span>
+                    {% endif %}
+                  {% endif %}
+
+                  {% if aplicacion.Cod_solicitud.edad >= oferta.Edad_minima and aplicacion.Cod_solicitud.edad <= oferta.Edad_maxima %}
+                    <span class="d-block">Edad: SI ({{aplicacion.Cod_solicitud.edad}} años)</span>
+                    {% else %}
+                    <span class="d-block">Edad: NO ({{aplicacion.Cod_solicitud.edad}} años)</span>
+                    {% endif %}
+                </td>
+
+                <td class="align-middle text-nowrap text-center">
+                 
+                  <a class="g-color-gray-dark-v5 g-text-underline--none--hover g-pa-5" href="{% url 'visto' aplicacion.Cod_aplicacion %}" data-toggle="tooltip" data-placement="top" data-original-title="Ver Perfil">
+                    <i class="icon-eye g-font-size-18 g-mr-7"></i>
+                  </a>
+                  {% if aplicacion.Imprimir  %}
+                  <a class="g-color-green g-text-underline--none--hover g-pa-5" href="{% url 'imprimircv' aplicacion.Cod_solicitud.codsolicitud aplicacion.Cod_aplicacion %}" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir" target="_blank">
+                    <i class="icon-printer g-font-size-18 g-mr-7"></i>
+                  </a>
+                  {% else %}
+                  <a class="g-color-gray-dark-v5 g-text-underline--none--hover g-pa-5" href="{% url 'imprimircv' aplicacion.Cod_solicitud.codsolicitud aplicacion.Cod_aplicacion %}" data-toggle="tooltip" data-placement="top" data-original-title="Imprimir" target="_blank">
+                    <i class="icon-printer g-font-size-18 g-mr-7"></i>
+                  </a>
+                  {% endif %}
+
+                  <a class="g-color-gray-dark-v5 g-text-underline--none--hover g-pa-5 pre" href="#!"  id="{{aplicacion.Cod_solicitud.codsolicitud}}" >
+                    <i class="icon-question g-font-size-18 g-mr-7"></i>
+                  </a>
+
+                  <!-- Modal -->
+                    <div class="modal fade" id="preg-{{aplicacion.Cod_solicitud.codsolicitud}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Preguntas</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="row" >
+                              <div class="form-group col-xs-12 col-md-12" id="res-{{aplicacion.Cod_solicitud.codsolicitud}}">
+                              
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  <!--End Modal -->
+                  {% if not aplicacion.Dislike %}
+                    {% if aplicacion.Favorito %} 
+                    <strong class="g-color-green g-text-underline--none--hover g-pa-5" href="#!" data-toggle="tooltip" data-placement="top" data-original-title="Favorito" target="_blank">
+                      <i class="icon-like g-font-size-18 g-mr-7"></i>
+                    </strong>
+                    {% else %}
+                    <a id="{{aplicacion.Cod_aplicacion}}" class="g-color-gray-dark-v5 g-text-underline--none--hover g-pa-5 fav" href="#!" data-toggle="tooltip" data-placement="top" data-original-title="Marcar como Favorito">
+                      <i class="icon-check g-font-size-18 g-mr-7"></i>
+                    </a>
+                    <strong hidden="" id="fav_{{aplicacion.Cod_aplicacion}}" class="g-color-green g-text-underline--none--hover g-pa-5" href="{{aplicacion.Cod_aplicacion}}" data-toggle="tooltip" data-placement="top" data-original-title="Favorito" target="_blank"> 
+                      <i class="icon-like g-font-size-18 g-mr-7"></i>
+                    </strong>
+                    {% endif %}
+                  {% endif %}
+
+                  {% if not aplicacion.Dislike %}
+                  <a class="g-color-gray-dark-v5 g-text-underline--none--hover g-pa-5 corre_gracias" href="{% url 'mensaje_gracias' aplicacion.Cod_aplicacion %}" data-toggle="tooltip" data-placement="top" data-original-title="Correo de gracias">
+                    <i class="icon-minus g-font-size-18 g-mr-7"></i>
+                  </a>
+                  {% else %}
+                  <a class="g-color-gray-dark-v5 g-text-underline--none--hover g-pa-5" href="#!" data-toggle="tooltip" data-placement="top" data-original-title="Candidato fue denegado">
+                    <i class="icon-dislike g-font-size-18 g-mr-7"></i> Usuario que rechazó : {{aplicacion.codUser.first_name}}
+                  </a>
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+  </div>
+{% endblock content %}
+{% block javascript %}
+  <script type="text/javascript">
+    $(document).ready(function(){
+
+      $('.corre_gracias').click(function(event){
+
+        event.stopPropagation();
+        event.preventDefault();
+        var link = $(this).attr('href');
+        if(confirm("¿Seguro que desea descartar?")){
+          window.location.href= link
+        }
+      });
+
+          var table = $('.table').DataTable({ 
+            "lengthChange":false,
+            "info":false,
+            "order": [],
+            "language": {
+              "lengthMenu": "_MENU_ registros",
+              "zeroRecords": "No se encontro ningún registro",
+              "info": "Pagina _PAGE_ de _PAGES_",
+              "infoEmpty": "No hay registros",
+              "infoFiltered": "(filtrado de _MAX_ registros)",
+              "search":"Buscar:",
+              "paginate": {
+                "first":"Primero",
+                "last":"Ultimo",
+                "next":"Siguiente",
+                "previous":"Anterior"
+               },
+            }
+          });
+
+
+
+
+        $(document).on('click', '.fav', function(){
+          cod = $(this).attr('id');
+          $.ajax({
+           url: "{% url 'favorito' %}",
+           data: {
+              opcion: 'Marcar_Favorito',
+              codigo: cod
+           }
+        })
+        .done(function( data ) {
+          if (data == true){
+            $('#fav_'+cod).removeAttr('hidden');
+            $('#'+cod).hide()
+          }
+        });
+      });
+
+      $(document).on('click', '.pre', function(){
+            codigo_solicitud =$(this).attr('id');
+            codigo_oferta = {{oferta.Cod_oferta}}
+          $.ajax({  
+           url: "{% url 'respuestas' %}",
+           data: {
+              opcion: 'respuestas',
+              codigo_solicitud: codigo_solicitud,
+              codigo_oferta: codigo_oferta
+            }
+          }) 
+        .done(function( data ) {
+          if(data !=''){
+            $('#res-'+codigo_solicitud).empty();
+            $.each(data, function(key, val){
+              $('#res-'+codigo_solicitud).append("<label class='form-control' readonly >"+val.Descripcion_pregunta+"</label><br>")
+              $('#res-'+codigo_solicitud).append("<textarea class='form-control' rows= '4' cols= '80' readonly >"+val.Descripcion_respuesta+"</textarea><br><hr>")
+            });
+            
+            $('#preg-'+codigo_solicitud).modal('show');
+          }
+        });
+      });
+    });
+  </script>
+{% endblock javascript %}

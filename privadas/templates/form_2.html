@@ -1,0 +1,544 @@
+{% extends "baseform.html" %}
+{% load staticfiles %}
+{% block content %}
+<section class="g-bg-gray-light-v5">
+  <div class="container g-py-30">
+    <div class="row justify-content-center">
+      <div class="col-sm-10 col-md-9 col-lg-12">
+        <div class="u-shadow-v25 g-bg-white rounded g-py-30 g-px-25">
+          <header class="text-center mb-4">
+            <h4 class="h4 g-color-black g-font-weight-600">INGRESO DE INFORMACIÓN</h4>
+          </header>
+          <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+          <label> <b style="font-weight: bold;"> II. DATOS FAMILIARES <b> </label> <br>
+          <label>Todos los campos con <b style="color:red;">*</b> son requeridos</label>
+          <div id="hermano_copia" style="display: none;">
+            <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+            <div class="row">
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Nombre completo: </label>
+                {{herm.nombrecompleto}}
+              </div>
+
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Edad:</label>
+                {{herm.edad}}
+              </div>
+
+              <div class="col-xs-12 col-sm-4 mb-4" id="clonar">
+                <label style="font-weight: normal;">Profesión:</label>
+                {{herm.ocupacion}}
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Celular:</label>
+                {{herm.telefono}}
+              </div>
+              
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Domicilio:</label>
+                {{herm.domicilio}}
+              </div>
+
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <div class="col-12 align-self-center text-right">
+                  <button  type="button" class="btn btn-outline-danger u-btn-info rounded g-py-13 g-px-25 eliminar" id="eliminar">
+                    Eliminar</button>
+                  </div>
+                </div>
+            </div>
+          </div> 
+          <div id="hijo_copia" style="display: none;">
+            <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+            <div class="row">
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Nombres:</label>
+                {{hijo.nombreshijo}}
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Apellidos:</label>
+                {{hijo.apellidoshijo}}
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Edad:</label>
+                {{hijo.edadhijo}}
+              </div>
+            </div>
+            <div class="row" style="text-align: left;">
+              <div class="col-12 align-self-center text-right">
+                <button  type="button" class="btn btn-outline-danger u-btn-info rounded g-py-13 g-px-25 eliminar_hijo" id="eliminar_hijo">Eliminar</button>
+              </div>
+            </div>
+          </div>
+          <div id="dependiente_copia" style="display: none;">
+            <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+            <div class="row">
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Nombre:</label>
+                {{depen.nombredependiente}}
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Tipo de dependencia:</label>
+                {{depen.tipodependencia}}
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <div class="col-12 align-self-center text-right">
+                  <button  type="button" class="btn btn-outline-danger u-btn-info rounded g-py-13 g-px-25 eliminar_dependiente" id="eliminar_dependiente">Eliminar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Form -->
+          <form class="g-py-30" method="POST" accept-charset="utf-8" id="form_solicitud2">
+            {% csrf_token %}
+            <label > <b style="font-weight: bold;"> Datos de padre: <b> </label>
+            <div class="row">
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Nombres:</label>
+                {{form.nombrespadre}}
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Apellidos:</label>
+                {{form.apellidospadre}}
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Edad:</label>
+                {{form.edadpadre}}
+              </div>
+            </div> <br>
+            <div class="row">
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Celular:</label>
+                {{form.celularpadre}}
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Teléfono:</label>
+                {{form.telefonopadre}}
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4" >
+                <label style="font-weight: normal;">Profesión u Oficio:</label>
+                {{form.profesionpadre}}
+              </div>
+            </div>
+            <div class="row"  >
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Domicilio:</label>
+                {{form.domiciliopadre}}
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4" id="direccion_trabajo">
+                <label style="font-weight: normal;">Dirección laboral:</label>
+                {{form.direccionlaboralpadre}}
+              </div>
+            </div>
+            <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+            <label > <b style="font-weight: bold;"> Datos de madre: <b> </label>
+            <div class="row">
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Nombres:</label>
+                {{form.nombresmadre}}
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Apellidos:</label>
+                {{form.apellidosmadre}}
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Edad:</label>
+                {{form.edadmadre}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Celular:</label>
+                {{form.celularmadre}}
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Teléfono:</label>
+                {{form.telefonomadre}}
+              </div>
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Profesión u Oficio:</label>
+                {{form.profesionmadre}}
+              </div>
+            </div>
+            <div class="row" >
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">Domicilio:</label>
+                {{form.domiciliomadre}}
+              </div>
+
+              <div class="col-xs-12 col-sm-4 mb-4" id="direccion_madre">
+                <label style="font-weight: normal;">Dirección laboral:</label>
+                {{form.direccionlaboralmadre}}
+              </div>
+            </div>
+            <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+            <div class="row">
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">¿Tiene hermanos? <b style="color:red;">*</b></label> <br>
+                <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600 g-font-size-13">
+                  <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="hermanos" type="radio"  value="True" id="si_hermanos" >
+                  <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                    <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                  </div>
+                  SI
+                </label>
+                <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600  g-font-size-13" ;">
+                  <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="hermanos" type="radio" value="False" id="no_hermanos" checked="">
+                  <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                    <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                  </div>
+                  NO
+                </label>
+                <input type="" name="hermano" id="hermanos" hidden="" value="False">
+              </div>
+            </div>
+            <div id="global_hermanos">
+              <label > <b style="font-weight: bold;"> Datos de hermanos: <b> </label>
+              <div class="row">
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">Nombre completo:</label>
+                  {{herm.nombrecompleto}}
+                </div>
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">Edad:</label>
+                  {{herm.edad}}
+                </div>
+
+                <div class="col-xs-12 col-sm-4 mb-4" id="clonar">
+                  <label style="font-weight: normal;">Profesión:</label>
+                  {{herm.ocupacion}}
+                </div>
+
+              </div>
+              <div class="row">
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">Celular:</label>
+                  {{herm.telefono}}
+                </div>
+                
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">Domicilio:</label>
+                  {{herm.domicilio}}
+                </div>
+
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <div class="col-12 align-self-center text-right">
+                    <button  type="button" class="btn btn-outline-info u-btn-info rounded g-py-13 g-px-25" id="agregar">Agregar nuevo hermano</button>
+                  </div>
+                </div>
+              </div>
+              <div id="nuevo_hermano">
+              </div>
+            </div>
+            {% if ingreso.estadocivil == 'C' %}
+                <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+                <label > <b style="font-weight: bold;"> Datos de cónyuge: <b> </label>
+                <div class="row">
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;">Nombre: <b style="color:red;">*</b></label>
+                    {{form.nombreconyugue}}
+                  </div>
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;">Edad: <b style="color:red;">*</b></label>
+                    {{form.edadconyugue}}
+                  </div>
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;">Domicilio: <b style="color:red;">*</b></label>
+                    {{form.domicilioconyugue}}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;">Teléfono: <b style="color:red;">*</b></label>
+                    {{form.telefonoconyugue}}
+                  </div>
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;">Profesión u Oficio: <b style="color:red;">*</b></label>
+                    {{form.profesionconyugue}}
+                  </div>
+                  <div class="col-xs-12 col-sm-4 mb-4">
+                    <label style="font-weight: normal;">Dirección laboral:</label>
+                    {{form.direccionlaboralconyugue}}
+                  </div>
+                </div>
+            {% endif %}
+            <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+            <div class="row">
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">¿Tiene hijos? <b style="color:red;">*</b></label> <br>
+                <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600 g-font-size-13">
+                  <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="hijos" type="radio"  value="True" id="si_hijos">
+                  <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                    <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                  </div>
+                  SI
+                </label>
+                <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600  g-font-size-13">
+                  <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="hijos" type="radio" value="False" id="no_hijos" checked="">
+                  <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                    <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                  </div>
+                  NO
+                </label>
+                <input type="" name="hayhijos" id="hayhijos" hidden="" value="False">
+              </div>
+            </div>
+            <div id="contendor_hijos">
+              <label > <b style="font-weight: bold;"> Datos de hijos:<b style="color:red;">*</b> <b> </label>
+              <div class="row">
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">Nombres:</label>
+                  {{hijo.nombreshijo}}
+                </div>
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">Apellidos:</label>
+                  {{hijo.apellidoshijo}}
+                </div>
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">Edad:</label>
+                  {{hijo.edadhijo}}
+                </div>
+              </div>
+              <div class="row" >
+                <div class="col-12 align-self-center text-right">
+                  <button  type="button" class="btn btn-outline-info u-btn-info rounded g-py-13 g-px-25" id="agregar_hijo">Agregar nuevo hijo</button>
+                </div>
+              </div>
+              <div id="hijo_nuevo">
+              </div>
+            </div>
+            <hr class="g-brd-gray-light-v4 g-mx-minus-30">
+            <div class="row">
+              <div class="col-xs-12 col-sm-4 mb-4">
+                <label style="font-weight: normal;">¿Personas dependen de su salario? <b style="color:red;">*</b></label> <br>
+                <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600 g-font-size-13">
+                  <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="dependen" type="radio"  value="True" id="si_dependen">
+                  <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                    <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                  </div>
+                  SI
+                </label>
+                <label class="form-check-inline u-check g-pl-25 ml-0 g-mr-25 g-font-weight-600  g-font-size-13">
+                  <input class="hidden-xs-up g-pos-abs g-top-0 g-left-0" name="dependen" type="radio" value="False" id="no_dependen" checked="">
+                  <div class="u-check-icon-radio-v4 g-absolute-centered--y g-left-0 g-width-18 g-height-18">
+                    <i class="g-absolute-centered d-block g-width-10 g-height-10 g-bg-primary--checked"></i>
+                  </div>
+                  NO
+                </label>
+                <input type="" name="dependiendo" id="dependiendo" hidden="" value="False">
+              </div>
+            </div>
+            <div id="contendor_pedendientes">
+              <div class="row">
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">Nombre dependiente:</label>
+                  {{depen.nombredependiente}}
+                </div>
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <label style="font-weight: normal;">Tipo de dependencia:</label>
+                  {{depen.tipodependencia}}
+                </div>
+                <div class="col-xs-12 col-sm-4 mb-4">
+                  <div class="col-12 align-self-center text-right">
+                    <button  type="button" class="btn btn-outline-info u-btn-info rounded g-py-13 g-px-25" id="agregar_dependiente">Agregar nuevo dependiente</button>
+                  </div>
+                </div>
+              </div>
+              <div id="dependiente_nuevo">
+              </div>
+            </div><br>
+            <div class="row" style="text-align: center; display: block;">
+              <label><b>2 de 6</b></label>
+            </div>
+            <div class="col-12 align-self-center text-right">
+              <a href="{% url 'perfil' %}" class="btn btn-md u-btn-indigo  rounded g-py-13 g-px-25" style="margin-right: 5px;">Salir</a>
+              <button type="submit" id="siguiente" class="btn btn-md u-btn-primary rounded g-py-13 g-px-25">Siguiente</button>
+            </div>
+          </form>
+          <!-- End Form -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}
+{% block javascript %}
+<script>
+  $(document).on('ready', function () {
+    $.HSCore.components.HSTabs.init('[role="tablist"]');
+    $.HSCore.components.HSMaskedInput.init('[data-mask]');
+  });
+  $( document ).ready(function() {
+    
+    $( "input" ).addClass( "form-control rounded-0 u-form-control " );
+    $( "textarea" ).addClass( "form-control rounded-0 u-form-control g-resize-none" );
+    $("#id_telefonopadre , #id_telefonomadre , #id_telefono, #id_telefonoconyugue, #id_celularmadre, #id_celularpadre ").attr("placeholder", "0000-0000");
+    $("#id_telefonopadre , #id_telefonomadre,  #id_telefono, #id_telefonoconyugue, #id_celularmadre, #id_celularpadre ").attr("data-mask", "9999-9999");
+     //#####################################convirtiendo a arreglo input hermano################################################
+    $('input[name=nombrecompleto]').attr('name', 'nombrecompleto[]')
+    $('input[name=edad]').attr('name', 'edad[]')
+    $('textarea[name=domicilio]').attr('name', 'domicilio[]')
+    $('input[name=telefono]').attr('name', 'telefono[]')
+    $('input[name=ocupacion]').attr('name', 'ocupacion[]')
+    //############################# covirtiendo  a arreglo inputs hijos
+    $('input[name=nombreshijo]').attr('name', 'nombreshijo[]')
+    $('input[name=apellidoshijo]').attr('name', 'apellidoshijo[]')
+    $('input[name=edadhijo]').attr('name', 'edadhijo[]')
+    //############################# covirtiendo  a arreglo inputs dependientes#####################################
+    $('input[name=nombredependiente]').attr('name', 'nombredependiente[]')
+    $('select[name=tipodependencia]').attr('name', 'tipodependencia[]')
+
+    if('{{ingreso.estadocivil}}'=='C')
+    {
+      $("#id_nombreconyugue , #id_edadconyugue , #id_domicilioconyugue, #id_telefonoconyugue, #id_profesionconyugue").attr("required", true);
+    }
+
+      //#################### SI tiene hermnanos o no############
+    
+    $('#si_hermanos').change(function(){
+      if($(this).val() == "True") {
+        $('#global_hermanos').show();
+        $("#id_nombrecompleto ").attr("required", true);
+        $('#hermanos').val('True');
+      }else{
+        $("#id_nombrecompleto ").removeAttr("required");
+        $("#id_nombrecompleto ").val("");
+        $('#hermanos').val('False');
+       
+      }
+    });
+    $('#global_hermanos').hide();
+
+    $('#no_hermanos').change(function(){
+      if($(this).val() == "False") {
+        $('#global_hermanos').hide();
+        $("#id_nombrecompleto").removeAttr("required");
+        $("#id_nombrecompleto , #id_edad , #id_domicilio, #id_ocupacion, #id_telefono").val("");
+        $('#hermanos').val('False');
+        
+      }else{
+        $('#global_hermanos').show();
+        $("#id_nombrecompleto ").attr("required", true);
+        $('#hermanos').val('True');
+       
+      }
+    });
+
+    //#################### SI tiene hijos o no############
+    $('#si_hijos').change(function(){
+      if($(this).val() == "True") {
+        $('#contendor_hijos').show();
+        $("#id_nombreshijo , #id_apellidoshijo").attr("required", true);
+        $('#hayhijos').val('True');
+        
+      }else{
+        $('#contendor_hijos').hide();
+        $("#id_nombreshijo , #id_apellidoshijo").removeAttr("required");
+        $("#id_nombreshijo , #id_apellidoshijo ").val("");
+         $('#hayhijos').val('False');
+        }
+    });
+    $('#contendor_hijos').hide();
+
+    $('#no_hijos').change(function(){
+      if($(this).val() == "False") {
+        $('#contendor_hijos').hide();
+        $("#id_nombreshijo , #id_apellidoshijo ").removeAttr("required");
+        $("#id_nombreshijo , #id_apellidoshijo").val("");
+        $('#hayhijos').val('False');
+      }else{
+        $('#contendor_hijos').show();
+        $("#id_nombreshijo , #id_apellidoshijo ").attr("required", true);
+        $('#hayhijos').val('True');
+      }
+    });
+
+    //#################### SI dependen############
+    $('#si_dependen').change(function(){
+      if($(this).val() == "True") {
+        $('#contendor_pedendientes').show();
+        $("#id_nombredependiente, #id_tipodependencia").attr("required", true);
+        $('#dependiendo').val('True');
+      }else{
+        $('#contendor_pedendientes').hide();
+        $("#id_nombredependiente, #id_tipodependencia").removeAttr("required", true);
+        $("#id_nombredependiente, #id_tipodependencia").val("");
+        $('#dependiendo').val('False');
+      }
+    });
+    $('#contendor_pedendientes').hide();
+
+    $('#no_dependen').change(function(){
+      if ($(this).val() == "False") {
+        $('#contendor_pedendientes').hide();
+        $("#id_nombredependiente, #id_tipodependencia").removeAttr("required", true);
+        $("#id_nombredependiente, #id_tipodependencia").val("");
+        $('#dependiendo').val('False');
+      }else{
+        $('#contendor_pedendientes').show();
+        $("#id_nombredependiente, #id_tipodependencia").attr("required", true);
+        $('#dependiendo').val('True');
+      }
+    });
+
+  });
+
+  //################## CLick nuevo hermano#####################
+    $('#agregar').click(function(){
+      $('#hermano_copia').clone().removeAttr('style').appendTo( '#nuevo_hermano' );
+      $('.eliminar').click(function(){
+          var id = $(this).closest("div#hermano_copia").remove();
+    });
+      $.HSCore.components.HSMaskedInput.init('[data-mask]');
+    });
+
+  //################## CLick nuevo hijo#####################
+    $('#agregar_hijo').click(function(){
+      $('#hijo_copia').clone().removeAttr('style').appendTo( '#hijo_nuevo' );
+      $('.eliminar_hijo').click(function(){
+        var id = $(this).closest("div#hijo_copia").remove();
+      });
+    });
+
+  // ####################click nuevo dependiente #################################
+    $('#agregar_dependiente').click(function(){
+      $('select').select2('destroy');
+      $('#dependiente_copia').clone().removeAttr('style').appendTo( '#dependiente_nuevo' );
+      $('.eliminar_dependiente').click(function(){
+        var id = $(this).closest("div#dependiente_copia").remove();
+    });
+
+    $('select[name=tipodependencia]').attr('name', 'tipodependencia[]')
+      $('select').select2({
+        theme:'bootstrap',
+            width: '100%'
+      });
+    });
+ 
+     $('select').select2({
+      theme:'bootstrap',
+      width: '100%'
+    });
+
+    $("#form_solicitud2").validate();
+  $(window).on('load', function () {
+    // initialization of header
+    $.HSCore.components.HSHeader.init($('#js-header'));
+    $.HSCore.helpers.HSHamburgers.init('.hamburger');
+    // initialization of HSMegaMenu component
+    $('.js-mega-menu').HSMegaMenu({
+      event: 'hover',
+      pageContainer: $('.container'),
+      breakpoint: 991
+    });
+  });
+  $(window).on('resize', function () {
+    setTimeout(function () {
+      $.HSCore.components.HSTabs.init('[role="tablist"]');
+    }, 200);
+  });
+</script>
+{% endblock javascript %}
+  
